@@ -1,8 +1,8 @@
 -   id: pretty-format-golang
     name: Go Formatter
     description: Runs gofmt over golang source files.
-    entry: /bin/bash -c "git ls-files -- '*.go' | xargs gofmt -w -e -s -l | grep . && exit 1 || exit 0"
-    language: system
+    entry: pretty-format-golang
+    language: python
     types: [go]
     files: ^.+\.go$
     pass_filenames: false
@@ -10,8 +10,8 @@
 -   id: pretty-format-java
     name: Google Java Formatter
     description: Runs Google Java Formatter over Java source files
-    entry: /bin/bash -c "false"
-    language: system
+    entry: pretty-format-java
+    language: python
     types: [java]
     files: ^.+\.java$
     pass_filenames: false
