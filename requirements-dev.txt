@@ -1,2 +1,4 @@
 .
+coverage
 pre-commit
+pytest

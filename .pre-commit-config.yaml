@@ -6,7 +6,9 @@ repos:
     -   id: check-added-large-files
     -   id: check-docstring-first
     -   id: check-json
+        exclude: ^test-data/.*$
     -   id: check-yaml
+        exclude: ^test-data/.*$
     -   id: debug-statements
     -   id: end-of-file-fixer
     -   id: flake8

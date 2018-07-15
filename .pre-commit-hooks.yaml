@@ -1,0 +1,9 @@
+-   id: pretty-format-yaml
+    name: Pretty format YAML
+    description: This hook sets a standard for formatting YAML files.
+    entry: pretty-format-yaml
+    language: python
+    types: [yaml]
+    # for backward compatibility
+    files: ^.*\.(yaml|yml)$
+    minimum_pre_commit_version: 0.15.0

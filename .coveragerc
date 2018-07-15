@@ -1,0 +1,16 @@
+[report]
+exclude_lines =
+	except [^ ]+ as ignore:
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    pragma: no cover
+	pass
+fail_under = 100
+show_missing = True
+skip_covered = True
+
+[run]
+source =
+	maci_pre_commit_hooks/
