@@ -32,14 +32,11 @@ def pretty_format_golang(argv=None):
     status = 0
     if output:
         status = 1
-        if args.autofix:
-            print('The following files have been fixed by gofmt: {}'.format(
-                ', '.join(output.splitlines()),
-            ))
-        else:
-            print('The following files are not properly formatted: {}'.format(
-                ', '.join(output.splitlines()),
-            ))
+        print(
+            '{}: {}'
+            'The following files have been fixed by gofmt' if args.autofix else 'The following files are not properly formatted',
+            ', '.join(output.splitlines()),
+        )
 
     return status
 

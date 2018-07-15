@@ -22,12 +22,14 @@ setup(
 
     packages=find_packages(exclude=('tests*', 'testing*')),
     install_requires=[
+        'requests',
         'ruamel.yaml',
         'six',
     ],
     entry_points={
         'console_scripts': [
             'pretty-format-golang = maci_pre_commit_hooks.pretty_format_golang:pretty_format_golang',
+            'pretty-format-java = maci_pre_commit_hooks.pretty_format_java:pretty_format_java',
             'pretty-format-yaml = maci_pre_commit_hooks.pretty_format_yaml:pretty_format_yaml',
         ],
     },

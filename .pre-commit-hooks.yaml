@@ -7,6 +7,15 @@
     files: ^.+\.go$
     pass_filenames: false
     minimum_pre_commit_version: 0.15.0
+-   id: pretty-format-java
+    name: Google Java Formatter
+    description: Runs Google Java Formatter over Java source files
+    entry: /bin/bash -c "false"
+    language: system
+    types: [java]
+    files: ^.+\.java$
+    pass_filenames: false
+    minimum_pre_commit_version: 0.15.0
 -   id: pretty-format-yaml
     name: Pretty format YAML
     description: This hook sets a standard for formatting YAML files.
