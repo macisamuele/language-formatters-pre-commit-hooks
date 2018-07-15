@@ -1,23 +1,10 @@
 from __future__ import print_function
 
 import argparse
-import os
-import shutil
 import sys
 
-import requests
-from six.moves.urllib.parse import urlparse
-
+from maci_pre_commit_hooks import download_url
 from maci_pre_commit_hooks import run_command
-
-
-def _base_directory():
-    # Extracted from pre-commit code:
-    # https://github.com/pre-commit/pre-commit/blob/master/pre_commit/store.py
-    return os.environ.get('PRE_COMMIT_HOME') or os.path.join(
-        os.environ.get('XDG_CACHE_HOME') or os.path.expanduser('~/.cache'),
-        'pre-commit',
-    )
 
 
 def download_google_java_formatter_jar(version='1.6'):  # pragma: no cover
@@ -29,23 +16,7 @@ def download_google_java_formatter_jar(version='1.6'):  # pragma: no cover
                 version=_version,
             )
 
-    url = get_url(version)
-    final_file = os.path.join(
-        _base_directory(),
-        os.path.basename(urlparse(url).path),
-    )
-
-    if os.path.exists(final_file):
-        return final_file
-
-    r = requests.get(url, stream=True)
-    tmp_file = '{}_tmp.jar'.format(final_file)
-    with open(tmp_file, mode='wb') as f:
-        # Copy on a temporary file in case of issues while downloading the file
-        shutil.copyfileobj(r.raw, f)
-
-    os.rename(tmp_file, final_file)
-    return final_file
+    return download_url(get_url(version))
 
 
 def pretty_format_java(argv=None):
