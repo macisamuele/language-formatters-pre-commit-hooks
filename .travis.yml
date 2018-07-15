@@ -1,0 +1,22 @@
+language: python
+matrix:
+  include:
+  - python: '2.7'
+  - python: '3.6'
+  - python: '3.6'
+    env: TOXENV=pre-commit
+  - python: '3.6'
+    env: TOXENV=coverage
+  - python: '3.7'
+    sudo: required
+    dist: xenial
+
+install: pip install codecov tox-travis
+script:
+  # create cache directory as pre-commit would do
+- mkdir -p ${HOME}/.cache/pre-commit
+- tox
+after_success:
+- if [ "$TOXENV" == "coverage" ]; then codecov; fi
+
+sudo: false
