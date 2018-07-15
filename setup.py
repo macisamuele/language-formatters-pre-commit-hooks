@@ -30,6 +30,7 @@ setup(
         'console_scripts': [
             'pretty-format-golang = maci_pre_commit_hooks.pretty_format_golang:pretty_format_golang',
             'pretty-format-java = maci_pre_commit_hooks.pretty_format_java:pretty_format_java',
+            'pretty-format-kotlin = maci_pre_commit_hooks.pretty_format_kotlin:pretty_format_kotlin',
             'pretty-format-yaml = maci_pre_commit_hooks.pretty_format_yaml:pretty_format_yaml',
         ],
     },
