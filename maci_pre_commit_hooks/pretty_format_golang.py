@@ -2,7 +2,8 @@ from __future__ import print_function
 
 import argparse
 import sys
-from commands import getstatusoutput
+
+from maci_pre_commit_hooks import run_command
 
 
 def pretty_format_golang(argv=None):
@@ -17,7 +18,7 @@ def pretty_format_golang(argv=None):
     parser.add_argument('filenames', nargs='*', help='Filenames to fix')
     args = parser.parse_args(argv)
 
-    status, output = getstatusoutput(
+    status, output = run_command(
         'gofmt{} -l {}'.format(
             ' -w' if args.autofix else '',
             ' '.join(args.filenames),

@@ -4,10 +4,11 @@ import argparse
 import os
 import shutil
 import sys
-from commands import getstatusoutput
 
 import requests
 from six.moves.urllib.parse import urlparse
+
+from maci_pre_commit_hooks import run_command
 
 
 def _base_directory():
@@ -61,13 +62,13 @@ def pretty_format_java(argv=None):
 
     google_java_formatter_jar = download_google_java_formatter_jar()
 
-    status, output = getstatusoutput('java -version')
+    status, output = run_command('java -version')
     if status != 0:  # pragma: no cover
         # This is possible if java is not available on the path, most probably because java is not installed
         print(output)
         return 1
 
-    status, output = getstatusoutput(
+    status, output = run_command(
         'java -jar {} --set-exit-if-changed --aosp {} {}'.format(
             google_java_formatter_jar,
             '--replace' if args.autofix else '--dry-run',
