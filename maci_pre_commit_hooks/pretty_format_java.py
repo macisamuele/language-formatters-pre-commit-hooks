@@ -49,9 +49,10 @@ def pretty_format_java(argv=None):
 
     if output:
         print(
-            '{}: {}'
-            'The following files have been fixed by google-java-formatter' if args.autofix else 'The following files are not properly formatted',  # noqa
-            ', '.join(output.splitlines()),
+            '{}: {}'.format(
+                'The following files have been fixed by google-java-formatter' if args.autofix else 'The following files are not properly formatted',  # noqa
+                ', '.join(output.splitlines()),
+            ),
         )
 
     return 0 if status == 0 else 1
