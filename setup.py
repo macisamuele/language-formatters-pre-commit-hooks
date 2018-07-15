@@ -27,6 +27,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
+            'pretty-format-golang = maci_pre_commit_hooks.pretty_format_golang:pretty_format_golang',
             'pretty-format-yaml = maci_pre_commit_hooks.pretty_format_yaml:pretty_format_yaml',
         ],
     },

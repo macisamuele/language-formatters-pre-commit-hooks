@@ -1,3 +1,12 @@
+-   id: pretty-format-golang
+    name: Go Formatter
+    description: Runs gofmt over golang source files.
+    entry: /bin/bash -c "git ls-files -- '*.go' | xargs gofmt -w -e -s -l | grep . && exit 1 || exit 0"
+    language: system
+    types: [go]
+    files: ^.+\.go$
+    pass_filenames: false
+    minimum_pre_commit_version: 0.15.0
 -   id: pretty-format-yaml
     name: Pretty format YAML
     description: This hook sets a standard for formatting YAML files.
