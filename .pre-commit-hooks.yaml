@@ -5,7 +5,6 @@
     language: python
     types: [go]
     files: ^.+\.go$
-    pass_filenames: false
     minimum_pre_commit_version: 0.15.0
 -   id: pretty-format-java
     name: Google Java Formatter
@@ -14,7 +13,6 @@
     language: python
     types: [java]
     files: ^.+\.java$
-    pass_filenames: false
     minimum_pre_commit_version: 0.15.0
 -   id: pretty-format-kotlin
     name: KTLint
@@ -23,7 +21,6 @@
     language: python
     types: [kotlin]
     files: ^.+\.kt$
-    pass_filenames: false
     minimum_pre_commit_version: 0.15.0
 -   id: pretty-format-yaml
     name: Pretty format YAML
