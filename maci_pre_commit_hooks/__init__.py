@@ -26,10 +26,10 @@ def _base_directory():
     )
 
 
-def download_url(url):
+def download_url(url, file_name=None):
     final_file = os.path.join(
         _base_directory(),
-        os.path.basename(urlparse(url).path),
+        file_name or os.path.basename(urlparse(url).path),
     )
 
     if os.path.exists(final_file):

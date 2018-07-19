@@ -15,7 +15,7 @@ def download_google_kotlin_formatter_jar(version='0.24.0'):  # pragma: no cover
                 version=_version,
             )
 
-    return download_url(get_url(version))
+    return download_url(get_url(version), 'ktlint{version}'.format(version=version))
 
 
 def pretty_format_kotlin(argv=None):
