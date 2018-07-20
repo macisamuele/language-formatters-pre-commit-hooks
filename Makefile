@@ -5,6 +5,7 @@ endef
 
 
 venv: requirements-dev.txt setup.py language_formatters_pre_commit_hooks/__init__.py
+	deactivate || true
 	rm -rf venv/  # Ensure that venv does not exist
 	tox -e venv
 	venv/bin/pre-commit install --install-hooks

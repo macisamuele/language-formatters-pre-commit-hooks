@@ -1,5 +1,6 @@
 .
 coverage
+mock
 pre-commit
 pytest
 twine
