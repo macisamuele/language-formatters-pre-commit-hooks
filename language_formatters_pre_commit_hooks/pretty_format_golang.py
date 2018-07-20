@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import argparse
 import sys
 
-from language_formatters_pre_commit_hooks import run_command
+from language_formatters_pre_commit_hooks.utils import run_command
 
 
 def pretty_format_golang(argv=None):

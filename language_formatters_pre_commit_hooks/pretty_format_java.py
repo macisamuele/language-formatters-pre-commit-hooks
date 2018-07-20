@@ -6,8 +6,8 @@ from __future__ import unicode_literals
 import argparse
 import sys
 
-from language_formatters_pre_commit_hooks import download_url
-from language_formatters_pre_commit_hooks import run_command
+from language_formatters_pre_commit_hooks.utils import download_url
+from language_formatters_pre_commit_hooks.utils import run_command
 
 
 def download_google_java_formatter_jar(version='1.6'):  # pragma: no cover

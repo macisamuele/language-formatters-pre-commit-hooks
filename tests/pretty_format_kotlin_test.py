@@ -9,8 +9,8 @@ from contextlib import contextmanager
 
 import pytest
 
-from language_formatters_pre_commit_hooks import run_command
 from language_formatters_pre_commit_hooks.pretty_format_kotlin import pretty_format_kotlin
+from language_formatters_pre_commit_hooks.utils import run_command
 
 
 @contextmanager

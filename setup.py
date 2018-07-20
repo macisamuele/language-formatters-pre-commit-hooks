@@ -6,12 +6,14 @@ from __future__ import unicode_literals
 from setuptools import find_packages
 from setuptools import setup
 
+from language_formatters_pre_commit_hooks import __version__
+
 
 setup(
     name=str('language_formatters_pre_commit_hooks'),
     description='List of pre-commit hooks meant to format your source code.',
     url='https://github.com/macisamuele/language-formatters-pre-commit-hooks',
-    version='1.0.0',
+    version=__version__,
 
     author='Samuele Maci',
     author_email='macisamuele@gmail.com',
