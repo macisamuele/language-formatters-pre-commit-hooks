@@ -48,3 +48,14 @@ def download_url(url, file_name=None):
 
     os.rename(tmp_file, final_file)
     return final_file
+
+
+def get_modified_files_in_repo():
+    _, command_output = run_command(
+        'git diff-index --name-status --binary --exit-code --no-ext-diff $(git write-tree) --',
+    )
+    return {
+        line.split()[-1]
+        for line in command_output.splitlines()
+        if line
+    }

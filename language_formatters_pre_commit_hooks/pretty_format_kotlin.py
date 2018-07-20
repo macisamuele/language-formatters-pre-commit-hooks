@@ -7,6 +7,7 @@ import argparse
 import sys
 
 from language_formatters_pre_commit_hooks.utils import download_url
+from language_formatters_pre_commit_hooks.utils import get_modified_files_in_repo
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
@@ -41,6 +42,8 @@ def pretty_format_kotlin(argv=None):
 
     ktlint_jar = download_kotlin_formatter_jar()
 
+    modified_files_pre_kotlin_formatting = get_modified_files_in_repo()
+
     status, output = run_command(
         'java -jar {} --verbose {} {}'.format(
             ktlint_jar,
@@ -54,12 +57,14 @@ def pretty_format_kotlin(argv=None):
         return 1
 
     # Check all the file modified by the execution of the previous commands
-    _, output = run_command('git diff-index --name-status --binary --exit-code --no-ext-diff $(git write-tree) --')
-    if output:
+    modified_files_post_kotlin_formatting = get_modified_files_in_repo()
+    if modified_files_pre_kotlin_formatting != modified_files_post_kotlin_formatting:
         print(
             '{}: {}'.format(
                 'The following files have been fixed by ktlint' if args.autofix else 'The following files are not properly formatted',  # noqa
-                ', '.join(line.split()[-1] for line in output.splitlines()),
+                ', '.join(sorted(
+                    modified_files_post_kotlin_formatting.difference(modified_files_pre_kotlin_formatting),
+                )),
             ),
         )
         return 1

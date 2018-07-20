@@ -35,7 +35,7 @@ def change_dir():
         ('invalid.kt', 1),
     ),
 )
-def test_pretty_format_java(filename, expected_retval):
+def test_pretty_format_kotlin(filename, expected_retval):
     assert pretty_format_kotlin([filename]) == expected_retval
 
 
