@@ -10,7 +10,7 @@ from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-def download_google_kotlin_formatter_jar(version='0.24.0'):  # pragma: no cover
+def download_kotlin_formatter_jar(version='0.24.0'):  # pragma: no cover
     def get_url(_version):
         # Links extracted from https://github.com/shyiko/ktlint/
         return \
@@ -33,7 +33,7 @@ def pretty_format_kotlin(argv=None):
     parser.add_argument('filenames', nargs='*', help='Filenames to fix')
     args = parser.parse_args(argv)
 
-    ktlint_jar = download_google_kotlin_formatter_jar()
+    ktlint_jar = download_kotlin_formatter_jar()
 
     status, output = run_command('java -version')
     if status != 0:  # pragma: no cover
