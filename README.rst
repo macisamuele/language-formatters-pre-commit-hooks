@@ -1,7 +1,7 @@
-.. image:: https://img.shields.io/travis/macisamuele/language_formatters_pre_commit_hooks.svg
+.. image:: https://img.shields.io/travis/macisamuele/language-formatters-pre-commit-hooks.svg
   :target: https://travis-ci.org/macisamuele/language-formatters-pre-commit-hooks?branch=master
 
-.. image:: https://img.shields.io/codecov/c/github/macisamuele/language_formatters_pre_commit_hooks/master.svg
+.. image:: https://img.shields.io/codecov/c/github/macisamuele/language-formatters-pre-commit-hooks/master.svg
   :target: https://codecov.io/gh/macisamuele/language-formatters-pre-commit-hooks
 
 .. image:: https://img.shields.io/pypi/v/language-formatters-pre-commit-hooks.svg
