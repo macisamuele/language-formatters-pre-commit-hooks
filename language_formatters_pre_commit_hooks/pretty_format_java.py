@@ -34,13 +34,13 @@ def pretty_format_java(argv=None):
     parser.add_argument('filenames', nargs='*', help='Filenames to fix')
     args = parser.parse_args(argv)
 
-    google_java_formatter_jar = download_google_java_formatter_jar()
-
     status, output = run_command('java -version')
     if status != 0:  # pragma: no cover
         # This is possible if java is not available on the path, most probably because java is not installed
         print(output)
         return 1
+
+    google_java_formatter_jar = download_google_java_formatter_jar()
 
     status, output = run_command(
         'java -jar {} --set-exit-if-changed --aosp {} {}'.format(

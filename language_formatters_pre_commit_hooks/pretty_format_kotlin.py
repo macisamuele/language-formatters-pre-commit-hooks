@@ -33,13 +33,13 @@ def pretty_format_kotlin(argv=None):
     parser.add_argument('filenames', nargs='*', help='Filenames to fix')
     args = parser.parse_args(argv)
 
-    ktlint_jar = download_kotlin_formatter_jar()
-
     status, output = run_command('java -version')
     if status != 0:  # pragma: no cover
         # This is possible if kotlin is not available on the path, most probably because kotlin is not installed
         print(output)
         return 1
+
+    ktlint_jar = download_kotlin_formatter_jar()
 
     status, output = run_command(
         'java -jar {} --verbose {} {}'.format(
