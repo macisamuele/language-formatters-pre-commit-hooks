@@ -1,23 +1,31 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import unicode_literals
+
 from setuptools import find_packages
 from setuptools import setup
 
 
 setup(
-    name='maci_pre_commit_hooks',
-    description='Some out-of-the-box hooks for pre-commit.',
-    url='https://github.com/macisamuele/pre-commit-hooks',
-    version='0.0.1',
+    name=str('language_formatters_pre_commit_hooks'),
+    description='List of pre-commit hooks meant to format your source code.',
+    url='https://github.com/macisamuele/language-formatters-pre-commit-hooks',
+    version='1.0.0',
 
     author='Samuele Maci',
     author_email='macisamuele@gmail.com',
 
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
+        'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: Implementation :: CPython',
+        'Programming Language :: Python :: Implementation :: PyPy',
     ],
 
     packages=find_packages(exclude=('tests*', 'testing*')),
@@ -28,10 +36,10 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'pretty-format-golang = maci_pre_commit_hooks.pretty_format_golang:pretty_format_golang',
-            'pretty-format-java = maci_pre_commit_hooks.pretty_format_java:pretty_format_java',
-            'pretty-format-kotlin = maci_pre_commit_hooks.pretty_format_kotlin:pretty_format_kotlin',
-            'pretty-format-yaml = maci_pre_commit_hooks.pretty_format_yaml:pretty_format_yaml',
+            'pretty-format-golang = language_formatters_pre_commit_hooks.pretty_format_golang:pretty_format_golang',
+            'pretty-format-java = language_formatters_pre_commit_hooks.pretty_format_java:pretty_format_java',
+            'pretty-format-kotlin = language_formatters_pre_commit_hooks.pretty_format_kotlin:pretty_format_kotlin',
+            'pretty-format-yaml = language_formatters_pre_commit_hooks.pretty_format_yaml:pretty_format_yaml',
         ],
     },
 )

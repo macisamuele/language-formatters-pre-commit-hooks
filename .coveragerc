@@ -13,4 +13,4 @@ skip_covered = True
 
 [run]
 source =
-	maci_pre_commit_hooks/
+	language_formatters_pre_commit_hooks/

@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import
 from __future__ import print_function
+from __future__ import unicode_literals
 
 import argparse
 import sys
 
-from maci_pre_commit_hooks import download_url
-from maci_pre_commit_hooks import run_command
+from language_formatters_pre_commit_hooks import download_url
+from language_formatters_pre_commit_hooks import run_command
 
 
 def download_google_kotlin_formatter_jar(version='0.24.0'):  # pragma: no cover

@@ -1,9 +1,14 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import os
 import shutil
 
 import pytest
 
-from maci_pre_commit_hooks.pretty_format_java import pretty_format_java
+from language_formatters_pre_commit_hooks.pretty_format_java import pretty_format_java
 
 
 @pytest.fixture(autouse=True)
