@@ -2,3 +2,4 @@
 coverage
 pre-commit
 pytest
+twine
