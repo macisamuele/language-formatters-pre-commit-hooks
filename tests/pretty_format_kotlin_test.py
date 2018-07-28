@@ -42,7 +42,7 @@ def test_pretty_format_kotlin_autofix(tmpdir, undecorate_method):
         'invalid.kt',
         srcfile.strpath,
     )
-    with change_dir_context(tmpdir.dirname):
+    with change_dir_context(tmpdir.strpath):
         # KTLint does not provide information if files have been formatted
         # so the only way is to check if there are non stashed files in the repo
         run_command('git init && git add {}'.format(srcfile.strpath))

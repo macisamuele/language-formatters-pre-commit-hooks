@@ -9,6 +9,7 @@ import pytest
 from language_formatters_pre_commit_hooks.pre_conditions import _assert_command_succeed
 from language_formatters_pre_commit_hooks.pre_conditions import golang_required
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
+from language_formatters_pre_commit_hooks.pre_conditions import rust_required
 
 
 @pytest.fixture(params=[True, False])
@@ -39,6 +40,7 @@ def test___assert_command_succeed(success):
     [
         [java_required, 'JRE is required'],
         [golang_required, 'golang/gofmt is required'],
+        [rust_required, 'rustfmt is required'],
     ],
 )
 def test_tool_required(success, decorator, assert_content):
