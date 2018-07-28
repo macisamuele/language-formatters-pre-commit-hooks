@@ -36,12 +36,14 @@ setup(
         'requests',
         'ruamel.yaml',
         'six',
+        'toml',
     ],
     entry_points={
         'console_scripts': [
             'pretty-format-golang = language_formatters_pre_commit_hooks.pretty_format_golang:pretty_format_golang',
             'pretty-format-java = language_formatters_pre_commit_hooks.pretty_format_java:pretty_format_java',
             'pretty-format-kotlin = language_formatters_pre_commit_hooks.pretty_format_kotlin:pretty_format_kotlin',
+            'pretty-format-toml = language_formatters_pre_commit_hooks.pretty_format_toml:pretty_format_toml',
             'pretty-format-yaml = language_formatters_pre_commit_hooks.pretty_format_yaml:pretty_format_yaml',
         ],
     },
