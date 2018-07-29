@@ -11,6 +11,11 @@ matrix:
     sudo: required
     dist: xenial
 
+before_install:
+- curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly --verbose -y
+- export PATH=${HOME}/.cargo/bin:${PATH}
+- rustup component add rustfmt-preview --toolchain nightly
+
 install: pip install codecov tox-travis
 script:
   # create cache directory as pre-commit would do

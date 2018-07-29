@@ -22,6 +22,14 @@
   types: [kotlin]
   files: ^.+\.kt$
   minimum_pre_commit_version: 0.15.0
+- id: pretty-format-rust
+  name: cargo-fmt
+  description: Runs cargo fmt over Rust source files
+  entry: pretty-format-rust
+  language: python
+  types: [rust]
+  files: ^.+\.rs$
+  minimum_pre_commit_version: 0.15.0
 - id: pretty-format-toml
   name: Pretty format TOML
   description: This hook sets a standard for formatting TOML files.

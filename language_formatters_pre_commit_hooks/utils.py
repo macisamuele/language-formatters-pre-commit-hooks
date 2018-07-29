@@ -6,20 +6,25 @@ from __future__ import unicode_literals
 import os
 import shutil
 import subprocess
+import sys
 
 import requests
 from six.moves.urllib.parse import urlparse
 
 
 def run_command(command):
+    print('[cwd={cwd}] Run command: {command}'.format(command=command, cwd=os.getcwd()), file=sys.stderr)
+    return_code, output = None, None
     try:
-        return 0, subprocess.check_output(
+        return_code, output = 0, subprocess.check_output(
             command,
             stderr=subprocess.STDOUT,
             shell=True,
         ).decode('utf-8')
     except subprocess.CalledProcessError as e:
-        return e.returncode, e.output.decode('utf-8')
+        return_code, output = e.returncode, e.output.decode('utf-8')
+    print('[return_code={return_code}] | {output}'.format(return_code=return_code, output=output), file=sys.stderr)
+    return return_code, output
 
 
 def _base_directory():

@@ -40,3 +40,16 @@ def golang_required(f, *args, **kwargs):
     )
 
     return f(*args, **kwargs)
+
+
+@decorator
+def rust_required(f, *args, **kwargs):
+    _assert_command_succeed(
+        command='cargo +nightly fmt  -- --version',
+        assertion_error_message=_DEFAULT_MESSAGE_TEMPLATE.format(
+            required_tool='rustfmt',
+            install_url='https://github.com/rust-lang-nursery/rustfmt#quick-start',
+        ),
+    )
+
+    return f(*args, **kwargs)

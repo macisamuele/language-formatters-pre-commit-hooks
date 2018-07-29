@@ -31,7 +31,6 @@ def pretty_format_golang(argv=None):
     )
 
     if status != 0:  # pragma: no cover
-        # This is possible if gofmt is not available on the path, most probably because go is not available
         print(output)
         return 1
 
