@@ -20,6 +20,19 @@ About
 
 This package provides utilities for ensuring that your code is nicely formatted by using `pre-commit <https://pre-commit.com/>`__ hooks
 
+List of pretty-format hooks
+---------------------------
+
+* ``pretty-format-golang``
+* ``pretty-format-ini``
+* ``pretty-format-java``
+* ``pretty-format-kotlin``
+* ``pretty-format-rust``
+* ``pretty-format-toml``
+* ``pretty-format-yaml``
+
+⚠: the list above could be out-of-sync respect the exposed pre-commit hooks. Please check `.pre-commit-hooks.yaml <.pre-commit-hooks.yaml>`_ for the most updated list.
+
 Example Usage
 -------------
 
@@ -28,7 +41,7 @@ Add a similar snippet into your ``.pre-commit-config.yaml`` file
 .. code-block:: yaml
 
     - repo: git@github.com:macisamuele/language-formatters-pre-commit-hooks
-      rev: ${LATEST_SHA}
+      rev: ${LATEST_SHA_OR_VERSION}
       hooks:
       - id: pretty-format-java
         args: [--autofix]
