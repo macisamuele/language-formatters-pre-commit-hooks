@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.0 (2018-07-29)
+------------------
+- Add pretty formatters for INI, Rust and TOML files
+
 1.0.1 (2018-07-20)
 ------------------
 - Improve detection of modified files from kotlin formatter
