@@ -43,7 +43,7 @@ def pretty_format_toml(argv=None):
 
                 status = 1
         except TomlDecodeError:
-            print('Input File {} is not a valid TOML'.format(toml_file))
+            print('Input File {} is not a valid TOML file'.format(toml_file))
             return 1
 
     return status
