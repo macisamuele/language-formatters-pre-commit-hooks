@@ -6,9 +6,11 @@ from __future__ import unicode_literals
 import argparse
 import sys
 
+from language_formatters_pre_commit_hooks.pre_conditions import golang_required
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
+@golang_required
 def pretty_format_golang(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument(

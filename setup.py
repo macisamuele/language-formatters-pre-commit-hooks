@@ -32,6 +32,7 @@ setup(
 
     packages=find_packages(exclude=('tests*', 'testing*')),
     install_requires=[
+        'decorator',
         'requests',
         'ruamel.yaml',
         'six',
