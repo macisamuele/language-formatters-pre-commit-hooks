@@ -9,7 +9,6 @@ matrix:
     env: TOXENV=coverage
   - python: '3.7'
     sudo: required
-    dist: xenial
 
 before_install:
 - curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly --verbose -y
@@ -24,4 +23,5 @@ script:
 after_success:
 - if [ "$TOXENV" == "coverage" ]; then codecov; fi
 
+dist: xenial
 sudo: false
