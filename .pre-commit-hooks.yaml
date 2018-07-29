@@ -6,6 +6,15 @@
   types: [go]
   files: ^.+\.go$
   minimum_pre_commit_version: 0.15.0
+- id: pretty-format-ini
+  name: Pretty format INI
+  description: This hook sets a standard for formatting INI  files.
+  entry: pretty-format-ini
+  language: python
+  types: [ini]
+    # for backward compatibility
+  files: ^.*\.ini$
+  minimum_pre_commit_version: 0.15.0
 - id: pretty-format-java
   name: Google Java Formatter
   description: Runs Google Java Formatter over Java source files
