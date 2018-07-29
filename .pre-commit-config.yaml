@@ -19,6 +19,7 @@ repos:
   - id: requirements-txt-fixer
     files: ^requirements-dev\.txt$
   - id: trailing-whitespace
+    exclude: ^test-data/.*$
   - id: fix-encoding-pragma
 - repo: https://github.com/pre-commit/pre-commit
   rev: v1.10.3
