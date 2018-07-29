@@ -12,7 +12,10 @@ from language_formatters_pre_commit_hooks.utils import get_modified_files_in_rep
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-def download_kotlin_formatter_jar(version='0.24.0'):  # pragma: no cover
+KTLINT_VERSION = '0.25.1'
+
+
+def download_kotlin_formatter_jar(version=KTLINT_VERSION):  # pragma: no cover
     def get_url(_version):
         # Links extracted from https://github.com/shyiko/ktlint/
         return \
