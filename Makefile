@@ -29,7 +29,6 @@ test:
 clean:
 	rm -rf .tox/ .pytest_cache/ .coverage venv/
 	find -name *.pyc -delete
-	find -name __pycache__ -type d -exec rm -rf ${CURDIR}/{} \;
 
 .PHONY: release
 release: clean venv
