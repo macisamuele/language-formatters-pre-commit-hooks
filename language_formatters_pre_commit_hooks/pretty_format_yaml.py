@@ -61,7 +61,7 @@ def pretty_format_yaml(argv=None):
                 status = 1
         except YAMLError:
             print(
-                'Input File {} is not a valid YAML, consider using check-yaml'.format(
+                'Input File {} is not a valid YAML file, consider using check-yaml'.format(
                     yaml_file,
                 ),
             )
