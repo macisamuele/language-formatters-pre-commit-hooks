@@ -23,7 +23,7 @@ def download_kotlin_formatter_jar(version=KTLINT_VERSION):  # pragma: no cover
                 version=_version,
             )
 
-    return download_url(get_url(version), 'ktlint{version}'.format(version=version))
+    return download_url(get_url(version), 'ktlint{version}.jar'.format(version=version))
 
 
 @java_required
