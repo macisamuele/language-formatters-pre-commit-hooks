@@ -42,13 +42,20 @@ def pretty_format_ini(argv=None):
             pretty_content = StringIO()
             config_parser.write(pretty_content)
 
-            if string_content != pretty_content.getvalue():
+            pretty_content_str = '{content}\n'.format(
+                content='\n'.join(
+                    line.rstrip()
+                    for line in pretty_content.getvalue().splitlines()
+                ).rstrip(),
+            )
+
+            if string_content != pretty_content_str:
                 print('File {} is not pretty-formatted'.format(ini_file))
 
                 if args.autofix:
                     print('Fixing file {}'.format(ini_file))
                     with io.open(ini_file, 'w', encoding='UTF-8') as f:
-                        f.write(text_type(pretty_content.getvalue()))
+                        f.write(text_type(pretty_content_str))
 
                 status = 1
         except Error:
