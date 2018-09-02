@@ -13,6 +13,8 @@ from six import text_type
 from six.moves.configparser import ConfigParser
 from six.moves.configparser import Error
 
+from language_formatters_pre_commit_hooks.utils import remove_trailing_whitespaces_and_set_new_line_ending
+
 
 def pretty_format_ini(argv=None):
     parser = argparse.ArgumentParser()
@@ -42,11 +44,8 @@ def pretty_format_ini(argv=None):
             pretty_content = StringIO()
             config_parser.write(pretty_content)
 
-            pretty_content_str = '{content}\n'.format(
-                content='\n'.join(
-                    line.rstrip()
-                    for line in pretty_content.getvalue().splitlines()
-                ).rstrip(),
+            pretty_content_str = remove_trailing_whitespaces_and_set_new_line_ending(
+                pretty_content.getvalue(),
             )
 
             if string_content != pretty_content_str:

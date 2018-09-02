@@ -11,6 +11,8 @@ from toml import dumps
 from toml import loads
 from toml import TomlDecodeError
 
+from language_formatters_pre_commit_hooks.utils import remove_trailing_whitespaces_and_set_new_line_ending
+
 
 def pretty_format_toml(argv=None):
     parser = argparse.ArgumentParser()
@@ -31,7 +33,9 @@ def pretty_format_toml(argv=None):
             string_content = ''.join(f.readlines())
 
         try:
-            prettified_content = dumps(loads(string_content), preserve=True)
+            prettified_content = remove_trailing_whitespaces_and_set_new_line_ending(
+                dumps(loads(string_content)),
+            )
 
             if string_content != prettified_content:
                 print('File {} is not pretty-formatted'.format(toml_file))

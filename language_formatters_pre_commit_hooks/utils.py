@@ -64,3 +64,12 @@ def get_modified_files_in_repo():
         for line in command_output.splitlines()
         if line
     }
+
+
+def remove_trailing_whitespaces_and_set_new_line_ending(string):
+    return '{content}\n'.format(
+        content='\n'.join(
+            line.rstrip()
+            for line in string.splitlines()
+        ).rstrip(),
+    )
