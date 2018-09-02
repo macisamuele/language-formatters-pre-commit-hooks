@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 
 import argparse
 import sys
+from os import getenv
 
 from language_formatters_pre_commit_hooks.pre_conditions import rust_required
 from language_formatters_pre_commit_hooks.utils import run_command
@@ -25,7 +26,8 @@ def pretty_format_rust(argv=None):
 
     # Check
     _, output = run_command(
-        'cargo +nightly fmt  -- --check {}'.format(
+        'cargo +{} fmt -- --check {}'.format(
+            getenv('RUST_TOOLCHAIN', 'nightly'),
             ' '.join(args.filenames),
         ),
     )
