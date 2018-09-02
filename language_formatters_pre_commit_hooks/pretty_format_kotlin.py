@@ -12,7 +12,7 @@ from language_formatters_pre_commit_hooks.utils import get_modified_files_in_rep
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-KTLINT_VERSION = '0.25.1'
+KTLINT_VERSION = '0.27.0'
 
 
 def download_kotlin_formatter_jar(version=KTLINT_VERSION):  # pragma: no cover
