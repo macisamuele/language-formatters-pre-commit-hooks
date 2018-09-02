@@ -3,6 +3,8 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from os import getenv
+
 from decorator import decorator
 
 from language_formatters_pre_commit_hooks.utils import run_command
@@ -44,8 +46,9 @@ def golang_required(f, *args, **kwargs):
 
 @decorator
 def rust_required(f, *args, **kwargs):
+    rustut_toolchain_version = getenv('RUST_TOOLCHAIN', 'nightly')
     _assert_command_succeed(
-        command='cargo +nightly fmt  -- --version',
+        command='cargo +{} fmt  -- --version'.format(rustut_toolchain_version),
         assertion_error_message=_DEFAULT_MESSAGE_TEMPLATE.format(
             required_tool='rustfmt',
             install_url='https://github.com/rust-lang-nursery/rustfmt#quick-start',
