@@ -24,10 +24,11 @@ def pretty_format_rust(argv=None):
     parser.add_argument('filenames', nargs='*', help='Filenames to fix')
     args = parser.parse_args(argv)
 
+    rustut_toolchain_version = getenv('RUST_TOOLCHAIN', 'nightly')
     # Check
     _, output = run_command(
         'cargo +{} fmt -- --check {}'.format(
-            getenv('RUST_TOOLCHAIN', 'nightly'),
+            rustut_toolchain_version,
             ' '.join(args.filenames),
         ),
     )
@@ -45,7 +46,8 @@ def pretty_format_rust(argv=None):
         )
         if args.autofix:
             run_command(
-                'cargo +nightly fmt  -- {}'.format(
+                'cargo +{} fmt -- {}'.format(
+                    rustut_toolchain_version,
                     ' '.join(not_well_formatted_files),
                 ),
             )
