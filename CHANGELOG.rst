@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.1.2 (2018-09-02)
+------------------
+- Bump default ktlint version to v0.27.0
+- Use `RUSTUP_TOOLCHAIN` env variable instead of `RUST_TOOLCHAIN`
+
 1.1.1 (2018-09-02)
 ------------------
 - Ensure that generated files end with a new line
