@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.1.1 (2018-09-02)
+------------------
+- Ensure that generated files end with a new line
+- Allow rust toolchain customization via `RUST_TOOLCHAIN` environment variable
+
 1.1.0 (2018-07-29)
 ------------------
 - Add pretty formatters for INI, Rust and TOML files
