@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.1.3 (2018-09-02)
+------------------
+- Last fix to cargo invocations to use the environmentally defined toolchain
+
 1.1.2 (2018-09-02)
 ------------------
 - Bump default ktlint version to v0.27.0
