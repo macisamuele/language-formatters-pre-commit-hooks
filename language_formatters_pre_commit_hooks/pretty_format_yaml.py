@@ -42,7 +42,7 @@ def pretty_format_yaml(argv=None):
     # Prevent ruamel.yaml to wrap yaml lines
     yaml.width = maxsize
 
-    for yaml_file in args.filenames:
+    for yaml_file in set(args.filenames):
         with open(yaml_file) as f:
             string_content = ''.join(f.readlines())
 

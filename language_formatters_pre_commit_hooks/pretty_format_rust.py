@@ -29,7 +29,7 @@ def pretty_format_rust(argv=None):
     _, output = run_command(
         'cargo +{} fmt -- --check {}'.format(
             rustut_toolchain_version,
-            ' '.join(args.filenames),
+            ' '.join(set(args.filenames)),
         ),
     )
     not_well_formatted_files = sorted(

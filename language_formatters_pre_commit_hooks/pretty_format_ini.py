@@ -30,7 +30,7 @@ def pretty_format_ini(argv=None):
 
     status = 0
 
-    for ini_file in args.filenames:
+    for ini_file in set(args.filenames):
         with open(ini_file) as f:
             string_content = ''.join(f.readlines())
 

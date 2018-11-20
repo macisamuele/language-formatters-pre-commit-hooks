@@ -47,7 +47,7 @@ def pretty_format_kotlin(argv=None):
         'java -jar {} --verbose {} {}'.format(
             ktlint_jar,
             '--format' if args.autofix else '--',
-            ' '.join(args.filenames),
+            ' '.join(set(args.filenames)),
         ),
     )
 

@@ -28,7 +28,7 @@ def pretty_format_toml(argv=None):
 
     status = 0
 
-    for toml_file in args.filenames:
+    for toml_file in set(args.filenames):
         with open(toml_file) as f:
             string_content = ''.join(f.readlines())
 
