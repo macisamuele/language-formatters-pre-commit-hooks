@@ -26,7 +26,7 @@ def pretty_format_rust(argv=None):
 
     rustut_toolchain_version = getenv('RUST_TOOLCHAIN', 'nightly')
     # Check
-    _, output = run_command(
+    status_code, output = run_command(
         'cargo +{} fmt -- --check {}'.format(
             rustut_toolchain_version,
             ' '.join(set(args.filenames)),
@@ -52,7 +52,7 @@ def pretty_format_rust(argv=None):
                 ),
             )
 
-    return 1 if not_well_formatted_files else 0
+    return 1 if status_code != 0 or not_well_formatted_files else 0
 
 
 if __name__ == '__main__':
