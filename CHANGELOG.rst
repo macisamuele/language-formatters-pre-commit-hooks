@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2.0 (2018-11-20)
+------------------
+- Update ktlint version
+- Remove duplicated filenames from command execution
+
 1.1.3 (2018-09-02)
 ------------------
 - Last fix to cargo invocations to use the environmentally defined toolchain
