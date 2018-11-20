@@ -24,10 +24,13 @@ def change_dir():
 
 @pytest.mark.parametrize(
     ('filename', 'expected_retval'), (
-        pytest.mark.xfail(
-            condition=not six.PY3,
-            reason='ConfigParser writing format has changed between Python2 and Python3, let\'s test it only once',
-        )(('pretty-formatted.ini', 0)),
+        pytest.param(
+            'pretty-formatted.ini', 0,
+            marks=pytest.mark.xfail(
+                condition=not six.PY3,
+                reason='ConfigParser writing format has changed between Python2 and Python3, let\'s test it only once',
+            ),
+        ),
         ('not-pretty-formatted.ini', 1),
         ('not-valid-file.ini', 1),
     ),
