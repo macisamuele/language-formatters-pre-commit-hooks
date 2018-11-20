@@ -45,7 +45,7 @@ def pretty_format_java(argv=None):
         'java -jar {} --set-exit-if-changed --aosp {} {}'.format(
             google_java_formatter_jar,
             '--replace' if args.autofix else '--dry-run',
-            ' '.join(args.filenames),
+            ' '.join(set(args.filenames)),
         ),
     )
 

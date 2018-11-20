@@ -26,7 +26,7 @@ def pretty_format_golang(argv=None):
     status, output = run_command(
         'gofmt{} -l {}'.format(
             ' -w' if args.autofix else '',
-            ' '.join(args.filenames),
+            ' '.join(set(args.filenames)),
         ),
     )
 
