@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.1 (2018-11-20)
+------------------
+- pretty-format-rust fails if ``cargo fmt`` fails
+
 1.2.0 (2018-11-20)
 ------------------
 - Update ktlint version
