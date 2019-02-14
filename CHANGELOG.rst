@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.3 (2019-02-14)
+------------------
+- Update Google Java Formatter and KTlint
+
 1.2.2 (2018-11-20)
 ------------------
 - pretty-format-rust fails if ``cargo fmt`` fails
