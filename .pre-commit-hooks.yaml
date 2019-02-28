@@ -31,6 +31,7 @@
   types: [kotlin]
   files: ^.+\.kt$
   minimum_pre_commit_version: 0.15.0
+  require_serial: true  # this is needed because the tool does use git commands internally to evanuate diffs
 - id: pretty-format-rust
   name: cargo-fmt
   description: Runs cargo fmt over Rust source files
