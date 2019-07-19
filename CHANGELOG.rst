@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.4 (2019-07-19)
+------------------
+- Update KTLint and fix KTLint GitHub link
+
 1.2.3 (2019-02-14)
 ------------------
 - Update Google Java Formatter and KTlint
