@@ -59,7 +59,7 @@ def pretty_format_yaml(argv=None):
                         f.write(text_type(pretty_content.getvalue()))
 
                 status = 1
-        except YAMLError:
+        except YAMLError:  # pragma: no cover
             print(
                 'Input File {} is not a valid YAML file, consider using check-yaml'.format(
                     yaml_file,
