@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.5 (2019-11-22)
+------------------
+- Update KTLint
+
 1.2.4 (2019-07-19)
 ------------------
 - Update KTLint and fix KTLint GitHub link
