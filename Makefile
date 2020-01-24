@@ -41,9 +41,9 @@ endif
 	echo "Clean old artifacts"
 	rm -rf build/ dist/
 	sed -ri "s/(__version__ = )'.*'/\1'${NEXT_VERSION}'/" language_formatters_pre_commit_hooks/__init__.py
-	sed -ri "s/^(=+)$$/\1\n\n${NEXT_VERSION} ($$(date "+%Y-%m-%d"))\n------------------\n- TODO: add notes/" CHANGELOG.rst
-	${EDITOR} CHANGELOG.rst
-	git add --patch language_formatters_pre_commit_hooks/__init__.py CHANGELOG.rst
+	sed -ri "s/^(=+)$$/\1\n\n${NEXT_VERSION} ($$(date "+%Y-%m-%d"))\n------------------\n- TODO: add notes/" CHANGELOG.md
+	${EDITOR} CHANGELOG.md
+	git add --patch language_formatters_pre_commit_hooks/__init__.py CHANGELOG.md
 	git commit -m "Release version ${NEXT_VERSION}"
 	git tag "v${NEXT_VERSION}"
 	venv/bin/python setup.py sdist bdist_wheel
