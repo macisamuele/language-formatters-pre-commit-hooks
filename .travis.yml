@@ -1,5 +1,6 @@
 language: python
-matrix:
+os: linux
+jobs:
   include:
   - python: '2.7'
   - python: '3.6'
@@ -8,7 +9,6 @@ matrix:
   - python: '3.6'
     env: TOXENV=coverage
   - python: '3.7'
-    sudo: required
 
 before_install:
 # Initialize rust only if it is not already present (handle the case in which cache is empty)
@@ -26,7 +26,6 @@ after_success:
 - if [ "$TOXENV" == "coverage" ]; then codecov; fi
 
 dist: xenial
-sudo: false
 
 cache:
   directories:
