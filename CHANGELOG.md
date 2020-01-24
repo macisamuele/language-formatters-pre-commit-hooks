@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.3.1 (2020-01-24)
+------------------
+- Update Packaging informations
+
 1.3.0 (2020-01-24)
 ------------------
 - Update KTLint to 0.36.0
