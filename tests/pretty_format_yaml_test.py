@@ -27,6 +27,7 @@ def change_dir():
         ('not-pretty-formatted.yaml', 1),
         ('not-valid-file.yaml', 1),
         ('ansible-vault.yaml', 0),
+        ('primitive.yaml', 0),
     ),
 )
 def test_pretty_format_yaml(filename, expected_retval):

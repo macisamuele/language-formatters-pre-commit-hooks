@@ -46,13 +46,15 @@ def pretty_format_yaml(argv=None):
         with open(yaml_file) as f:
             string_content = ''.join(f.readlines())
 
-        if string_content.strip().startswith("$ANSIBLE_VAULT"):
-            print('Skipping Ansible Vault file {}'.format(yaml_file))
-            continue
-
         try:
+            content = yaml.load(string_content)
+
+            if not isinstance(content, (list, dict)):
+                # skip files containing primitive types (unstructured text)
+                continue
+
             pretty_content = StringIO()
-            yaml.dump(yaml.load(string_content), pretty_content)
+            yaml.dump(content, pretty_content)
 
             if string_content != pretty_content.getvalue():
                 print('File {} is not pretty-formatted'.format(yaml_file))
