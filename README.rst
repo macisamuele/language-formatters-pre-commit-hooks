@@ -62,7 +62,7 @@ If you have `aactivator <https://github.com/Yelp/aactivator>`_ installed this st
 Contributing
 ------------
 
-1. Fork it ( http://github.com/macisamuele/language_formatters_pre_commit_hooks/fork )
+1. Fork it ( http://github.com/macisamuele/language-formatters-pre-commit-hooks/fork )
 2. Create your feature branch (``git checkout -b my-new-feature``)
 3. Add your modifications
 4. Push to the branch (``git push origin my-new-feature``)
