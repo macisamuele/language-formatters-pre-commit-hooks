@@ -4,7 +4,7 @@ Changelog
 1.3.0 (2020-01-24)
 ------------------
 - Update KTLint to 0.36.0
-- Enhange `pretty-format-yaml` to deal with YAML files containing primitive types only - [PR #1](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/1) - @dan-cohn thanks for your contribution
+- Enhange `pretty-format-yaml` to deal with YAML files containing primitive types only - PR #1 - [@dan-cohn](https://github.com/dan-cohn) thanks for your contribution
 
 1.2.5 (2019-11-22)
 ------------------
