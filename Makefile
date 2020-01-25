@@ -11,7 +11,7 @@ ifndef EDITOR
 	endif
 endif
 
-venv: requirements-dev.txt setup.py language_formatters_pre_commit_hooks/__init__.py
+venv: requirements-dev.txt setup.py setup.cfg
 	deactivate || true
 	rm -rf venv/  # Ensure that venv does not exist
 	tox -e venv
@@ -40,10 +40,10 @@ endif
 	TOX_ARGS=--recreate $(MAKE) test
 	echo "Clean old artifacts"
 	rm -rf build/ dist/
-	sed -ri "s/^(version = ).*s/\1'${NEXT_VERSION}'/" setup.cfg
+	sed -ri "s/^(version = ).*/\1${NEXT_VERSION}/" setup.cfg
 	sed -ri "s/^(=+)$$/\1\n\n${NEXT_VERSION} ($$(date "+%Y-%m-%d"))\n------------------\n- TODO: add notes/" CHANGELOG.md
 	${EDITOR} CHANGELOG.md
-	git add --patch language_formatters_pre_commit_hooks/__init__.py CHANGELOG.md
+	git add --patch setup.cfg CHANGELOG.md
 	git commit -m "Release version ${NEXT_VERSION}"
 	git tag "v${NEXT_VERSION}"
 	venv/bin/python setup.py sdist bdist_wheel
