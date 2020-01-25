@@ -40,7 +40,7 @@ endif
 	TOX_ARGS=--recreate $(MAKE) test
 	echo "Clean old artifacts"
 	rm -rf build/ dist/
-	sed -ri "s/(__version__ = )'.*'/\1'${NEXT_VERSION}'/" language_formatters_pre_commit_hooks/__init__.py
+	sed -ri "s/^(version = ).*s/\1'${NEXT_VERSION}'/" setup.cfg
 	sed -ri "s/^(=+)$$/\1\n\n${NEXT_VERSION} ($$(date "+%Y-%m-%d"))\n------------------\n- TODO: add notes/" CHANGELOG.md
 	${EDITOR} CHANGELOG.md
 	git add --patch language_formatters_pre_commit_hooks/__init__.py CHANGELOG.md
