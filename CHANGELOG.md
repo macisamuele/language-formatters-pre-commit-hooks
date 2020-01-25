@@ -1,9 +1,15 @@
 Changelog
 =========
 
+1.3.2 (2020-01-25)
+------------------
+- Definitive packaging fix
+
 1.3.1 (2020-01-24)
 ------------------
 - Update Packaging informations
+
+:warning: This version **broke module retrieval** (:disappointed:) while improving quality of PyPi uploaded information. You're recommended to use a more recent version of the library.
 
 1.3.0 (2020-01-24)
 ------------------
