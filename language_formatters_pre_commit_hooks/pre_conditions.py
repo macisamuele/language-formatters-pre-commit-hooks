@@ -46,9 +46,9 @@ def golang_required(f, *args, **kwargs):
 
 @decorator
 def rust_required(f, *args, **kwargs):
-    rustut_toolchain_version = getenv('RUST_TOOLCHAIN', 'nightly')
+    rust_toolchain_version = getenv('RUST_TOOLCHAIN', 'stable')
     _assert_command_succeed(
-        command='cargo +{} fmt  -- --version'.format(rustut_toolchain_version),
+        command='cargo +{} fmt  -- --version'.format(rust_toolchain_version),
         assertion_error_message=_DEFAULT_MESSAGE_TEMPLATE.format(
             required_tool='rustfmt',
             install_url='https://github.com/rust-lang-nursery/rustfmt#quick-start',
