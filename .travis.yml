@@ -12,9 +12,9 @@ jobs:
 
 before_install:
 # Initialize rust only if it is not already present (handle the case in which cache is empty)
-- if [ ! -d ${HOME}/.cargo/bin/ ]; then curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly --verbose -y; fi
-# Install rustfmt-preview component only if it is not alraedy installed (handle the case in which cache is empty)
-- if ! ${HOME}/.cargo/bin/rustup component list | grep -Eq '^rustfmt-preview[^ ]* +\(installed\)$'; then ${HOME}/.cargo/bin/rustup component add rustfmt-preview --toolchain nightly; fi
+- if [ ! -d ${HOME}/.cargo/bin/ ]; then curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable --verbose -y; fi
+# Install rustfmt component only if it is not alraedy installed (handle the case in which cache is empty)
+- if ! ${HOME}/.cargo/bin/rustup component list | grep -Eq '^rustfmt[^ ]* +\(installed\)$'; then ${HOME}/.cargo/bin/rustup component add rustfmt --toolchain stable; fi
 - export PATH=${HOME}/.cargo/bin:${PATH}
 
 install: pip install codecov tox-travis
