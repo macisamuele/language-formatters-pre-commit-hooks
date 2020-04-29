@@ -47,14 +47,17 @@ def pretty_format_yaml(argv=None):
             string_content = ''.join(f.readlines())
 
         try:
-            content = yaml.load(string_content)
-
-            if not isinstance(content, (list, dict)):
-                # skip files containing primitive types (unstructured text)
-                continue
-
+            content = list(yaml.load_all(string_content))
             pretty_content = StringIO()
-            yaml.dump(content, pretty_content)
+
+            if len(content) == 1:
+                if not isinstance(content[0], (list, dict)):
+                    # skip files containing primitive types (unstructured text)
+                    continue
+
+                yaml.dump(content[0], pretty_content)
+            else:
+                yaml.dump_all(content, pretty_content)
 
             if string_content != pretty_content.getvalue():
                 print('File {} is not pretty-formatted'.format(yaml_file))

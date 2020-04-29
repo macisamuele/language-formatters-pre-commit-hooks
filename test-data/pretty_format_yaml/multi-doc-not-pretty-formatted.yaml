@@ -1,0 +1,9 @@
+---
+root:
+    test:
+     -  1
+
+---
+second_root:
+   test:
+     - 2
