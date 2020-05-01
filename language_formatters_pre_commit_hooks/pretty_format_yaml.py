@@ -57,6 +57,7 @@ def pretty_format_yaml(argv=None):
 
                 yaml.dump(content[0], pretty_content)
             else:
+                pretty_content.write('---\n')
                 yaml.dump_all(content, pretty_content)
 
             if string_content != pretty_content.getvalue():

@@ -1,7 +1,9 @@
+---
 root:
   test:
-  - 1
+  - hi there
 ---
 second_root:
   test:
+  - 1
   - 2
