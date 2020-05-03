@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 
 import argparse
 import io
+import re
 import sys
 from sys import maxsize
 
@@ -42,31 +43,38 @@ def pretty_format_yaml(argv=None):
     # Prevent ruamel.yaml to wrap yaml lines
     yaml.width = maxsize
 
+    separator = '---\n'
+
     for yaml_file in set(args.filenames):
         with open(yaml_file) as f:
             string_content = ''.join(f.readlines())
 
+        separator_pattern = '^--- ?.*\\n'
+        original_docs = re.split(separator_pattern, string_content, flags=re.MULTILINE)
+        pretty_docs = []
+
         try:
-            content = list(yaml.load_all(string_content))
-            pretty_content = StringIO()
+            for doc in original_docs:
+                content = yaml.load(doc)
+                if isinstance(content, (list, dict)):
+                    pretty_output = StringIO()
+                    yaml.dump(content, pretty_output)
+                    pretty_docs.append(pretty_output.getvalue())
+                elif doc:
+                    # leave files containing primitive types (unstructured text) as is
+                    pretty_docs.append(str(doc))
 
-            if len(content) == 1:
-                if not isinstance(content[0], (list, dict)):
-                    # skip files containing primitive types (unstructured text)
-                    continue
+            # start multi-doc file with separator
+            pretty_content = '' if len(pretty_docs) == 1 else separator
+            pretty_content += separator.join(pretty_docs)
 
-                yaml.dump(content[0], pretty_content)
-            else:
-                pretty_content.write('---\n')
-                yaml.dump_all(content, pretty_content)
-
-            if string_content != pretty_content.getvalue():
+            if string_content != pretty_content:
                 print('File {} is not pretty-formatted'.format(yaml_file))
 
                 if args.autofix:
                     print('Fixing file {}'.format(yaml_file))
                     with io.open(yaml_file, 'w', encoding='UTF-8') as f:
-                        f.write(text_type(pretty_content.getvalue()))
+                        f.write(text_type(pretty_content))
 
                 status = 1
         except YAMLError:  # pragma: no cover
