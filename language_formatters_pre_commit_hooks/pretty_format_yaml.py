@@ -49,7 +49,7 @@ def pretty_format_yaml(argv=None):
         with open(yaml_file) as f:
             string_content = ''.join(f.readlines())
 
-        separator_pattern = '^--- ?.*\\n'
+        separator_pattern = '^---\\s*\\n'
         original_docs = re.split(separator_pattern, string_content, flags=re.MULTILINE)
         pretty_docs = []
 
