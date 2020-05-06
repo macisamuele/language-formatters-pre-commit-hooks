@@ -15,7 +15,7 @@ from six import StringIO
 from six import text_type
 
 
-def process_single_document(document, yaml):
+def _process_single_document(document, yaml):
     """Pretty format one document containing YAML or primitive (non-YAML) text.
     Call this function for each doc within a multi-document .yaml file.
 
