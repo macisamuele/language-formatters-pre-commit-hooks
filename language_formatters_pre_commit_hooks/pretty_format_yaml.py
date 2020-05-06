@@ -16,13 +16,14 @@ from six import text_type
 
 
 def _process_single_document(document, yaml):
-    """Pretty format one document containing YAML or primitive (non-YAML) text.
-    Call this function for each doc within a multi-document .yaml file.
+    """Pretty format one YAML document.
+    
+    This is needed in order to prevent `ruamel.yaml` to interfere with documents that have primitive types on the document root.
+     For more context check https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/1
 
     Args:
         document (str): Original document content.
         yaml: YAML library instance.
-
     Returns:
         Pretty-formatted content (str).
     """
