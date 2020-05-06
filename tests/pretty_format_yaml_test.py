@@ -25,6 +25,8 @@ def change_dir():
     ('filename', 'expected_retval'), (
         ('pretty-formatted.yaml', 0),
         ('not-pretty-formatted.yaml', 1),
+        ('multi-doc-pretty-formatted.yaml', 0),
+        ('multi-doc-not-pretty-formatted.yaml', 1),
         ('not-valid-file.yaml', 1),
         ('ansible-vault.yaml', 0),
         ('primitive.yaml', 0),
@@ -34,10 +36,16 @@ def test_pretty_format_yaml(filename, expected_retval):
     assert pretty_format_yaml([filename]) == expected_retval
 
 
-def test_pretty_format_yaml_autofix(tmpdir):
+@pytest.mark.parametrize(
+    ('no_pretty_file_name'), (
+        ('not-pretty-formatted.yaml'),
+        ('multi-doc-not-pretty-formatted.yaml'),
+    ),
+)
+def test_pretty_format_yaml_autofix(tmpdir, no_pretty_file_name):
     srcfile = tmpdir.join('to_be_fixed.yaml')
     shutil.copyfile(
-        'not-pretty-formatted.yaml',
+        no_pretty_file_name,
         srcfile.strpath,
     )
     assert pretty_format_yaml(['--autofix', srcfile.strpath]) == 1

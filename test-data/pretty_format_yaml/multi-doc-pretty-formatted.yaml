@@ -1,0 +1,18 @@
+---
+root:
+  test:
+  - hi there
+---
+second_root:
+  test:
+  - 1
+  - 2
+---
+This is a primitive file.
+Another line of text.
+
+Last line of file.
+---
+third_root:
+  # comment
+  data: abc123
