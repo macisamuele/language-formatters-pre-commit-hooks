@@ -15,6 +15,28 @@ from six import StringIO
 from six import text_type
 
 
+def process_single_document(document, yaml):
+    """Pretty format one document containing YAML or primitive (non-YAML) text.
+    Call this function for each doc within a multi-document .yaml file.
+
+    Args:
+        document (str): Original document content.
+        yaml: YAML library instance.
+
+    Returns:
+        Pretty-formatted content (str).
+    """
+    content = yaml.load(document)
+    if isinstance(content, (list, dict)):
+        pretty_output = StringIO()
+        yaml.dump(content, pretty_output)
+        return pretty_output.getvalue()
+    elif document:
+        # do not disturb primitive content (unstructured text)
+        return str(document)
+    return None
+
+
 def pretty_format_yaml(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -49,22 +71,22 @@ def pretty_format_yaml(argv=None):
         with open(yaml_file) as f:
             string_content = ''.join(f.readlines())
 
+        # Split multi-document file into individual documents
+        #
+        # Not using yaml.load_all() because it reformats primitive (non-YAML) content. It removes
+        # newline characters.
         separator_pattern = '^---\\s*\\n'
         original_docs = re.split(separator_pattern, string_content, flags=re.MULTILINE)
+
         pretty_docs = []
 
         try:
             for doc in original_docs:
-                content = yaml.load(doc)
-                if isinstance(content, (list, dict)):
-                    pretty_output = StringIO()
-                    yaml.dump(content, pretty_output)
-                    pretty_docs.append(pretty_output.getvalue())
-                elif doc:
-                    # leave files containing primitive types (unstructured text) as is
-                    pretty_docs.append(str(doc))
+                content = process_single_document(doc, yaml)
+                if content is not None:
+                    pretty_docs.append(content)
 
-            # start multi-doc file with separator
+            # Start multi-doc file with separator
             pretty_content = '' if len(pretty_docs) == 1 else separator
             pretty_content += separator.join(pretty_docs)
 
