@@ -17,9 +17,9 @@ from six import text_type
 
 def _process_single_document(document, yaml):
     """Pretty format one YAML document.
-    
+
     This is needed in order to prevent `ruamel.yaml` to interfere with documents that have primitive types on the document root.
-     For more context check https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/1
+    For more context check https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/1
 
     Args:
         document (str): Original document content.
@@ -76,14 +76,14 @@ def pretty_format_yaml(argv=None):
         #
         # Not using yaml.load_all() because it reformats primitive (non-YAML) content. It removes
         # newline characters.
-        separator_pattern = '^---\\s*\\n'
+        separator_pattern = r'^---\s*\n'
         original_docs = re.split(separator_pattern, string_content, flags=re.MULTILINE)
 
         pretty_docs = []
 
         try:
             for doc in original_docs:
-                content = process_single_document(doc, yaml)
+                content = _process_single_document(doc, yaml)
                 if content is not None:
                     pretty_docs.append(content)
 

@@ -9,6 +9,7 @@ second_root:
           - 2
 ---
 This is a primitive file.
+Another line of text.
 
 Last line of file.
 ---
