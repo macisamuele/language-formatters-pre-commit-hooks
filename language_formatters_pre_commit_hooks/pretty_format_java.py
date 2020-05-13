@@ -35,6 +35,12 @@ def pretty_format_java(argv=None):
         dest='autofix',
         help='Automatically fixes encountered not-pretty-formatted files',
     )
+    parser.add_argument(
+        '--aosp',
+        action='store_true',
+        dest='aosp',
+        help='Formats Java code into AOSP format',
+    )
 
     parser.add_argument('filenames', nargs='*', help='Filenames to fix')
     args = parser.parse_args(argv)
@@ -42,8 +48,9 @@ def pretty_format_java(argv=None):
     google_java_formatter_jar = download_google_java_formatter_jar()
 
     status, output = run_command(
-        'java -jar {} --set-exit-if-changed --aosp {} {}'.format(
+        'java -jar {} --set-exit-if-changed{} {} {}'.format(
             google_java_formatter_jar,
+            ' --aosp' if args.aosp else '',
             '--replace' if args.autofix else '--dry-run',
             ' '.join(set(args.filenames)),
         ),
