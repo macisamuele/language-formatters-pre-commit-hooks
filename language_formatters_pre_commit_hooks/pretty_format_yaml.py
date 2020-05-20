@@ -32,10 +32,9 @@ def _process_single_document(document, yaml):
         pretty_output = StringIO()
         yaml.dump(content, pretty_output)
         return pretty_output.getvalue()
-    elif document:
+    else:
         # do not disturb primitive content (unstructured text)
         return str(document)
-    return None
 
 
 def pretty_format_yaml(argv=None):
@@ -78,6 +77,11 @@ def pretty_format_yaml(argv=None):
         # newline characters.
         separator_pattern = r'^---\s*\n'
         original_docs = re.split(separator_pattern, string_content, flags=re.MULTILINE)
+
+        # A valid multi-document YAML file might starts with the separator.
+        # In this case the first document of original docs will be empty and should not be consdered
+        if string_content.startswith('---'):
+            original_docs = original_docs[1:]
 
         pretty_docs = []
 
