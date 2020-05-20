@@ -30,6 +30,9 @@ def change_dir():
         ('not-valid-file.yaml', 1),
         ('ansible-vault.yaml', 0),
         ('primitive.yaml', 0),
+        ('empty-doc-with-separator.yaml', 1),
+        ('empty-doc.yaml', 0),
+        ('multi-doc-with-empty-document-inside.yaml', 0),
     ),
 )
 def test_pretty_format_yaml(filename, expected_retval):
