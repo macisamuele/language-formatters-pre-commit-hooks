@@ -1,5 +1,10 @@
 Changelog
 =========
+1.4.0 (2020-05-20)
+------------------
+- Improve handling of multi-document YAML files. PR #3 - [@dan-cohn](https://github.com/dan-cohn) thanks for your contribution
+- `pretty-format-java` does default to Google style. Add `--aosp` argument for Android Open Source Project style. PR #8 - [@ChenAndrew](https://github.com/ChenAndrew) thanks for your contribution.
+- Update GoogleJavaFormatter to 1.8
 
 1.3.2 (2020-01-25)
 ------------------
