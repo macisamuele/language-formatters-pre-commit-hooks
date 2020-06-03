@@ -1,5 +1,10 @@
 Changelog
 =========
+
+1.4.1 (2020-06-03)
+------------------
+- Update KTLint to 0.37.0
+
 1.4.0 (2020-05-20)
 ------------------
 - Improve handling of multi-document YAML files. PR #3 - [@dan-cohn](https://github.com/dan-cohn) thanks for your contribution
