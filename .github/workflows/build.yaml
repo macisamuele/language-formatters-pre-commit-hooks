@@ -1,0 +1,79 @@
+name: Build
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - '*'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        pyversion: [2.7, 3.6, 3.7]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.pyversion }}
+    - uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+    - name: Setup Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+    - name: Create cache directory as pre-commit would do
+      run: mkdir -p ${HOME}/.cache/pre-commit
+    - name: Install Python dependencies
+      run: pip install codecov tox tox-gh-actions
+    - name: Run Tox
+      run: tox
+
+  precommit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+    - name: Install Python dependencies
+      run: pip install tox
+    - name: Run Tox
+      run: tox -e pre-commit
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+    - uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+    - name: Setup Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+    - name: Create cache directory as pre-commit would do
+      run: mkdir -p ${HOME}/.cache/pre-commit
+    - name: Install Python dependencies
+      run: pip install codecov tox
+    - name: Run Tox
+      run: tox -e coverage
