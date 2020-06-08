@@ -1,6 +1,6 @@
 
-<a href="https://travis-ci.org/macisamuele/language-formatters-pre-commit-hooks?branch=master" alt="Travis Build">
-    <img src="https://img.shields.io/travis/macisamuele/language-formatters-pre-commit-hooks.svg"/>
+<a href="https://github.com/macisamuele/language-formatters-pre-commit-hooks/actions" alt="Github Actions CI">
+    <img src="https://github.com/macisamuele/language-formatters-pre-commit-hooks/workflows/Build/badge.svg"/>
 </a>
 <a href="https://codecov.io/gh/macisamuele/language-formatters-pre-commit-hooks" alt="Coverage">
     <img src="https://img.shields.io/codecov/c/github/macisamuele/language-formatters-pre-commit-hooks/master.svg"/>
