@@ -54,6 +54,12 @@ def pretty_format_yaml(argv=None):
             ' for indentation level e.g. 4 or "\t" (Default: 2)'
         ),
     )
+    parser.add_argument(
+        '--preserve-quotes',
+        action='store_true',
+        dest='preserve_quotes',
+        help='Keep existing string quoting',
+    )
 
     parser.add_argument('filenames', nargs='*', help='Filenames to fix')
     args = parser.parse_args(argv)
@@ -62,6 +68,7 @@ def pretty_format_yaml(argv=None):
 
     yaml = YAML()
     yaml.indent = args.indent
+    yaml.preserve_quotes = args.preserve_quotes
     # Prevent ruamel.yaml to wrap yaml lines
     yaml.width = maxsize
 

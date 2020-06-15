@@ -56,3 +56,9 @@ def test_pretty_format_yaml_autofix(tmpdir, no_pretty_file_name):
     # file was formatted (shouldn't trigger linter again)
     ret = pretty_format_yaml([srcfile.strpath])
     assert ret == 0
+
+
+def test_pretty_format_yaml_preserve_quotes():
+    filename = 'preserve-quotes-pretty-formatted.yaml'
+    assert pretty_format_yaml([filename]) == 1
+    assert pretty_format_yaml(['--preserve-quotes', filename]) == 0
