@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.5.0 (2020-06-16)
+------------------
+- Add `--preserve-quotes` argument into `pretty-format-yaml`. PR #16 - [@vbisserie](https://github.com/vbisserie) thanks for your contribution
+
 1.4.2 (2020-06-09)
 ------------------
 - Update KTLint to 0.37.1
