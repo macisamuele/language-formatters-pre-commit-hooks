@@ -31,25 +31,19 @@ clean:
 	find -name *.pyc -delete
 
 .PHONY: release
-release: clean venv
+release:
 	$(eval $(call check_env_variable,NEXT_VERSION))
 ifneq ($(shell git rev-parse --abbrev-ref HEAD),master)
 	$(error `make release` could be execute only on master branch)
 endif
 	echo "Running tests for extra safety"
-	TOX_ARGS=--recreate $(MAKE) test
-	echo "Clean old artifacts"
-	rm -rf build/ dist/
 	sed -ri "s/^(version = ).*/\1${NEXT_VERSION}/" setup.cfg
 	sed -ri "s/^(=+)$$/\1\n\n${NEXT_VERSION} ($$(date "+%Y-%m-%d"))\n------------------\n- TODO: add notes/" CHANGELOG.md
 	${EDITOR} CHANGELOG.md
 	git add --patch setup.cfg CHANGELOG.md
 	git commit -m "Release version ${NEXT_VERSION}"
 	git tag "v${NEXT_VERSION}"
-	venv/bin/python setup.py sdist bdist_wheel
-	echo "Fill next release information"
-	venv/bin/twine upload -r pypi dist/*
-	git push origin master --tags
+	git push origin --atomic master "v${NEXT_VERSION}"
 
 
 .PHONY: bump-download-releases
