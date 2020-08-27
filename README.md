@@ -43,7 +43,7 @@ Add a similar snippet into your `.pre-commit-config.yaml` file
 
 ```yaml
 
-- repo: git@github.com:macisamuele/language-formatters-pre-commit-hooks
+- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   rev: ${LATEST_SHA_OR_VERSION}
   hooks:
   - id: pretty-format-java
