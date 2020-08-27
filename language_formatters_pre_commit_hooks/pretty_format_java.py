@@ -11,7 +11,7 @@ from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-GOOGLE_JAVA_FORMATTER_VERSION = '1.8'
+GOOGLE_JAVA_FORMATTER_VERSION = '1.9'
 
 
 def download_google_java_formatter_jar(version=GOOGLE_JAVA_FORMATTER_VERSION):  # pragma: no cover
