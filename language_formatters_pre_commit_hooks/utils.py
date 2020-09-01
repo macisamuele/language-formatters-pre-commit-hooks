@@ -7,6 +7,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 
 import requests
 from six.moves.urllib.parse import urlparse
@@ -57,12 +58,12 @@ def download_url(url, file_name=None):
         os.mkdir(base_directory)
 
     r = requests.get(url, stream=True)
-    tmp_file = '{}_tmp'.format(final_file)
-    with open(tmp_file, mode='wb') as f:
-        # Copy on a temporary file in case of issues while downloading the file
-        shutil.copyfileobj(r.raw, f)
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:  # Not delete because we're renaming it
+        shutil.copyfileobj(r.raw, tmp_file)
+        tmp_file.flush()
+        os.fsync(tmp_file.fileno())
+        os.rename(tmp_file.name, final_file)
 
-    os.rename(tmp_file, final_file)
     return final_file
 
 
