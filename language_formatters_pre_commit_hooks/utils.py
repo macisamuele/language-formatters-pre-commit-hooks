@@ -37,13 +37,24 @@ def _base_directory():
 
 
 def download_url(url, file_name=None):
+    base_directory = _base_directory()
+
     final_file = os.path.join(
-        _base_directory(),
+        base_directory,
         file_name or os.path.basename(urlparse(url).path),
     )
 
     if os.path.exists(final_file):
         return final_file
+
+    if not os.path.exists(base_directory):  # pragma: no cover
+        # If the base directory is not present we should create it.
+        # This is needed to allow the tool to run if invoked via
+        # command line, but it should never be possible if invoked
+        # via `pre-commit` as it would ensure that the directories
+        # are present
+        print('Unexisting base directory ({base_directory}). Creating it'.format(base_directory=base_directory), file=sys.stderr)
+        os.mkdir(base_directory)
 
     r = requests.get(url, stream=True)
     tmp_file = '{}_tmp'.format(final_file)
