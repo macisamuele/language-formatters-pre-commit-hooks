@@ -4,7 +4,7 @@
   entry: pretty-format-golang
   language: python
   types: [go]
-  files: ^.+\.go$
+  files: ''
   minimum_pre_commit_version: 0.15.0
 - id: pretty-format-ini
   name: Pretty format INI
@@ -13,7 +13,7 @@
   language: python
   types: [ini]
     # for backward compatibility
-  files: ^.*\.ini$
+  files: ''
   minimum_pre_commit_version: 0.15.0
 - id: pretty-format-java
   name: Google Java Formatter
@@ -21,7 +21,7 @@
   entry: pretty-format-java
   language: python
   types: [java]
-  files: ^.+\.java$
+  files: ''
   require_serial: true
   minimum_pre_commit_version: 0.15.0
 - id: pretty-format-kotlin
@@ -30,7 +30,7 @@
   entry: pretty-format-kotlin
   language: python
   types: [kotlin]
-  files: ^.+\.kt$
+  files: ''
   minimum_pre_commit_version: 0.15.0
   require_serial: true  # this is needed because the tool does use git commands internally to evanuate diffs
 - id: pretty-format-rust
@@ -39,7 +39,7 @@
   entry: pretty-format-rust
   language: python
   types: [rust]
-  files: ^.+\.rs$
+  files: ''
   minimum_pre_commit_version: 0.15.0
 - id: pretty-format-toml
   name: Pretty format TOML
@@ -48,7 +48,7 @@
   language: python
   types: [toml]
     # for backward compatibility
-  files: ^.*\.toml$
+  files: ''
   minimum_pre_commit_version: 0.15.0
 - id: pretty-format-yaml
   name: Pretty format YAML
@@ -57,5 +57,5 @@
   language: python
   types: [yaml]
     # for backward compatibility
-  files: ^.*\.(yaml|yml)$
+  files: ''
   minimum_pre_commit_version: 0.15.0
