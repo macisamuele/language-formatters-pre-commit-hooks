@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - maci-*
   pull_request:
     branches:
     - '*'
