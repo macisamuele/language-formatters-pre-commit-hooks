@@ -8,7 +8,6 @@ import sys
 
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
 from language_formatters_pre_commit_hooks.utils import download_url
-from language_formatters_pre_commit_hooks.utils import get_modified_files_in_repo
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
@@ -41,34 +40,44 @@ def pretty_format_kotlin(argv=None):
 
     ktlint_jar = download_kotlin_formatter_jar()
 
-    modified_files_pre_kotlin_formatting = get_modified_files_in_repo()
-
-    status, output = run_command(
-        'java -jar {} --verbose {} {}'.format(
+    # ktlint does not return exit-code!=0 if we're formatting them.
+    # To workaround this limitation we do run ktlint in check mode only,
+    # which provides the expected exit status and we run it again in format
+    # mode if autofix flag is enabled
+    check_status, check_output = run_command(
+        'java -jar {} --verbose --relative -- {}'.format(
             ktlint_jar,
-            '--format' if args.autofix else '--',
             ' '.join(set(args.filenames)),
         ),
     )
 
-    if output:
-        print(output)
-        return 1
+    not_pretty_formatted_files = set()
+    if check_status != 0:
+        not_pretty_formatted_files.update(
+            line.split(':', 1)[0]
+            for line in check_output.splitlines()
+        )
 
-    # Check all the file modified by the execution of the previous commands
-    modified_files_post_kotlin_formatting = get_modified_files_in_repo()
-    if modified_files_pre_kotlin_formatting != modified_files_post_kotlin_formatting:
+        if args.autofix:
+            print("Running ktlint format on {}".format(not_pretty_formatted_files))
+            run_command(
+                'java -jar {} --verbose --relative --format -- {}'.format(
+                    ktlint_jar,
+                    ' '.join(not_pretty_formatted_files),
+                ),
+            )
+
+    status = 0
+    if not_pretty_formatted_files:
+        status = 1
         print(
             '{}: {}'.format(
-                'The following files have been fixed by ktlint' if args.autofix else 'The following files are not properly formatted',  # noqa
-                ', '.join(sorted(
-                    modified_files_post_kotlin_formatting.difference(modified_files_pre_kotlin_formatting),
-                )),
+                'The following files have been fixed by ktlint' if args.autofix else 'The following files are not properly formatted',
+                ', '.join(sorted(not_pretty_formatted_files)),
             ),
         )
-        return 1
 
-    return 0
+    return status
 
 
 if __name__ == '__main__':

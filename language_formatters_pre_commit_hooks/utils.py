@@ -67,17 +67,6 @@ def download_url(url, file_name=None):
     return final_file
 
 
-def get_modified_files_in_repo():
-    _, command_output = run_command(
-        'git diff-index --name-status --binary --exit-code --no-ext-diff $(git write-tree) --',
-    )
-    return {
-        line.split()[-1]
-        for line in command_output.splitlines()
-        if line
-    }
-
-
 def remove_trailing_whitespaces_and_set_new_line_ending(string):
     return '{content}\n'.format(
         content='\n'.join(

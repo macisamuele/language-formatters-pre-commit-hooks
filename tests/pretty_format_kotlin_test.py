@@ -8,7 +8,6 @@ import shutil
 import pytest
 
 from language_formatters_pre_commit_hooks.pretty_format_kotlin import pretty_format_kotlin
-from language_formatters_pre_commit_hooks.utils import run_command
 from tests.conftest import change_dir_context
 from tests.conftest import undecorate_function
 
@@ -42,15 +41,9 @@ def test_pretty_format_kotlin_autofix(tmpdir, undecorate_method):
         'invalid.kt',
         srcfile.strpath,
     )
-    with change_dir_context(tmpdir.strpath):
-        # KTLint does not provide information if files have been formatted
-        # so the only way is to check if there are non stashed files in the repo
-        run_command('git init && git add {}'.format(srcfile.strpath))
-
+    with change_dir_context(tmpdir.dirname):
         assert undecorate_method(['--autofix', srcfile.strpath]) == 1
 
-        # Stage the file in the repository
-        run_command('git add {}'.format(srcfile.strpath))
-
         # file was formatted (shouldn't trigger linter again)
-        assert undecorate_method([srcfile.strpath]) == 0
+        ret = undecorate_method([srcfile.strpath])
+        assert ret == 0
