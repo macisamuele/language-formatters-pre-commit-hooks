@@ -31,9 +31,11 @@ def run_command(command):
 def _base_directory():
     # Extracted from pre-commit code:
     # https://github.com/pre-commit/pre-commit/blob/master/pre_commit/store.py
-    return os.environ.get('PRE_COMMIT_HOME') or os.path.join(
-        os.environ.get('XDG_CACHE_HOME') or os.path.expanduser('~/.cache'),
-        'pre-commit',
+    return os.path.realpath(
+        os.environ.get('PRE_COMMIT_HOME') or os.path.join(
+            os.environ.get('XDG_CACHE_HOME') or os.path.expanduser('~/.cache'),
+            'pre-commit',
+        ),
     )
 
 
@@ -55,16 +57,18 @@ def download_url(url, file_name=None):
         # via `pre-commit` as it would ensure that the directories
         # are present
         print('Unexisting base directory ({base_directory}). Creating it'.format(base_directory=base_directory), file=sys.stderr)
-        os.mkdir(base_directory)
+        os.makedirs(base_directory)
 
     print("Downloading {url}".format(url=url), file=sys.stderr)
     r = requests.get(url, stream=True)
     r.raise_for_status()
     with tempfile.NamedTemporaryFile(delete=False) as tmp_file:  # Not delete because we're renaming it
+        tmp_file_name = tmp_file.name
         shutil.copyfileobj(r.raw, tmp_file)
         tmp_file.flush()
         os.fsync(tmp_file.fileno())
-        os.rename(tmp_file.name, final_file)
+
+    os.rename(tmp_file_name, final_file)
 
     return final_file
 
