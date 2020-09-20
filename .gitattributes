@@ -1,0 +1,3 @@
+# Ensure that go files are forced to have "\n" as new line, regardless of the platform.
+# More context on: https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/29
+*.go text eol=lf
