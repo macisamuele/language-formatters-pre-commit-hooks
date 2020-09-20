@@ -57,7 +57,9 @@ def download_url(url, file_name=None):
         print('Unexisting base directory ({base_directory}). Creating it'.format(base_directory=base_directory), file=sys.stderr)
         os.mkdir(base_directory)
 
+    print("Downloading {url}".format(url=url), file=sys.stderr)
     r = requests.get(url, stream=True)
+    r.raise_for_status()
     with tempfile.NamedTemporaryFile(delete=False) as tmp_file:  # Not delete because we're renaming it
         shutil.copyfileobj(r.raw, tmp_file)
         tmp_file.flush()

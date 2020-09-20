@@ -11,18 +11,27 @@ from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-KTLINT_VERSION = '0.38.1'
+__KTLINT_VERSION = '0.38.1'
 
 
-def download_kotlin_formatter_jar(version=KTLINT_VERSION):  # pragma: no cover
+def __download_kotlin_formatter_jar(version):  # pragma: no cover
     def get_url(_version):
-        # Links extracted from https://github.com/shyiko/ktlint/
+        # Links extracted from https://github.com/pinterest/ktlint/
         return \
             'https://github.com/pinterest/ktlint/releases/download/{version}/ktlint'.format(
                 version=_version,
             )
 
-    return download_url(get_url(version), 'ktlint{version}.jar'.format(version=version))
+    url_to_download = get_url(version)
+    try:
+        return download_url(get_url(version), 'ktlint{version}.jar'.format(version=version))
+    except:  # noqa: E722 (allow usage of bare 'except')
+        raise RuntimeError(
+            'Failed to download {url}. Probably the requested version, {version}, is '
+            'not valid or you have some network issue.'.format(
+                url=url_to_download, version=version,
+            ),
+        )
 
 
 @java_required
@@ -34,11 +43,19 @@ def pretty_format_kotlin(argv=None):
         dest='autofix',
         help='Automatically fixes encountered not-pretty-formatted files',
     )
+    parser.add_argument(
+        '--ktlint-version',
+        dest='ktlint_version',
+        default=__KTLINT_VERSION,
+        help='KTLint version to use (default %(default)s)',
+    )
 
     parser.add_argument('filenames', nargs='*', help='Filenames to fix')
     args = parser.parse_args(argv)
 
-    ktlint_jar = download_kotlin_formatter_jar()
+    ktlint_jar = __download_kotlin_formatter_jar(
+        args.ktlint_version,
+    )
 
     # ktlint does not return exit-code!=0 if we're formatting them.
     # To workaround this limitation we do run ktlint in check mode only,
@@ -59,7 +76,7 @@ def pretty_format_kotlin(argv=None):
         )
 
         if args.autofix:
-            print("Running ktlint format on {}".format(not_pretty_formatted_files))
+            print('Running ktlint format on {}'.format(not_pretty_formatted_files))
             run_command(
                 'java -jar {} --verbose --relative --format -- {}'.format(
                     ktlint_jar,
