@@ -6,7 +6,9 @@ from __future__ import unicode_literals
 import shutil
 
 import pytest
+from mock import patch
 
+from language_formatters_pre_commit_hooks.pretty_format_golang import _get_eol_attribute
 from language_formatters_pre_commit_hooks.pretty_format_golang import pretty_format_golang
 from tests.conftest import change_dir_context
 from tests.conftest import undecorate_function
@@ -46,3 +48,17 @@ def test_pretty_format_golang_autofix(tmpdir, undecorate_method):
     # file was formatted (shouldn't trigger linter again)
     ret = undecorate_method([srcfile.strpath])
     assert ret == 0
+
+
+@pytest.mark.parametrize(
+    'exit_status, output, expected_eol',
+    [
+        (1, '', None),
+        (0, '', None),
+        (0, 'a\0eol\0lf\0', 'lf'),
+    ],
+)
+@patch('language_formatters_pre_commit_hooks.pretty_format_golang.run_command', autospec=True)
+def test__get_eol_attribute(mock_run_command, exit_status, output, expected_eol):
+    mock_run_command.return_value = (exit_status, output)
+    assert _get_eol_attribute() == expected_eol

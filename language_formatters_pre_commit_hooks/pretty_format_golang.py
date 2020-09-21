@@ -10,6 +10,29 @@ from language_formatters_pre_commit_hooks.pre_conditions import golang_required
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
+def _get_eol_attribute():
+    """
+    Retrieve eol attribute defined for golang files
+    The method will return None in case of any error interacting with git
+    """
+    status_code, output = run_command('git check-attr -z eol -- filename.go')
+    if status_code != 0:
+        return None
+
+    try:
+        # Expected output: "filename.go\0eol\0lf\0"
+        _, _, eol, _ = output.split('\0')
+        return eol
+    except:  # noqa: E722 (allow usage of bare 'except')
+        print(
+            '`git check-attr` output is not consistent to `<filename>\0<key>\0<value>\0` format: {output}'.format(
+                output=output,
+            ),
+            file=sys.stderr,
+        )
+        return None
+
+
 @golang_required
 def pretty_format_golang(argv=None):
     parser = argparse.ArgumentParser()
@@ -43,6 +66,15 @@ def pretty_format_golang(argv=None):
                 ', '.join(output.splitlines()),
             ),
         )
+        if sys.platform == 'win32':  # pragma: no cover
+            eol_attribute = _get_eol_attribute()
+            if eol_attribute and eol_attribute != 'lf':
+                print(
+                    'Hint: gofmt uses LF (aka `\\n`) as new line, but on Windows the default new line is CRLF (aka `\\r\\n`). '
+                    'You might want to ensure that go files are forced to use LF via `.gitattributes`. '
+                    'Example: https://github.com/macisamuele/language-formatters-pre-commit-hooks/commit/53f27fda02ead5b1b9b6a9bbd9c36bb66d229887',  # noqa: E501
+                    file=sys.stderr,
+                )
 
     return status
 
