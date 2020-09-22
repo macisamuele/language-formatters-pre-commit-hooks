@@ -4,7 +4,7 @@ Changelog
 unreleased (YYYY-MM-DD)
 -----------------------
 
-- Update KTLint to 0.38.1
+- Update KTLint to 0.39.0
 - Update GoogleJavaFormatter to 1.9
 - Run `pretty-format-java` serially to prevent multiple-downloads of the same Java artifact. [PR #23](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/23) - [@ineiti](https://github.com/ineiti) thanks for your contribution
 - Internal update of download logic to reduce race coditions while download big artifacts from network. [PR #24](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/24)
