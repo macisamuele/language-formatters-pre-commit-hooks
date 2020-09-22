@@ -11,7 +11,7 @@ from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-__KTLINT_VERSION = '0.38.1'
+__KTLINT_VERSION = "0.39.0"
 
 
 def __download_kotlin_formatter_jar(version):  # pragma: no cover
