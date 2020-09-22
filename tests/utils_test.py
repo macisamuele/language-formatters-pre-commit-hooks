@@ -4,6 +4,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import os
+import sys
 from os.path import basename
 
 import mock
@@ -18,8 +19,15 @@ from language_formatters_pre_commit_hooks.utils import run_command
 @pytest.mark.parametrize(
     'command, expected_status, expected_output',
     [
-        ['echo "1"', 0, '1\n'],
-        ['echo "1" | grep 0', 1, ''],
+        ('echo 1', 0, '1{}'.format(os.linesep)),
+        pytest.param(
+            'echo 1 | grep 0', 1, '',
+            marks=pytest.mark.skipif(condition=sys.platform == 'win32', reason='Windows does not have `grep`'),
+        ),
+        pytest.param(
+            'echo 1 | findstr 0', 1, '',
+            marks=pytest.mark.skipif(condition=sys.platform != 'win32', reason='Linux and MacOS does not have `findstr`'),
+        ),
         ['true', 0, ''],
         ['false', 1, ''],
     ],
