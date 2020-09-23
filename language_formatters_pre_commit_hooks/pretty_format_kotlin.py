@@ -6,12 +6,10 @@ from __future__ import unicode_literals
 import argparse
 import sys
 
+from language_formatters_pre_commit_hooks import _get_default_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
 from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
-
-
-__KTLINT_VERSION = '0.38.1'
 
 
 def __download_kotlin_formatter_jar(version):  # pragma: no cover
@@ -46,7 +44,7 @@ def pretty_format_kotlin(argv=None):
     parser.add_argument(
         '--ktlint-version',
         dest='ktlint_version',
-        default=__KTLINT_VERSION,
+        default=_get_default_version('ktlint'),
         help='KTLint version to use (default %(default)s)',
     )
 
