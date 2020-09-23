@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  schedule:
+  - cron: 0 0 * * *    # every day at midnight
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: hmarr/debug-action@v1.0.0
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Configure git configs
+      run: |
+        git config --global user.email "macisamuele@users.noreply.github.com"
+        git config --global user.name "Samuele Maci (bot)"
+    - name: Install Python dependencies
+      run: pip install pre-commit
+    - run: |
+        python .github/workflows/bump_external_releases.py
+        echo "::set-env GIT_SHA=$(git rev-parse HEAD)"
+    - name: Create Pull Request
+      id: cpr
+      if: ${{ env.GIT_SHA != github.sha }}
+      uses: peter-evans/create-pull-request@v3
+      with:
+        title: '[Automated PR] Bump KTLint and/or Google Java Formatter'
+        body: As the title says :)
+        reviewers: macisamuele
+        labels: automerge
+        branch-suffix: timestamp
+        delete-branch: true
+        draft: false
+    - name: Provide PR details
+      run: echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+      if: success()
