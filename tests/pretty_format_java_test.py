@@ -14,7 +14,7 @@ from tests.conftest import undecorate_function
 
 @pytest.fixture(autouse=True)
 def change_dir():
-    with change_dir_context('test-data/pretty_format_java/'):
+    with change_dir_context("test-data/pretty_format_java/"):
         yield
 
 
@@ -26,9 +26,10 @@ def undecorate_method():
 
 
 @pytest.mark.parametrize(
-    ('filename', 'expected_retval'), (
-        ('valid.java', 0),
-        ('invalid.java', 1),
+    ("filename", "expected_retval"),
+    (
+        ("valid.java", 0),
+        ("invalid.java", 1),
     ),
 )
 def test_pretty_format_java(undecorate_method, filename, expected_retval):
@@ -36,12 +37,12 @@ def test_pretty_format_java(undecorate_method, filename, expected_retval):
 
 
 def test_pretty_format_java_autofix(tmpdir, undecorate_method):
-    srcfile = tmpdir.join('to_be_fixed.java')
+    srcfile = tmpdir.join("to_be_fixed.java")
     shutil.copyfile(
-        'invalid.java',
+        "invalid.java",
         srcfile.strpath,
     )
-    assert undecorate_method(['--autofix', srcfile.strpath]) == 1
+    assert undecorate_method(["--autofix", srcfile.strpath]) == 1
 
     # file was formatted (shouldn't trigger linter again)
     ret = undecorate_method([srcfile.strpath])

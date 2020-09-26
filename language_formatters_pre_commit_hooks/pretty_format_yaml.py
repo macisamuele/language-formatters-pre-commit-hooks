@@ -40,28 +40,25 @@ def _process_single_document(document, yaml):
 def pretty_format_yaml(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--autofix',
-        action='store_true',
-        dest='autofix',
-        help='Automatically fixes encountered not-pretty-formatted files',
+        "--autofix",
+        action="store_true",
+        dest="autofix",
+        help="Automatically fixes encountered not-pretty-formatted files",
     )
     parser.add_argument(
-        '--indent',
+        "--indent",
         type=int,
-        default='2',
-        help=(
-            'The number of indent spaces or a string to be used as delimiter'
-            ' for indentation level e.g. 4 or "\t" (Default: 2)'
-        ),
+        default="2",
+        help=("The number of indent spaces or a string to be used as delimiter" ' for indentation level e.g. 4 or "\t" (Default: 2)'),
     )
     parser.add_argument(
-        '--preserve-quotes',
-        action='store_true',
-        dest='preserve_quotes',
-        help='Keep existing string quoting',
+        "--preserve-quotes",
+        action="store_true",
+        dest="preserve_quotes",
+        help="Keep existing string quoting",
     )
 
-    parser.add_argument('filenames', nargs='*', help='Filenames to fix')
+    parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
 
     status = 0
@@ -72,22 +69,22 @@ def pretty_format_yaml(argv=None):
     # Prevent ruamel.yaml to wrap yaml lines
     yaml.width = maxsize
 
-    separator = '---\n'
+    separator = "---\n"
 
     for yaml_file in set(args.filenames):
         with open(yaml_file) as f:
-            string_content = ''.join(f.readlines())
+            string_content = "".join(f.readlines())
 
         # Split multi-document file into individual documents
         #
         # Not using yaml.load_all() because it reformats primitive (non-YAML) content. It removes
         # newline characters.
-        separator_pattern = r'^---\s*\n'
+        separator_pattern = r"^---\s*\n"
         original_docs = re.split(separator_pattern, string_content, flags=re.MULTILINE)
 
         # A valid multi-document YAML file might starts with the separator.
         # In this case the first document of original docs will be empty and should not be consdered
-        if string_content.startswith('---'):
+        if string_content.startswith("---"):
             original_docs = original_docs[1:]
 
         pretty_docs = []
@@ -99,21 +96,21 @@ def pretty_format_yaml(argv=None):
                     pretty_docs.append(content)
 
             # Start multi-doc file with separator
-            pretty_content = '' if len(pretty_docs) == 1 else separator
+            pretty_content = "" if len(pretty_docs) == 1 else separator
             pretty_content += separator.join(pretty_docs)
 
             if string_content != pretty_content:
-                print('File {} is not pretty-formatted'.format(yaml_file))
+                print("File {} is not pretty-formatted".format(yaml_file))
 
                 if args.autofix:
-                    print('Fixing file {}'.format(yaml_file))
-                    with io.open(yaml_file, 'w', encoding='UTF-8') as f:
+                    print("Fixing file {}".format(yaml_file))
+                    with io.open(yaml_file, "w", encoding="UTF-8") as f:
                         f.write(text_type(pretty_content))
 
                 status = 1
         except YAMLError:  # pragma: no cover
             print(
-                'Input File {} is not a valid YAML file, consider using check-yaml'.format(
+                "Input File {} is not a valid YAML file, consider using check-yaml".format(
                     yaml_file,
                 ),
             )
@@ -122,5 +119,5 @@ def pretty_format_yaml(argv=None):
     return status
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(pretty_format_yaml())

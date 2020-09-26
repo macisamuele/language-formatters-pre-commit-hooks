@@ -20,6 +20,6 @@ def change_dir_context(directory):
 @contextmanager
 def undecorate_function(func):
     passed_function = func
-    func = getattr(passed_function, '__wrapped__', passed_function)
+    func = getattr(passed_function, "__wrapped__", passed_function)
     yield func
     func = passed_function
