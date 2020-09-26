@@ -44,12 +44,3 @@ endif
 	git commit -m "Release version ${NEXT_VERSION}"
 	git tag "v${NEXT_VERSION}"
 	git push origin --atomic master "v${NEXT_VERSION}"
-
-
-.PHONY: bump-download-releases
-bump-download-releases: export KLINT_VERSION = $(shell curl --silent https://api.github.com/repos/pinterest/ktlint/releases/latest | jq -r .name)
-bump-download-releases: export GOOGLE_JAVA_FORMATTER_VERSION = $(shell curl --silent https://api.github.com/repos/google/google-java-format/releases/latest | jq -r .name)
-bump-download-releases:
-	sed -ri "s/(KTLINT_VERSION = )'.*'/\1'${KLINT_VERSION}'/" language_formatters_pre_commit_hooks/pretty_format_kotlin.py
-	sed -ri "s/(GOOGLE_JAVA_FORMATTER_VERSION = )'.*'/\1'${GOOGLE_JAVA_FORMATTER_VERSION}'/" language_formatters_pre_commit_hooks/pretty_format_java.py
-	git add --patch language_formatters_pre_commit_hooks/pretty_format_kotlin.py language_formatters_pre_commit_hooks/pretty_format_java.py

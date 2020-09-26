@@ -6,12 +6,10 @@ from __future__ import unicode_literals
 import argparse
 import sys
 
+from language_formatters_pre_commit_hooks import _get_default_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
 from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
-
-
-__GOOGLE_JAVA_FORMATTER_VERSION = '1.9'
 
 
 def __download_google_java_formatter_jar(version):  # pragma: no cover
@@ -47,7 +45,7 @@ def pretty_format_java(argv=None):
     parser.add_argument(
         '--google-java-formatter-version',
         dest='google_java_formatter_version',
-        default=__GOOGLE_JAVA_FORMATTER_VERSION,
+        default=_get_default_version('google_java_formatter'),
         help='Google Java Formatter version to use (default %(default)s)',
     )
     parser.add_argument(
