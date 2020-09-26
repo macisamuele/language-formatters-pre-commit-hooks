@@ -16,6 +16,11 @@ jobs:
       matrix:
         pyversion: [2.7, 3.6, 3.7]
         os: [macos-latest, ubuntu-latest, windows-latest]
+
+    env:
+      OS: ${{ matrix.os }}
+      PYTHON: ${{ matrix.pyversion }}
+
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -44,6 +49,11 @@ jobs:
       run: pip install codecov tox tox-gh-actions
     - name: Run Tox
       run: tox
+    - name: Upload coverage to Codecov
+      if: ${{ success() }}
+      uses: codecov/codecov-action@v1
+      with:
+        env_vars: OS,PYTHON
 
   precommit:
     runs-on: ubuntu-latest
@@ -58,31 +68,3 @@ jobs:
       run: pip install tox
     - name: Run Tox
       run: tox -e pre-commit
-
-  coverage:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v2
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-    - name: Setup Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        override: true
-    - name: Setup Java
-      uses: actions/setup-java@v1
-      with:
-        java-version: '11'
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.15.2
-    - name: Install Python dependencies
-      run: pip install codecov tox
-    - name: Run Tox
-      run: tox -e coverage
