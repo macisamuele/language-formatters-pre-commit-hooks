@@ -22,7 +22,8 @@ jobs:
         git config --global user.name "Samuele Maci (bot)"
     - name: Install Python dependencies
       run: pip install pre-commit
-    - run: |
+    - name: Bump External Releases (tool)
+      run: |
         python .github/workflows/bump_external_releases.py
         echo "::set-env GIT_SHA=$(git rev-parse HEAD)"
     - name: Create Pull Request
