@@ -15,7 +15,7 @@ from tests.conftest import undecorate_function
 
 @pytest.fixture(autouse=True)
 def change_dir():
-    with change_dir_context('test-data/pretty_format_rust/'):
+    with change_dir_context("test-data/pretty_format_rust/"):
         yield
 
 
@@ -27,9 +27,10 @@ def undecorate_method():
 
 
 @pytest.mark.parametrize(
-    ('filename', 'expected_retval'), (
-        ('valid/src/main.rs', 0),
-        ('invalid/src/main.rs', 1),
+    ("filename", "expected_retval"),
+    (
+        ("valid/src/main.rs", 0),
+        ("invalid/src/main.rs", 1),
     ),
 )
 def test_pretty_format_rust(undecorate_method, filename, expected_retval):
@@ -39,15 +40,15 @@ def test_pretty_format_rust(undecorate_method, filename, expected_retval):
 
 
 def test_pretty_format_rust_autofix(tmpdir, undecorate_method):
-    cargo_file = tmpdir.join('Cargo.toml')
-    shutil.copyfile('invalid/Cargo.toml', cargo_file.strpath)
+    cargo_file = tmpdir.join("Cargo.toml")
+    shutil.copyfile("invalid/Cargo.toml", cargo_file.strpath)
 
-    tmpdir.mkdir('src')
-    src_file = tmpdir.join('src', 'main.rs')
-    shutil.copyfile('invalid/src/main.rs', src_file.strpath)
+    tmpdir.mkdir("src")
+    src_file = tmpdir.join("src", "main.rs")
+    shutil.copyfile("invalid/src/main.rs", src_file.strpath)
 
     with change_dir_context(tmpdir.strpath):
-        assert undecorate_method(['--autofix', src_file.strpath]) == 1
+        assert undecorate_method(["--autofix", src_file.strpath]) == 1
 
         # file was formatted (shouldn't trigger linter again)
         ret = undecorate_method([src_file.strpath])

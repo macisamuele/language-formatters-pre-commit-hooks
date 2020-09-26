@@ -15,17 +15,17 @@ def _get_eol_attribute():
     Retrieve eol attribute defined for golang files
     The method will return None in case of any error interacting with git
     """
-    status_code, output = run_command('git check-attr -z eol -- filename.go')
+    status_code, output = run_command("git check-attr -z eol -- filename.go")
     if status_code != 0:
         return None
 
     try:
         # Expected output: "filename.go\0eol\0lf\0"
-        _, _, eol, _ = output.split('\0')
+        _, _, eol, _ = output.split("\0")
         return eol
     except:  # noqa: E722 (allow usage of bare 'except')
         print(
-            '`git check-attr` output is not consistent to `<filename>\0<key>\0<value>\0` format: {output}'.format(
+            "`git check-attr` output is not consistent to `<filename>\0<key>\0<value>\0` format: {output}".format(
                 output=output,
             ),
             file=sys.stderr,
@@ -37,19 +37,19 @@ def _get_eol_attribute():
 def pretty_format_golang(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--autofix',
-        action='store_true',
-        dest='autofix',
-        help='Automatically fixes encountered not-pretty-formatted files',
+        "--autofix",
+        action="store_true",
+        dest="autofix",
+        help="Automatically fixes encountered not-pretty-formatted files",
     )
 
-    parser.add_argument('filenames', nargs='*', help='Filenames to fix')
+    parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
 
     status, output = run_command(
-        'gofmt{} -l {}'.format(
-            ' -w' if args.autofix else '',
-            ' '.join(set(args.filenames)),
+        "gofmt{} -l {}".format(
+            " -w" if args.autofix else "",
+            " ".join(set(args.filenames)),
         ),
     )
 
@@ -61,23 +61,23 @@ def pretty_format_golang(argv=None):
     if output:
         status = 1
         print(
-            '{}: {}'.format(
-                'The following files have been fixed by gofmt' if args.autofix else 'The following files are not properly formatted',
-                ', '.join(output.splitlines()),
+            "{}: {}".format(
+                "The following files have been fixed by gofmt" if args.autofix else "The following files are not properly formatted",
+                ", ".join(output.splitlines()),
             ),
         )
-        if sys.platform == 'win32':  # pragma: no cover
+        if sys.platform == "win32":  # pragma: no cover
             eol_attribute = _get_eol_attribute()
-            if eol_attribute and eol_attribute != 'lf':
+            if eol_attribute and eol_attribute != "lf":
                 print(
-                    'Hint: gofmt uses LF (aka `\\n`) as new line, but on Windows the default new line is CRLF (aka `\\r\\n`). '
-                    'You might want to ensure that go files are forced to use LF via `.gitattributes`. '
-                    'Example: https://github.com/macisamuele/language-formatters-pre-commit-hooks/commit/53f27fda02ead5b1b9b6a9bbd9c36bb66d229887',  # noqa: E501
+                    "Hint: gofmt uses LF (aka `\\n`) as new line, but on Windows the default new line is CRLF (aka `\\r\\n`). "
+                    "You might want to ensure that go files are forced to use LF via `.gitattributes`. "
+                    "Example: https://github.com/macisamuele/language-formatters-pre-commit-hooks/commit/53f27fda02ead5b1b9b6a9bbd9c36bb66d229887",  # noqa: E501
                     file=sys.stderr,
                 )
 
     return status
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(pretty_format_golang())

@@ -9,9 +9,11 @@ from decorator import decorator
 
 from language_formatters_pre_commit_hooks.utils import run_command
 
-_DEFAULT_MESSAGE_TEMPLATE = '{required_tool} is required to run this pre-commit hook. ' \
-                            'Make sure that you have it installed and available on your path.\n' \
-                            'Download/Install URL: {install_url}'
+_DEFAULT_MESSAGE_TEMPLATE = (
+    "{required_tool} is required to run this pre-commit hook. "
+    "Make sure that you have it installed and available on your path.\n"
+    "Download/Install URL: {install_url}"
+)
 
 
 def _assert_command_succeed(command, assertion_error_message):
@@ -22,10 +24,10 @@ def _assert_command_succeed(command, assertion_error_message):
 @decorator
 def java_required(f, *args, **kwargs):
     _assert_command_succeed(
-        command='java -version',
+        command="java -version",
         assertion_error_message=_DEFAULT_MESSAGE_TEMPLATE.format(
-            required_tool='JRE',
-            install_url='https://www.java.com/en/download/',
+            required_tool="JRE",
+            install_url="https://www.java.com/en/download/",
         ),
     )
     return f(*args, **kwargs)
@@ -34,10 +36,10 @@ def java_required(f, *args, **kwargs):
 @decorator
 def golang_required(f, *args, **kwargs):
     _assert_command_succeed(
-        command='go version',
+        command="go version",
         assertion_error_message=_DEFAULT_MESSAGE_TEMPLATE.format(
-            required_tool='golang/gofmt',
-            install_url='https://golang.org/doc/install#download',
+            required_tool="golang/gofmt",
+            install_url="https://golang.org/doc/install#download",
         ),
     )
 
@@ -46,12 +48,12 @@ def golang_required(f, *args, **kwargs):
 
 @decorator
 def rust_required(f, *args, **kwargs):
-    rust_toolchain_version = getenv('RUST_TOOLCHAIN', 'stable')
+    rust_toolchain_version = getenv("RUST_TOOLCHAIN", "stable")
     _assert_command_succeed(
-        command='cargo +{} fmt  -- --version'.format(rust_toolchain_version),
+        command="cargo +{} fmt  -- --version".format(rust_toolchain_version),
         assertion_error_message=_DEFAULT_MESSAGE_TEMPLATE.format(
-            required_tool='rustfmt',
-            install_url='https://github.com/rust-lang-nursery/rustfmt#quick-start',
+            required_tool="rustfmt",
+            install_url="https://github.com/rust-lang-nursery/rustfmt#quick-start",
         ),
     )
 

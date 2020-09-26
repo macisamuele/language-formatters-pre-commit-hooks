@@ -16,23 +16,25 @@ from language_formatters_pre_commit_hooks.pretty_format_ini import pretty_format
 def change_dir():
     working_directory = os.getcwd()
     try:
-        os.chdir('test-data/pretty_format_ini/')
+        os.chdir("test-data/pretty_format_ini/")
         yield
     finally:
         os.chdir(working_directory)
 
 
 @pytest.mark.parametrize(
-    ('filename', 'expected_retval'), (
+    ("filename", "expected_retval"),
+    (
         pytest.param(
-            'pretty-formatted.ini', 0,
+            "pretty-formatted.ini",
+            0,
             marks=pytest.mark.xfail(
                 condition=not six.PY3,
-                reason='ConfigParser writing format has changed between Python2 and Python3, let\'s test it only once',
+                reason="ConfigParser writing format has changed between Python2 and Python3, let's test it only once",
             ),
         ),
-        ('not-pretty-formatted.ini', 1),
-        ('not-valid-file.ini', 1),
+        ("not-pretty-formatted.ini", 1),
+        ("not-valid-file.ini", 1),
     ),
 )
 def test_pretty_format_ini(filename, expected_retval):
@@ -40,12 +42,12 @@ def test_pretty_format_ini(filename, expected_retval):
 
 
 def test_pretty_format_ini_autofix(tmpdir):
-    srcfile = tmpdir.join('to_be_fixed.ini')
+    srcfile = tmpdir.join("to_be_fixed.ini")
     shutil.copyfile(
-        'not-pretty-formatted.ini',
+        "not-pretty-formatted.ini",
         srcfile.strpath,
     )
-    assert pretty_format_ini(['--autofix', srcfile.strpath]) == 1
+    assert pretty_format_ini(["--autofix", srcfile.strpath]) == 1
 
     # file was formatted (shouldn't trigger linter again)
     ret = pretty_format_ini([srcfile.strpath])
