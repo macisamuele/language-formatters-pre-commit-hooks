@@ -67,4 +67,5 @@ if __name__ == "__main__":
     for bumper in (bump_ktlint, bump_google_java_formatter):
         something_is_bumped |= bumper()
 
-    exit(0 if something_is_bumped else 1)
+    if not something_is_bumped:
+        print("No tool need to be bumped")
