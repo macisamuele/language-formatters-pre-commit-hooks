@@ -58,3 +58,8 @@ repos:
   hooks:
   - id: mypy
     exclude: ^(\.github/workflows/bump_external_releases\.py)$
+- repo: https://github.com/PyCQA/bandit
+  rev: 1.6.2
+  hooks:
+  - id: bandit
+    exclude: ^tests/.*\.py$
