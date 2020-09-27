@@ -8,14 +8,16 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import typing
 
 import requests
 from six.moves.urllib.parse import urlparse
 
 
 def run_command(command):
+    # type: (typing.Text) -> typing.Tuple[int, typing.Text]
     print("[cwd={cwd}] Run command: {command}".format(command=command, cwd=os.getcwd()), file=sys.stderr)
-    return_code, output = None, None
+    return_code, output = 1, ""
     try:
         return_code, output = (
             0,
@@ -32,18 +34,20 @@ def run_command(command):
 
 
 def _base_directory():
+    # type: () -> typing.Text
     # Extracted from pre-commit code:
     # https://github.com/pre-commit/pre-commit/blob/master/pre_commit/store.py
     return os.path.realpath(
-        os.environ.get("PRE_COMMIT_HOME")
+        os.environ.get(str("PRE_COMMIT_HOME"))
         or os.path.join(
-            os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache"),
+            os.environ.get(str("XDG_CACHE_HOME")) or os.path.expanduser("~/.cache"),
             "pre-commit",
         ),
     )
 
 
 def download_url(url, file_name=None):
+    # type: (typing.Text, typing.Optional[typing.Text]) -> typing.Text
     base_directory = _base_directory()
 
     final_file = os.path.join(
@@ -78,6 +82,7 @@ def download_url(url, file_name=None):
 
 
 def remove_trailing_whitespaces_and_set_new_line_ending(string):
+    # type: (typing.Text) -> typing.Text
     return "{content}\n".format(
         content="\n".join(line.rstrip() for line in string.splitlines()).rstrip(),
     )

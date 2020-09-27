@@ -1,12 +1,14 @@
 [report]
 exclude_lines =
-	except [^ ]+ as ignore:
+	pass
     def __repr__
+    except [^ ]+ as ignore:
+    if __name__ == .__main__.:
+    if getattr\(typing, "TYPE_CHECKING", False\):
+    if typing.TYPE_CHECKING:
+    pragma: no cover
     raise AssertionError
     raise NotImplementedError
-    if __name__ == .__main__.:
-    pragma: no cover
-	pass
 fail_under = 100
 show_missing = True
 skip_covered = True

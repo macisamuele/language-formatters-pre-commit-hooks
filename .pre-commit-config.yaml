@@ -57,3 +57,4 @@ repos:
   rev: v0.782
   hooks:
   - id: mypy
+    exclude: ^(\.github/workflows/bump_external_releases\.py)$

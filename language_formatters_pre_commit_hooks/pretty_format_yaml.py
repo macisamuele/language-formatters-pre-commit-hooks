@@ -7,6 +7,7 @@ import argparse
 import io
 import re
 import sys
+import typing
 from sys import maxsize
 
 from ruamel.yaml import YAML
@@ -16,6 +17,8 @@ from six import text_type
 
 
 def _process_single_document(document, yaml):
+    # type: (typing.Text, YAML) -> typing.Text
+
     """Pretty format one YAML document.
 
     This is needed in order to prevent `ruamel.yaml` to interfere with documents that have primitive types on the document root.
@@ -38,6 +41,7 @@ def _process_single_document(document, yaml):
 
 
 def pretty_format_yaml(argv=None):
+    # type: (typing.Optional[typing.List[typing.Text]]) -> int
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",
@@ -72,8 +76,8 @@ def pretty_format_yaml(argv=None):
     separator = "---\n"
 
     for yaml_file in set(args.filenames):
-        with open(yaml_file) as f:
-            string_content = "".join(f.readlines())
+        with open(yaml_file) as input_file:
+            string_content = "".join(input_file.readlines())
 
         # Split multi-document file into individual documents
         #
@@ -104,8 +108,8 @@ def pretty_format_yaml(argv=None):
 
                 if args.autofix:
                     print("Fixing file {}".format(yaml_file))
-                    with io.open(yaml_file, "w", encoding="UTF-8") as f:
-                        f.write(text_type(pretty_content))
+                    with io.open(yaml_file, "w", encoding="UTF-8") as output_file:
+                        output_file.write(text_type(pretty_content))
 
                 status = 1
         except YAMLError:  # pragma: no cover
