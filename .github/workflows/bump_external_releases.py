@@ -4,11 +4,10 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import json
+import subprocess  # nosec: disable=B603
 import sys
 import traceback
 from pathlib import Path
-from subprocess import check_call
-from subprocess import PIPE
 from urllib.request import urlopen
 
 
@@ -18,7 +17,7 @@ if sys.version_info < (3, 6):
 
 def bump_release(github_project, tool_name):
     try:
-        with urlopen(f"https://api.github.com/repos/{github_project}/releases/latest") as request:
+        with urlopen(f"https://api.github.com/repos/{github_project}/releases/latest") as request:  # nosec: disable=B310
             latest_version = json.load(request)["name"]
     except:  # noqa: E722 (allow usage of bare 'except')
         traceback.print_exc()
@@ -39,7 +38,7 @@ def bump_release(github_project, tool_name):
 
     def call(*args):
         print(f"Executing: {args}")
-        check_call(args=args, stdout=PIPE)
+        subprocess.check_call(args=args, stdout=subprocess.PIPE)  # nosec: disable=B603
 
     call("pre-commit", "run", str(tool_name_version_path.absolute()))
     call("git", "add", str(tool_name_version_path.absolute()))

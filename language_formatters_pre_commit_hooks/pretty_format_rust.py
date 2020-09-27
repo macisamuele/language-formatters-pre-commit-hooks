@@ -28,12 +28,7 @@ def pretty_format_rust(argv=None):
 
     rust_toolchain_version = getenv("RUST_TOOLCHAIN", "stable")
     # Check
-    status_code, output = run_command(
-        "cargo +{} fmt -- --check {}".format(
-            rust_toolchain_version,
-            " ".join(set(args.filenames)),
-        ),
-    )
+    status_code, output = run_command("cargo", "+{}".format(rust_toolchain_version), "fmt", "--", "--check", *args.filenames)
     not_well_formatted_files = sorted(line.split()[2] for line in output.splitlines() if line.startswith("Diff in "))
     if not_well_formatted_files:
         print(
@@ -43,12 +38,7 @@ def pretty_format_rust(argv=None):
             ),
         )
         if args.autofix:
-            run_command(
-                "cargo +{} fmt -- {}".format(
-                    rust_toolchain_version,
-                    " ".join(not_well_formatted_files),
-                ),
-            )
+            run_command("cargo", "+{}".format(rust_toolchain_version), "fmt", "--", *not_well_formatted_files)
 
     return 1 if status_code != 0 or not_well_formatted_files else 0
 

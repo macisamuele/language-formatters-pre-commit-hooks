@@ -16,7 +16,7 @@ if getattr(typing, "TYPE_CHECKING", False):
 
 def _is_command_success(*command_args):
     # type: (typing.Text) -> bool
-    exit_status, _ = run_command(" ".join(command_args))
+    exit_status, _ = run_command(*command_args)
     return exit_status == 0
 
 
