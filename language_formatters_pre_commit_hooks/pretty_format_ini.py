@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import argparse
 import io
 import sys
+import typing
 
 from six import PY3
 from six import StringIO
@@ -17,6 +18,7 @@ from language_formatters_pre_commit_hooks.utils import remove_trailing_whitespac
 
 
 def pretty_format_ini(argv=None):
+    # type: (typing.Optional[typing.List[typing.Text]]) -> int
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",
@@ -31,15 +33,15 @@ def pretty_format_ini(argv=None):
     status = 0
 
     for ini_file in set(args.filenames):
-        with open(ini_file) as f:
-            string_content = "".join(f.readlines())
+        with open(ini_file) as input_file:
+            string_content = "".join(input_file.readlines())
 
         config_parser = ConfigParser()
         try:
             if PY3:  # pragma: no cover # py3+ only
                 config_parser.read_string(string_content)
             else:  # pragma: no cover # py27 only
-                config_parser.readfp(StringIO(string_content))
+                config_parser.readfp(StringIO(str(string_content)))
 
             pretty_content = StringIO()
             config_parser.write(pretty_content)
@@ -53,8 +55,8 @@ def pretty_format_ini(argv=None):
 
                 if args.autofix:
                     print("Fixing file {}".format(ini_file))
-                    with io.open(ini_file, "w", encoding="UTF-8") as f:
-                        f.write(text_type(pretty_content_str))
+                    with io.open(ini_file, "w", encoding="UTF-8") as output_file:
+                        output_file.write(text_type(pretty_content_str))
 
                 status = 1
         except Error:

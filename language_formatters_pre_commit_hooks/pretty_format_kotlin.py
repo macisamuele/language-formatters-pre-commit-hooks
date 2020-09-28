@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 
 import argparse
 import sys
+import typing
 
 from language_formatters_pre_commit_hooks import _get_default_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
@@ -13,7 +14,9 @@ from language_formatters_pre_commit_hooks.utils import run_command
 
 
 def __download_kotlin_formatter_jar(version):  # pragma: no cover
+    # type: (typing.Text) -> typing.Text
     def get_url(_version):
+        # type: (typing.Text) -> typing.Text
         # Links extracted from https://github.com/pinterest/ktlint/
         return "https://github.com/pinterest/ktlint/releases/download/{version}/ktlint".format(
             version=_version,
@@ -34,6 +37,7 @@ def __download_kotlin_formatter_jar(version):  # pragma: no cover
 
 @java_required
 def pretty_format_kotlin(argv=None):
+    # type: (typing.Optional[typing.List[typing.Text]]) -> int
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",
@@ -66,7 +70,7 @@ def pretty_format_kotlin(argv=None):
         ),
     )
 
-    not_pretty_formatted_files = set()
+    not_pretty_formatted_files = set()  # type: typing.Set[typing.Text]
     if check_status != 0:
         not_pretty_formatted_files.update(line.split(":", 1)[0] for line in check_output.splitlines())
 

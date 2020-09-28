@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 
 import argparse
 import sys
+import typing
 from os import getenv
 
 from language_formatters_pre_commit_hooks.pre_conditions import rust_required
@@ -13,6 +14,7 @@ from language_formatters_pre_commit_hooks.utils import run_command
 
 @rust_required
 def pretty_format_rust(argv=None):
+    # type: (typing.Optional[typing.List[typing.Text]]) -> int
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",

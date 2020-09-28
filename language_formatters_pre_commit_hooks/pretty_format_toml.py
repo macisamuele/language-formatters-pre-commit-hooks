@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import argparse
 import io
 import sys
+import typing
 
 from toml import dumps
 from toml import loads
@@ -15,6 +16,7 @@ from language_formatters_pre_commit_hooks.utils import remove_trailing_whitespac
 
 
 def pretty_format_toml(argv=None):
+    # type: (typing.Optional[typing.List[typing.Text]]) -> int
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",
@@ -29,8 +31,8 @@ def pretty_format_toml(argv=None):
     status = 0
 
     for toml_file in set(args.filenames):
-        with open(toml_file) as f:
-            string_content = "".join(f.readlines())
+        with open(toml_file) as input_file:
+            string_content = "".join(input_file.readlines())
 
         try:
             prettified_content = remove_trailing_whitespaces_and_set_new_line_ending(
@@ -42,8 +44,8 @@ def pretty_format_toml(argv=None):
 
                 if args.autofix:
                     print("Fixing file {}".format(toml_file))
-                    with io.open(toml_file, "w", encoding="UTF-8") as f:
-                        f.write(prettified_content)
+                    with io.open(toml_file, "w", encoding="UTF-8") as output_file:
+                        output_file.write(prettified_content)
 
                 status = 1
         except TomlDecodeError:

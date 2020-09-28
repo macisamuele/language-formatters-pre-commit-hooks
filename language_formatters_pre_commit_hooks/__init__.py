@@ -3,6 +3,8 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import typing
+
 import pkg_resources
 
 
@@ -10,6 +12,7 @@ __version__ = pkg_resources.get_distribution("language_formatters_pre_commit_hoo
 
 
 def _get_default_version(tool_name):  # pragma: no cover
+    # type: (typing.Text) -> typing.Text
     """
     Read tool_name default version.
     The method is intended to be used only from language_formatters_pre_commit_hooks modules

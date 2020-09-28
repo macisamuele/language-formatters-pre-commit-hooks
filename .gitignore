@@ -1,3 +1,4 @@
+!/.coveragerc/
 *.egg-info/
 *.pyc
 /.coverage*
@@ -9,3 +10,4 @@
 /dist/
 /venv/
 __pycache__/
+/.mypy_cache/

@@ -6,10 +6,11 @@ from __future__ import unicode_literals
 import mock
 import pytest
 
-from language_formatters_pre_commit_hooks.pre_conditions import _assert_command_succeed
+from language_formatters_pre_commit_hooks.pre_conditions import _ToolRequired
 from language_formatters_pre_commit_hooks.pre_conditions import golang_required
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
 from language_formatters_pre_commit_hooks.pre_conditions import rust_required
+from language_formatters_pre_commit_hooks.pre_conditions import ToolNotInstalled
 
 
 @pytest.fixture(params=[True, False])
@@ -17,22 +18,30 @@ def success(request):
     with mock.patch(
         "language_formatters_pre_commit_hooks.pre_conditions.run_command",
         autospec=True,
-        return_value=(0 if request.param else 1, None),
+        return_value=(0 if request.param else 1, ""),
     ):
         yield request.param
 
 
-def test___assert_command_succeed(success):
-    raised_exception = None
+def test__ToolRequired(success):
+    # type: (bool) -> None
+    decorator = _ToolRequired(tool_name="test", check_command=lambda: success, download_install_url="url")
+    assert decorator.is_tool_installed() == success
+
+    def throw_exception():
+        raise SyntaxError("This error is thrown by the decorated function")
+
     try:
-        _assert_command_succeed("command", "assert_message")
-    except AssertionError as e:
+        decorator(throw_exception)()
+    except Exception as e:
         raised_exception = e
 
     if success:
-        assert raised_exception is None
+        assert isinstance(raised_exception, SyntaxError)
     else:
-        assert isinstance(raised_exception, AssertionError) and "assert_message" == str(raised_exception)
+        assert isinstance(raised_exception, ToolNotInstalled)
+        assert raised_exception.tool_name == "test"
+        assert raised_exception.download_install_url == "url"
 
 
 @pytest.mark.parametrize(
@@ -51,10 +60,10 @@ def test_tool_required(success, decorator, assert_content):
     raised_exception = None
     try:
         func()
-    except AssertionError as e:
+    except ToolNotInstalled as e:
         raised_exception = e
 
     if success:
         assert raised_exception is None
     else:
-        assert isinstance(raised_exception, AssertionError) and assert_content in str(raised_exception)
+        assert isinstance(raised_exception, ToolNotInstalled) and assert_content in str(raised_exception)
