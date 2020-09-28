@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 
 import os
 import shutil
-import subprocess
+import subprocess  # nosec: disable=B603
 import sys
 import tempfile
 import typing
@@ -14,17 +14,16 @@ import requests
 from six.moves.urllib.parse import urlparse
 
 
-def run_command(command):
+def run_command(*command):
     # type: (typing.Text) -> typing.Tuple[int, typing.Text]
     print("[cwd={cwd}] Run command: {command}".format(command=command, cwd=os.getcwd()), file=sys.stderr)
     return_code, output = 1, ""
     try:
         return_code, output = (
             0,
-            subprocess.check_output(
+            subprocess.check_output(  # nosec: disable=B603
                 command,
                 stderr=subprocess.STDOUT,
-                shell=True,
             ).decode("utf-8"),
         )
     except subprocess.CalledProcessError as e:

@@ -68,14 +68,14 @@ def pretty_format_java(argv=None):
         args.google_java_formatter_version,
     )
 
-    status, output = run_command(
-        "java -jar {} --set-exit-if-changed{} {} {}".format(
-            google_java_formatter_jar,
-            " --aosp" if args.aosp else "",
-            "--replace" if args.autofix else "--dry-run",
-            " ".join(set(args.filenames)),
-        ),
-    )
+    cmd_args = ["java", "-jar", google_java_formatter_jar, "--set-exit-if-changed"]
+    if args.aosp:  # pragma: no cover
+        cmd_args.append("--aosp")
+    if args.autofix:
+        cmd_args.append("--replace")
+    else:
+        cmd_args.append("--dry-run")
+    status, output = run_command(*(cmd_args + args.filenames))
 
     if output:
         print(
