@@ -39,6 +39,8 @@ def pretty_format_rust(argv=None):
         )
         if args.autofix:
             run_command("cargo", "+{}".format(rust_toolchain_version), "fmt", "--", *not_well_formatted_files)
+    elif status_code != 0:
+        print("Detected not valid rust source files among {}".format("\n".join(sorted(args.filenames))))
 
     return 1 if status_code != 0 or not_well_formatted_files else 0
 
