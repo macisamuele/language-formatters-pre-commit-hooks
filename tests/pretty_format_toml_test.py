@@ -4,11 +4,11 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import os
-import shutil
 
 import pytest
 
 from language_formatters_pre_commit_hooks.pretty_format_toml import pretty_format_toml
+from tests import run_autofix_test
 
 
 @pytest.fixture(autouse=True)
@@ -24,9 +24,10 @@ def change_dir():
 @pytest.mark.parametrize(
     ("filename", "expected_retval"),
     (
+        ("invalid.toml", 1),
         ("pretty-formatted.toml", 0),
         ("not-pretty-formatted.toml", 1),
-        ("not-valid-file.toml", 1),
+        ("not-pretty-formatted_fixed.toml", 0),
     ),
 )
 def test_pretty_format_toml(filename, expected_retval):
@@ -34,13 +35,9 @@ def test_pretty_format_toml(filename, expected_retval):
 
 
 def test_pretty_format_toml_autofix(tmpdir):
-    srcfile = tmpdir.join("to_be_fixed.toml")
-    shutil.copyfile(
+    run_autofix_test(
+        tmpdir,
+        pretty_format_toml,
         "not-pretty-formatted.toml",
-        srcfile.strpath,
+        "not-pretty-formatted_fixed.toml",
     )
-    assert pretty_format_toml(["--autofix", srcfile.strpath]) == 1
-
-    # file was formatted (shouldn't trigger linter again)
-    ret = pretty_format_toml([srcfile.strpath])
-    assert ret == 0

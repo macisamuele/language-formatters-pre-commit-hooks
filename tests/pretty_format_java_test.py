@@ -8,8 +8,9 @@ import shutil
 import pytest
 
 from language_formatters_pre_commit_hooks.pretty_format_java import pretty_format_java
-from tests.conftest import change_dir_context
-from tests.conftest import undecorate_function
+from tests import change_dir_context
+from tests import run_autofix_test
+from tests import undecorate_function
 
 
 @pytest.fixture(autouse=True)
@@ -28,8 +29,10 @@ def undecorate_method():
 @pytest.mark.parametrize(
     ("filename", "expected_retval"),
     (
-        ("valid.java", 0),
         ("invalid.java", 1),
+        ("pretty-formatted.java", 0),
+        ("not-pretty-formatted.java", 1),
+        ("not-pretty-formatted_fixed.java", 0),
     ),
 )
 def test_pretty_format_java(undecorate_method, filename, expected_retval):
@@ -37,13 +40,4 @@ def test_pretty_format_java(undecorate_method, filename, expected_retval):
 
 
 def test_pretty_format_java_autofix(tmpdir, undecorate_method):
-    srcfile = tmpdir.join("to_be_fixed.java")
-    shutil.copyfile(
-        "invalid.java",
-        srcfile.strpath,
-    )
-    assert undecorate_method(["--autofix", srcfile.strpath]) == 1
-
-    # file was formatted (shouldn't trigger linter again)
-    ret = undecorate_method([srcfile.strpath])
-    assert ret == 0
+    run_autofix_test(tmpdir, undecorate_method, "not-pretty-formatted.java", "not-pretty-formatted_fixed.java")

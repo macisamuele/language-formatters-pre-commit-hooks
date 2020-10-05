@@ -4,11 +4,12 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import os
-import shutil
 
 import pytest
 
 from language_formatters_pre_commit_hooks.pretty_format_yaml import pretty_format_yaml
+from tests import run_autofix_test
+from tests.pretty_format_rust_test import undecorate_method
 
 
 @pytest.fixture(autouse=True)
@@ -41,23 +42,14 @@ def test_pretty_format_yaml(filename, expected_retval):
 
 
 @pytest.mark.parametrize(
-    ("no_pretty_file_name"),
+    ("no_pretty_file_name, fixed_file_name"),
     (
-        ("not-pretty-formatted.yaml"),
-        ("multi-doc-not-pretty-formatted.yaml"),
+        ("not-pretty-formatted.yaml", "not-pretty-formatted_fixed.yaml"),
+        ("multi-doc-not-pretty-formatted.yaml", "multi-doc-not-pretty-formatted_fixed.yaml"),
     ),
 )
-def test_pretty_format_yaml_autofix(tmpdir, no_pretty_file_name):
-    srcfile = tmpdir.join("to_be_fixed.yaml")
-    shutil.copyfile(
-        no_pretty_file_name,
-        srcfile.strpath,
-    )
-    assert pretty_format_yaml(["--autofix", srcfile.strpath]) == 1
-
-    # file was formatted (shouldn't trigger linter again)
-    ret = pretty_format_yaml([srcfile.strpath])
-    assert ret == 0
+def test_pretty_format_yaml_autofix(tmpdir, no_pretty_file_name, fixed_file_name):
+    run_autofix_test(tmpdir, pretty_format_yaml, no_pretty_file_name, fixed_file_name)
 
 
 def test_pretty_format_yaml_preserve_quotes():

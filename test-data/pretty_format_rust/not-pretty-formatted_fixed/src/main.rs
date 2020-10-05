@@ -1,3 +1,3 @@
-fn main_method() {
+fn main() {
     println!("Hello World!");
 }

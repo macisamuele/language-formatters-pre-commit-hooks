@@ -16,6 +16,12 @@ jobs:
       matrix:
         pyversion: [2.7, 3.6, 3.7]
         os: [macos-latest, ubuntu-latest, windows-latest]
+        exclude:
+        # Excluding tests on windows-python2.7 as there are failures on installing
+        # ruamel.yaml and I'm not looking forward to add effort on improving the build
+        # Windows tests will still be executed for python3+ so I guess that it should be fine
+        - os: windows-latest
+          pyversion: 2.7
 
     env:
       OS: ${{ matrix.os }}
