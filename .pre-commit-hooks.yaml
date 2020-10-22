@@ -16,7 +16,7 @@
   name: Google Java Formatter
   description: Runs Google Java Formatter over Java source files
   entry: pretty-format-java
-  language: python
+  language: docker
   types: [java]
   # this is needed because the hook downloads google-java-formatter and
   # we don't have yet a nice way of ensuring a single download over multiple runs
