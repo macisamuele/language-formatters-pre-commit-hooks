@@ -75,7 +75,7 @@ def download_url(url, file_name=None):
         tmp_file.flush()
         os.fsync(tmp_file.fileno())
 
-    os.rename(tmp_file_name, final_file)
+    shutil.copy(tmp_file_name, final_file)
 
     return final_file
 
