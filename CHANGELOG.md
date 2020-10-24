@@ -1,16 +1,17 @@
 Changelog
 =========
 
-unreleased (YYYY-MM-DD)
+1.6.0 (2020-10-24)
 -----------------------
 
-- Update KTLint to 0.38.1
+- Update KTLint to 0.39.0
 - Update GoogleJavaFormatter to 1.9
 - Run `pretty-format-java` serially to prevent multiple-downloads of the same Java artifact. [PR #23](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/23) - [@ineiti](https://github.com/ineiti) thanks for your contribution
 - Internal update of download logic to reduce race coditions while download big artifacts from network. [PR #24](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/24)
 - Bump min `pre-commit` supported version. [PR #27](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/27)
 - Allow `pretty-format-java` to modify the Google Java Formatter to use (`--google-java-formatter-version` CLI argument). [PR #30](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/30)
 - Allow `pretty-format-kotlin` to modify the KTLint to use (`--ktlint-version` CLI argument). [PR #30](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/30)
+- Enhance security in commands execution (prevent shell-injection). [PR #38](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/38)
 
 1.5.0 (2020-06-16)
 ------------------
