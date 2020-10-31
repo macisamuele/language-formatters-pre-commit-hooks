@@ -27,7 +27,7 @@ def __download_google_java_formatter_jar(version):  # pragma: no cover
 
     url_to_download = get_url(version)
     try:
-        return download_url(get_url(version), "ktlint{version}.jar".format(version=version))
+        return download_url(get_url(version), "google-java-formatter{version}.jar".format(version=version))
     except:  # noqa: E722 (allow usage of bare 'except')
         raise RuntimeError(
             "Failed to download {url}. Probably the requested version, {version}, is "
