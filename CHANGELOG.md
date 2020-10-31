@@ -1,8 +1,12 @@
 Changelog
 =========
 
+1.6.1 (2020-10-31)
+-----------------
+- Internal fix of downloaded files path. [PR #43](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/43)
+
 1.6.0 (2020-10-24)
------------------------
+------------------
 
 - Update KTLint to 0.39.0
 - Update GoogleJavaFormatter to 1.9
