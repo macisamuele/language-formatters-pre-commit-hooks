@@ -52,7 +52,7 @@ If you have [`aactivator`](https://github.com/Yelp/aactivator) installed this st
 
 Contributions are _always_ welcome.
 
-1. Fork the project ( <http://github.com/macisamuele/language-formatters-pre-commit-hooks/fork> )
+1. [Fork the project](http://github.com/macisamuele/language-formatters-pre-commit-hooks/fork)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Add your modifications
 4. Push to the branch (`git push origin my-new-feature`)
@@ -62,26 +62,26 @@ Contributions are _always_ welcome.
 
 ### How to deal with multiple Java versions?
 
-This might be relavant for `pretty-format-java` and `pretty-format-kotlin` hooks.
-The hooks depends on having `java` on version 11 or greather installed on your machine.
+This might be relevant for `pretty-format-java` and `pretty-format-kotlin` hooks.
+The hooks depends on having `java` on version **11** or greater installed on your machine.
 
-Still, as you're working with compiled-to-JVM languages it would be reasonable to assume that `java` would be installed on your system, but then it would not be reasonable thinking that you have the minimum required version insalled.
+As you're working with _compiled-to-JVM_ languages, we assume that you have `java` installed on your system. You might not have the minimum required version installed.
 
-To work-around such type of issue you have 2 main approaches available
+To work-around such scenario you have 2 approaches available:
 
-1. Have multiple JAVA versions installed on your system and ensure that while running the pre-commit hooks JRE 11+ is available on your `PATH` variable (ie. `PATH=${JRE_11_PATH}:${PATH} pre-commit run`).
+1. Have multiple `java` versions installed on your system and ensure that while running the pre-commit hooks JRE 11+ is available on your `PATH` variable (ie. `PATH=${JRE_11_PATH}:${PATH} pre-commit run`).
 
 2. Work around the issue by using [`docker`](https://www.docker.com/).
     ⚠: This approach has been tested (at the time of writing) on Linux and MacOS.
 
-    The appraoch should be prefered if you cannot install an additional JRE version on your system or if doing so is a big request (think to CI system within companies) but be aware that you ned to have `docker` installed on your system.
+    The latter approach should be preferred if you cannot install an additional JRE version on your system or if doing is unfeasible (e.g. on a CI system). Please note you need to have `docker` installed on your system.
 
     Add the following `Dockerfile` on your repository root (same directory where `.pre-commit-config.yaml` is stored)
 
     ```Dockerfile
     FROM python:3.7-alpine
 
-    # Install JRE-11 as we will run pre-commit hooks that depends an JAVA 11+
+    # Install JRE-11 as we will run pre-commit hooks that depends an Java 11+
     RUN apk add --no-cache openjdk11-jre
 
     ENV PRE_COMMIT_HOME /pre-commit-docker-cache
@@ -105,9 +105,9 @@ To work-around such type of issue you have 2 main approaches available
     repos:
     - repo: local
       hooks:
-      - id: pretty-format-java-in-docker    # Usful to eventually SKIP pre-commit hooks
+      - id: pretty-format-java-in-docker    # Useful to eventually SKIP pre-commit hooks
         name: pretty-format-java-in-docker  # This is required, put something sensible
-        language: docker                    # It explians itself
+        language: docker                    # Self explanatory
         entry: pretty-format-java           # Hook that you want to run in docker
         args: [...]                         # Arguments that would would pass to the hook (as if it was local)
         files: ^.*\.java$                   # File filter has to be added ;)
