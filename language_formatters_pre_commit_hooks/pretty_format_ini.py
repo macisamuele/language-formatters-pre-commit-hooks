@@ -8,6 +8,7 @@ import io
 import sys
 import typing
 
+from iniparse import INIConfig
 from six import PY3
 from six import StringIO
 from six import text_type
@@ -36,18 +37,17 @@ def pretty_format_ini(argv=None):
         with open(ini_file) as input_file:
             string_content = "".join(input_file.readlines())
 
-        config_parser = ConfigParser()
         try:
+            # INIConfig only supports strict mode for throwing errors
+            config_parser = ConfigParser()
             if PY3:  # pragma: no cover # py3+ only
                 config_parser.read_string(string_content)
             else:  # pragma: no cover # py27 only
                 config_parser.readfp(StringIO(str(string_content)))
-
-            pretty_content = StringIO()
-            config_parser.write(pretty_content)
+            config_parser = INIConfig(StringIO(str(string_content)), parse_exc=False)
 
             pretty_content_str = remove_trailing_whitespaces_and_set_new_line_ending(
-                pretty_content.getvalue(),
+                str(config_parser),
             )
 
             if string_content != pretty_content_str:
