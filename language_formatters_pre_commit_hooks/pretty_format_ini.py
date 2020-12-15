@@ -44,10 +44,10 @@ def pretty_format_ini(argv=None):
                 config_parser.read_string(string_content)
             else:  # pragma: no cover # py27 only
                 config_parser.readfp(StringIO(str(string_content)))
-            config_parser = INIConfig(StringIO(str(string_content)), parse_exc=False)
+            ini_config = INIConfig(StringIO(str(string_content)), parse_exc=False)
 
             pretty_content_str = remove_trailing_whitespaces_and_set_new_line_ending(
-                str(config_parser),
+                str(ini_config),
             )
 
             if string_content != pretty_content_str:
