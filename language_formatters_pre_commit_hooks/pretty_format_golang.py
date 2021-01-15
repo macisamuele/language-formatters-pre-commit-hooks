@@ -11,8 +11,7 @@ from language_formatters_pre_commit_hooks.pre_conditions import golang_required
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-def _get_eol_attribute():
-    # type: () -> typing.Optional[typing.Text]
+def _get_eol_attribute() -> typing.Optional[str]:
     """
     Retrieve eol attribute defined for golang files
     The method will return None in case of any error interacting with git
@@ -36,8 +35,7 @@ def _get_eol_attribute():
 
 
 @golang_required
-def pretty_format_golang(argv=None):
-    # type: (typing.Optional[typing.List[typing.Text]]) -> int
+def pretty_format_golang(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",

@@ -9,15 +9,14 @@ from contextlib import contextmanager
 from posixpath import basename
 from shutil import copyfile
 
-if getattr(typing, "TYPE_CHECKING", False):
-    import py
+import py
 
-    F = typing.TypeVar("F", bound=typing.Callable)
+
+F = typing.TypeVar("F", bound=typing.Callable)
 
 
 @contextmanager
-def change_dir_context(directory):
-    # type: (typing.Text) -> typing.Generator[None, None, None]
+def change_dir_context(directory: str) -> typing.Generator[None, None, None]:
     working_directory = os.getcwd()
     try:
         os.chdir(directory)
@@ -27,27 +26,24 @@ def change_dir_context(directory):
 
 
 @contextmanager
-def undecorate_function(func):
-    # type: (F) -> typing.Generator[F, None, None]
+def undecorate_function(func: F) -> typing.Generator[F, None, None]:
     passed_function = func
     func = getattr(passed_function, "__wrapped__", passed_function)
     yield func
     func = passed_function
 
 
-def __read_file(path):
-    # type: (typing.Text) -> typing.Text
+def __read_file(path: str) -> str:
     with open(path) as f:
         return "".join(f.readlines())
 
 
 def run_autofix_test(
-    tmpdir,  # type: py.path.local
-    method,  # type: typing.Callable[[typing.List[typing.Text]], int]
-    not_pretty_formatted_path,  # type: typing.Text
-    formatted_path,  # type: typing.Text
-):
-    # type: (...) -> None
+    tmpdir: py.path.local,
+    method: typing.Callable[[typing.List[str]], int],
+    not_pretty_formatted_path: str,
+    formatted_path: str,
+) -> None:
     tmpdir.mkdir("src")
     not_pretty_formatted_tmp_path = tmpdir.join("src").join(basename(not_pretty_formatted_path)).strpath
 

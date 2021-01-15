@@ -9,13 +9,12 @@ import subprocess  # nosec: disable=B603
 import sys
 import tempfile
 import typing
+from urllib.parse import urlparse
 
 import requests
-from six.moves.urllib.parse import urlparse
 
 
-def run_command(*command):
-    # type: (typing.Text) -> typing.Tuple[int, typing.Text]
+def run_command(*command: str) -> typing.Tuple[int, str]:
     print("[cwd={cwd}] Run command: {command}".format(command=command, cwd=os.getcwd()), file=sys.stderr)
     return_code, output = 1, ""
     try:
@@ -32,8 +31,7 @@ def run_command(*command):
     return return_code, output
 
 
-def _base_directory():
-    # type: () -> typing.Text
+def _base_directory() -> str:
     # Extracted from pre-commit code:
     # https://github.com/pre-commit/pre-commit/blob/master/pre_commit/store.py
     return os.path.realpath(
@@ -45,8 +43,7 @@ def _base_directory():
     )
 
 
-def download_url(url, file_name=None):
-    # type: (typing.Text, typing.Optional[typing.Text]) -> typing.Text
+def download_url(url: str, file_name: typing.Optional[str] = None) -> str:
     base_directory = _base_directory()
 
     final_file = os.path.join(
@@ -80,8 +77,7 @@ def download_url(url, file_name=None):
     return final_file
 
 
-def remove_trailing_whitespaces_and_set_new_line_ending(string):
-    # type: (typing.Text) -> typing.Text
+def remove_trailing_whitespaces_and_set_new_line_ending(string: str) -> str:
     return "{content}\n".format(
         content="\n".join(line.rstrip() for line in string.splitlines()).rstrip(),
     )

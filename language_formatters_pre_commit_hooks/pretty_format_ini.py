@@ -7,19 +7,15 @@ import argparse
 import io
 import sys
 import typing
+from configparser import ConfigParser
+from configparser import Error
 
 from iniparse import INIConfig
-from six import PY3
-from six import StringIO
-from six import text_type
-from six.moves.configparser import ConfigParser
-from six.moves.configparser import Error
 
 from language_formatters_pre_commit_hooks.utils import remove_trailing_whitespaces_and_set_new_line_ending
 
 
-def pretty_format_ini(argv=None):
-    # type: (typing.Optional[typing.List[typing.Text]]) -> int
+def pretty_format_ini(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",
@@ -40,11 +36,9 @@ def pretty_format_ini(argv=None):
         try:
             # INIConfig only supports strict mode for throwing errors
             config_parser = ConfigParser()
-            if PY3:  # pragma: no cover # py3+ only
-                config_parser.read_string(string_content)
-            else:  # pragma: no cover # py27 only
-                config_parser.readfp(StringIO(str(string_content)))
-            ini_config = INIConfig(StringIO(str(string_content)), parse_exc=False)
+            config_parser.read_string(string_content)
+
+            ini_config = INIConfig(io.StringIO(str(string_content)), parse_exc=False)
 
             pretty_content_str = remove_trailing_whitespaces_and_set_new_line_ending(
                 str(ini_config),
@@ -56,7 +50,7 @@ def pretty_format_ini(argv=None):
                 if args.autofix:
                     print("Fixing file {}".format(ini_file))
                     with io.open(ini_file, "w", encoding="UTF-8") as output_file:
-                        output_file.write(text_type(pretty_content_str))
+                        output_file.write(str(pretty_content_str))
 
                 status = 1
         except Error:
