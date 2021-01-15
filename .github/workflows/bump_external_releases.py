@@ -40,7 +40,7 @@ def bump_release(github_project, tool_name):
         print(f"Executing: {args}")
         subprocess.check_call(args=args, stdout=subprocess.PIPE)  # nosec: disable=B603
 
-    call("pre-commit", "run", str(tool_name_version_path.absolute()))
+    call("pre-commit", "run", "--file", str(tool_name_version_path.absolute()))
     call("git", "add", str(tool_name_version_path.absolute()))
     call("git", "commit", "-m", message)
 

@@ -23,8 +23,7 @@ def success(request):
         yield request.param
 
 
-def test__ToolRequired(success):
-    # type: (bool) -> None
+def test__ToolRequired(success: bool) -> None:
     decorator = _ToolRequired(tool_name="test", check_command=lambda: success, download_install_url="url")
     assert decorator.is_tool_installed() == success
 

@@ -13,8 +13,7 @@ from language_formatters_pre_commit_hooks.utils import run_command
 
 
 @rust_required
-def pretty_format_rust(argv=None):
-    # type: (typing.Optional[typing.List[typing.Text]]) -> int
+def pretty_format_rust(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",

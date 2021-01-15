@@ -6,11 +6,11 @@ from __future__ import unicode_literals
 import os
 import sys
 from os.path import basename
+from urllib.parse import urljoin
+from urllib.request import pathname2url
 
 import mock
 import pytest
-from six.moves.urllib.parse import urljoin
-from six.moves.urllib.request import pathname2url
 
 from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command

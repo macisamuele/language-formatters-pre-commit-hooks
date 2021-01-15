@@ -12,13 +12,9 @@ from sys import maxsize
 
 from ruamel.yaml import YAML
 from ruamel.yaml.error import YAMLError
-from six import StringIO
-from six import text_type
 
 
-def _process_single_document(document, yaml):
-    # type: (typing.Text, YAML) -> typing.Text
-
+def _process_single_document(document: str, yaml: YAML) -> str:
     """Pretty format one YAML document.
 
     This is needed in order to prevent `ruamel.yaml` to interfere with documents that have primitive types on the document root.
@@ -32,7 +28,7 @@ def _process_single_document(document, yaml):
     """
     content = yaml.load(document)
     if isinstance(content, (list, dict)):
-        pretty_output = StringIO()
+        pretty_output = io.StringIO()
         yaml.dump(content, pretty_output)
         return pretty_output.getvalue()
     else:
@@ -40,8 +36,7 @@ def _process_single_document(document, yaml):
         return str(document)
 
 
-def pretty_format_yaml(argv=None):
-    # type: (typing.Optional[typing.List[typing.Text]]) -> int
+def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",
@@ -109,7 +104,7 @@ def pretty_format_yaml(argv=None):
                 if args.autofix:
                     print("Fixing file {}".format(yaml_file))
                     with io.open(yaml_file, "w", encoding="UTF-8") as output_file:
-                        output_file.write(text_type(pretty_content))
+                        output_file.write(str(pretty_content))
 
                 status = 1
         except YAMLError:  # pragma: no cover

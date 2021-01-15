@@ -10,24 +10,20 @@ from os import getenv
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-if getattr(typing, "TYPE_CHECKING", False):
-    F = typing.TypeVar("F", bound=typing.Callable[..., int])
+F = typing.TypeVar("F", bound=typing.Callable[..., int])
 
 
-def _is_command_success(*command_args):
-    # type: (typing.Text) -> bool
+def _is_command_success(*command_args: str) -> bool:
     exit_status, _ = run_command(*command_args)
     return exit_status == 0
 
 
 class ToolNotInstalled(RuntimeError):
-    def __init__(self, tool_name, download_install_url):
-        # type: (typing.Text, typing.Text) -> None
+    def __init__(self, tool_name: str, download_install_url: str) -> None:
         self.tool_name = tool_name
         self.download_install_url = download_install_url
 
-    def __str__(self):
-        # type: () -> str
+    def __str__(self) -> str:
         return str(
             "{tool_name} is required to run this pre-commit hook.\n"
             "Make sure that you have it installed and available on your path.\n"
@@ -39,21 +35,17 @@ class ToolNotInstalled(RuntimeError):
 
 
 class _ToolRequired(object):
-    def __init__(self, tool_name, check_command, download_install_url):
-        # type: (typing.Text, typing.Callable[[], bool], typing.Text) -> None
+    def __init__(self, tool_name: str, check_command: typing.Callable[[], bool], download_install_url: str) -> None:
         self.tool_name = tool_name
         self.check_command = check_command
         self.download_install_url = download_install_url
 
-    def is_tool_installed(self):
-        # type: () -> bool
+    def is_tool_installed(self) -> bool:
         return self.check_command()
 
-    def __call__(self, f):
-        # type: (F) -> F
+    def __call__(self, f: F) -> F:
         @wraps(f)
-        def wrapper(*args, **kwargs):
-            # type: (typing.Any, typing.Any) -> int
+        def wrapper(*args: typing.Any, **kwargs: typing.Any) -> int:
             if not self.is_tool_installed():
                 raise ToolNotInstalled(
                     tool_name=self.tool_name,

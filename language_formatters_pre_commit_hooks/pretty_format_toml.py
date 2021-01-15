@@ -14,8 +14,7 @@ from tomlkit.exceptions import ParseError
 from language_formatters_pre_commit_hooks.utils import remove_trailing_whitespaces_and_set_new_line_ending
 
 
-def pretty_format_toml(argv=None):
-    # type: (typing.Optional[typing.List[typing.Text]]) -> int
+def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",

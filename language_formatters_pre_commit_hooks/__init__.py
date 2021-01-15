@@ -11,8 +11,7 @@ import pkg_resources
 __version__ = pkg_resources.get_distribution("language_formatters_pre_commit_hooks").version
 
 
-def _get_default_version(tool_name):  # pragma: no cover
-    # type: (typing.Text) -> typing.Text
+def _get_default_version(tool_name: str) -> str:  # pragma: no cover
     """
     Read tool_name default version.
     The method is intended to be used only from language_formatters_pre_commit_hooks modules

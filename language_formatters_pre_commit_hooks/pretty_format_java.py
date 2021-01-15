@@ -13,10 +13,8 @@ from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-def __download_google_java_formatter_jar(version):  # pragma: no cover
-    # type: (typing.Text) -> typing.Text
-    def get_url(_version):
-        # type: (typing.Text) -> typing.Text
+def __download_google_java_formatter_jar(version: str) -> str:  # pragma: no cover
+    def get_url(_version: str) -> str:
         # Links extracted from https://github.com/google/google-java-format/
         return (
             "https://github.com/google/google-java-format/releases/download/"
@@ -39,8 +37,7 @@ def __download_google_java_formatter_jar(version):  # pragma: no cover
 
 
 @java_required
-def pretty_format_java(argv=None):
-    # type: (typing.Optional[typing.List[typing.Text]]) -> int
+def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--autofix",
