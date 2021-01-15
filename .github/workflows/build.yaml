@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pyversion: [2.7, 3.6, 3.7]
+        pyversion: [3.6, 3.7]
         os: [macos-latest, ubuntu-latest, windows-latest]
         exclude:
         # Excluding tests on windows-python2.7 as there are failures on installing

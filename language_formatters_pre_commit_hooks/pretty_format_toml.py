@@ -8,9 +8,8 @@ import io
 import sys
 import typing
 
-from toml import dumps
-from toml import loads
-from toml import TomlDecodeError
+from toml_sort import TomlSort
+from tomlkit.exceptions import ParseError
 
 from language_formatters_pre_commit_hooks.utils import remove_trailing_whitespaces_and_set_new_line_ending
 
@@ -35,10 +34,8 @@ def pretty_format_toml(argv=None):
             string_content = "".join(input_file.readlines())
 
         try:
-            prettified_content = remove_trailing_whitespaces_and_set_new_line_ending(
-                dumps(loads(string_content)),
-            )
-
+            prettified_content = TomlSort(string_content, only_sort_tables=True).sorted()
+            prettified_content = remove_trailing_whitespaces_and_set_new_line_ending(prettified_content)
             if string_content != prettified_content:
                 print("File {} is not pretty-formatted".format(toml_file))
 
@@ -48,7 +45,7 @@ def pretty_format_toml(argv=None):
                         output_file.write(prettified_content)
 
                 status = 1
-        except TomlDecodeError:
+        except ParseError:
             print("Input File {} is not a valid TOML file".format(toml_file))
             return 1
 
