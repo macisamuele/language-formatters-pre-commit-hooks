@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.0.0 (2021-01-16)
+------------------
+- Preserve comments in while formatting `ini` files. [PR #45](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/45) - [@Skylion007](https://github.com/Skylion007) thanks for your contribution
+- Preserve comments in while formatting `toml` files. [PR #46](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/46) - [@Skylion007](https://github.com/Skylion007) thanks for your contribution
+- ⚠ Drop Python2 support. [PR #48](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/48)
+- Update KTLint to 0.40.0
+
 1.6.1 (2020-10-31)
 -----------------
 - Internal fix of downloaded files path. [PR #43](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/43)
