@@ -7,6 +7,8 @@ import argparse
 import sys
 import typing
 
+import requests
+
 from language_formatters_pre_commit_hooks import _get_default_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
 from language_formatters_pre_commit_hooks.utils import download_url
@@ -14,23 +16,36 @@ from language_formatters_pre_commit_hooks.utils import run_command
 
 
 def __download_google_java_formatter_jar(version: str) -> str:  # pragma: no cover
-    def get_url(_version: str) -> str:
+    def get_urls(_version: str) -> typing.List[str]:
         # Links extracted from https://github.com/google/google-java-format/
-        return (
+        return [
+            "https://github.com/google/google-java-format/releases/download/"
+            "v{version}/google-java-format-{version}-all-deps.jar".format(
+                version=_version,
+            ),
+            # Versions older than 1.10 have a different template
             "https://github.com/google/google-java-format/releases/download/"
             "google-java-format-{version}/google-java-format-{version}-all-deps.jar".format(
                 version=_version,
-            )
-        )
+            ),
+        ]
 
-    url_to_download = get_url(version)
+    possible_urls = get_urls(version)
     try:
-        return download_url(get_url(version), "google-java-formatter{version}.jar".format(version=version))
+        for url_to_download in possible_urls:
+            try:
+                return download_url(url_to_download, "google-java-formatter{version}.jar".format(version=version))
+            except requests.HTTPError as e:
+                if e.response.status_code != 404:
+                    # If the url was not found then move forward with the next links
+                    raise
+
+        raise RuntimeError("Failed to load any of the provided links")
     except:  # noqa: E722 (allow usage of bare 'except')
         raise RuntimeError(
-            "Failed to download {url}. Probably the requested version, {version}, is "
-            "not valid or you have some network issue.".format(
-                url=url_to_download,
+            "Failed to download any of: {urls}. Probably the requested version, "
+            "{version}, is not valid or you have some network issue.".format(
+                urls=", ".join(possible_urls),
                 version=version,
             ),
         )

@@ -27,16 +27,19 @@ def undecorate_method():
 
 
 @pytest.mark.parametrize(
-    ("filename", "expected_retval"),
+    ("cli_args", "expected_retval"),
     (
-        ("invalid.java", 1),
-        ("pretty-formatted.java", 0),
-        ("not-pretty-formatted.java", 1),
-        ("not-pretty-formatted_fixed.java", 0),
+        (["invalid.java"], 1),
+        (["pretty-formatted.java"], 0),
+        (["not-pretty-formatted.java"], 1),
+        (["not-pretty-formatted_fixed.java"], 0),
+        # Test different google-java-formatter versions
+        (["--google-java-formatter-version=1.10.0", "pretty-formatted.java"], 0),
+        (["--google-java-formatter-version=1.9", "pretty-formatted.java"], 0),
     ),
 )
-def test_pretty_format_java(undecorate_method, filename, expected_retval):
-    assert undecorate_method([filename]) == expected_retval
+def test_pretty_format_java(undecorate_method, cli_args, expected_retval):
+    assert undecorate_method(cli_args) == expected_retval
 
 
 def test_pretty_format_java_autofix(tmpdir, undecorate_method):
