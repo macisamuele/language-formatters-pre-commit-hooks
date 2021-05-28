@@ -1,8 +1,15 @@
 Changelog
 =========
 
+2.1.0 (2021-05-28)
+------------------
+
+- Bump KTlint to 0.40.0
+- Update GoogleJavaFormatter to 1.10.0
+
 2.0.0 (2021-01-16)
 ------------------
+
 - Preserve comments in while formatting `ini` files. [PR #45](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/45) - [@Skylion007](https://github.com/Skylion007) thanks for your contribution
 - Preserve comments in while formatting `toml` files. [PR #46](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/46) - [@Skylion007](https://github.com/Skylion007) thanks for your contribution
 - ⚠ Drop Python2 support. [PR #48](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/48)
@@ -10,6 +17,7 @@ Changelog
 
 1.6.1 (2020-10-31)
 -----------------
+
 - Internal fix of downloaded files path. [PR #43](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/43)
 
 1.6.0 (2020-10-24)
