@@ -45,14 +45,14 @@ def run_autofix_test(
     formatted_path: str,
 ) -> None:
     tmpdir.mkdir("src")
-    not_pretty_formatted_tmp_path = tmpdir.join("src").join(basename(not_pretty_formatted_path)).strpath
+    not_pretty_formatted_tmp_path = tmpdir.join("src").join(basename(not_pretty_formatted_path))
 
     copyfile(not_pretty_formatted_path, not_pretty_formatted_tmp_path)
     with change_dir_context(tmpdir.strpath):
-        assert method(["--autofix", not_pretty_formatted_tmp_path]) == 1
+        assert method(["--autofix", tmpdir.bestrelpath(not_pretty_formatted_tmp_path)]) == 1
 
     # file was formatted (shouldn't trigger linter again)
     with change_dir_context(tmpdir.strpath):
-        assert method(["--autofix", not_pretty_formatted_tmp_path]) == 0
+        assert method(["--autofix", tmpdir.bestrelpath(not_pretty_formatted_tmp_path)]) == 0
 
     assert __read_file(not_pretty_formatted_tmp_path) == __read_file(formatted_path)
