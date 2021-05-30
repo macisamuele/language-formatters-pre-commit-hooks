@@ -38,7 +38,6 @@ jobs:
 
           *Auto-generated* by [bump-releases](https://github.com/macisamuele/language-formatters-pre-commit-hooks/actions/workflows/bump-releases.yaml)
         reviewers: cortinico,macisamuele
-        labels: automerge
         branch: create-pull-request/bump-releases
         delete-branch: true
         draft: false
