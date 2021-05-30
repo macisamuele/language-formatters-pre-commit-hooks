@@ -31,11 +31,15 @@ jobs:
       if: ${{ env.GIT_SHA != github.sha }}
       uses: peter-evans/create-pull-request@v3
       with:
+        token: ${{ secrets.REPO_TOKEN }}
         title: '[Automated PR] Bump KTLint and/or Google Java Formatter'
-        body: As the title says :)
-        reviewers: macisamuele
+        body: |
+          Bump KTLint and/or Google Java Formatter
+
+          *Auto-generated* by [bump-releases](https://github.com/macisamuele/language-formatters-pre-commit-hooks/actions/workflows/bump-releases.yaml)
+        reviewers: cortinico,macisamuele
         labels: automerge
-        branch-suffix: timestamp
+        branch: create-pull-request/bump-releases
         delete-branch: true
         draft: false
     - name: Provide PR details
