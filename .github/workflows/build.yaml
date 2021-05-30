@@ -40,7 +40,7 @@ jobs:
     - name: Setup Java
       uses: actions/setup-java@v2
       with:
-        distribution: 'adopt'
+        distribution: adopt
         java-version: '15'
     - name: Set up Go
       uses: actions/setup-go@v2
