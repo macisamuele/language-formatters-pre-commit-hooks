@@ -33,11 +33,6 @@ def undecorate_function(func: F) -> typing.Generator[F, None, None]:
     func = passed_function
 
 
-def __read_file(path: str) -> str:
-    with open(path) as f:
-        return "".join(f.readlines())
-
-
 def run_autofix_test(
     tmpdir: py.path.local,
     method: typing.Callable[[typing.List[str]], int],
@@ -47,12 +42,15 @@ def run_autofix_test(
     tmpdir.mkdir("src")
     not_pretty_formatted_tmp_path = tmpdir.join("src").join(basename(not_pretty_formatted_path))
 
+    # It is a relative paths as KTLint==0.41.0 dropped support for absolute paths
+    not_pretty_formatted_tmp_strpath = str(tmpdir.bestrelpath(not_pretty_formatted_tmp_path))
+
     copyfile(not_pretty_formatted_path, not_pretty_formatted_tmp_path)
     with change_dir_context(tmpdir.strpath):
-        assert method(["--autofix", tmpdir.bestrelpath(not_pretty_formatted_tmp_path)]) == 1
+        assert method(["--autofix", not_pretty_formatted_tmp_strpath]) == 1
 
     # file was formatted (shouldn't trigger linter again)
     with change_dir_context(tmpdir.strpath):
-        assert method(["--autofix", tmpdir.bestrelpath(not_pretty_formatted_tmp_path)]) == 0
+        assert method(["--autofix", not_pretty_formatted_tmp_strpath]) == 0
 
-    assert __read_file(not_pretty_formatted_tmp_path) == __read_file(formatted_path)
+    assert not_pretty_formatted_tmp_path.read_text("utf-8") == py.path.local(formatted_path).read_text("utf-8")

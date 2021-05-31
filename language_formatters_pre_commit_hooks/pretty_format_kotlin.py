@@ -33,6 +33,13 @@ def __download_kotlin_formatter_jar(version: str) -> str:  # pragma: no cover
         )
 
 
+def _fix_paths(paths: typing.Iterable[str]) -> typing.Iterable[str]:
+    # Starting from KTLint 0.41.0 paths cannot contain backward slashes as path separator
+    # Odd enough the error messages reported by KTLint contain `\` :(
+    for path in paths:
+        yield path.replace("\\", "/")
+
+
 @java_required
 def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser = argparse.ArgumentParser()
@@ -60,7 +67,7 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
     # To workaround this limitation we do run ktlint in check mode only,
     # which provides the expected exit status and we run it again in format
     # mode if autofix flag is enabled
-    check_status, check_output = run_command("java", "-jar", ktlint_jar, "--verbose", "--relative", "--", *args.filenames)
+    check_status, check_output = run_command("java", "-jar", ktlint_jar, "--verbose", "--relative", "--", *_fix_paths(args.filenames))
 
     not_pretty_formatted_files: typing.Set[str] = set()
     if check_status != 0:
@@ -68,7 +75,7 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
 
         if args.autofix:
             print("Running ktlint format on {}".format(not_pretty_formatted_files))
-            run_command("java", "-jar", ktlint_jar, "--verbose", "--relative", "--format", "--", *not_pretty_formatted_files)
+            run_command("java", "-jar", ktlint_jar, "--verbose", "--relative", "--format", "--", *_fix_paths(not_pretty_formatted_files))
 
     status = 0
     if not_pretty_formatted_files:
