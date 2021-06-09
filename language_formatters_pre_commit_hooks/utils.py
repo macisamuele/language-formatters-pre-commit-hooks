@@ -66,13 +66,13 @@ def download_url(url: str, file_name: typing.Optional[str] = None) -> str:
     print("Downloading {url}".format(url=url), file=sys.stderr)
     r = requests.get(url, stream=True)
     r.raise_for_status()
-    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:  # Not delete because we're renaming it
+    with tempfile.NamedTemporaryFile(dir=base_directory, delete=False) as tmp_file:  # Not delete because we're renaming it
         tmp_file_name = tmp_file.name
         shutil.copyfileobj(r.raw, tmp_file)
         tmp_file.flush()
         os.fsync(tmp_file.fileno())
 
-    shutil.move(tmp_file_name, final_file)
+    os.rename(tmp_file_name, final_file)
 
     return final_file
 
