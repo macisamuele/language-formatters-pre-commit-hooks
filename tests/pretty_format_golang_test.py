@@ -4,9 +4,9 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import shutil
+from unittest.mock import patch
 
 import pytest
-from mock import patch
 
 from language_formatters_pre_commit_hooks.pretty_format_golang import _get_eol_attribute
 from language_formatters_pre_commit_hooks.pretty_format_golang import pretty_format_golang

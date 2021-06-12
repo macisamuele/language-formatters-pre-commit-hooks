@@ -1,6 +1,5 @@
 .
 coverage
-mock
 mypy
 pre-commit
 pytest
