@@ -80,7 +80,23 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
         args.google_java_formatter_version,
     )
 
-    cmd_args = ["java", "-jar", google_java_formatter_jar, "--set-exit-if-changed"]
+    cmd_args = [
+        "java",
+        # export JDK internal classes for Java 16+
+        "--add-exports",
+        "jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED",
+        "--add-exports",
+        "jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED",
+        "--add-exports",
+        "jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED",
+        "--add-exports",
+        "jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED",
+        "--add-exports",
+        "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
+        "-jar",
+        google_java_formatter_jar,
+        "--set-exit-if-changed",
+    ]
     if args.aosp:  # pragma: no cover
         cmd_args.append("--aosp")
     if args.autofix:
