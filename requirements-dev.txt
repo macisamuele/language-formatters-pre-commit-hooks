@@ -1,7 +1,8 @@
 .
 coverage
-mock
 mypy
 pre-commit
 pytest
 twine
+types-pkg_resources
+types-requests

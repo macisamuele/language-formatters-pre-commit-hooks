@@ -3,7 +3,8 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import mock
+from unittest.mock import patch
+
 import pytest
 
 from language_formatters_pre_commit_hooks.pre_conditions import _ToolRequired
@@ -15,7 +16,7 @@ from language_formatters_pre_commit_hooks.pre_conditions import ToolNotInstalled
 
 @pytest.fixture(params=[True, False])
 def success(request):
-    with mock.patch(
+    with patch(
         "language_formatters_pre_commit_hooks.pre_conditions.run_command",
         autospec=True,
         return_value=(0 if request.param else 1, ""),
