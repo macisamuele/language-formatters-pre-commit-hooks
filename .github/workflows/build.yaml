@@ -17,7 +17,7 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
         golang_version: [1.16.4]
-        java_version: ['15']
+        java_version: ['15', '16']
         python_version: [3.6, 3.7, 3.8, 3.9]
         rust_version: [stable]
 
