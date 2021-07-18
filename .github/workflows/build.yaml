@@ -14,12 +14,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pyversion: [3.6, 3.7, 3.8, 3.9]
         os: [macos-latest, ubuntu-latest, windows-latest]
+
+        golang_version: [1.16.4]
+        java_version: ['15']
+        python_version: [3.6, 3.7, 3.8, 3.9]
+        rust_version: [stable]
 
     env:
       OS: ${{ matrix.os }}
-      PYTHON: ${{ matrix.pyversion }}
+
+      GOLANG_VERSION: ${{ matrix.golang_version }}
+      JAVA_VERSION: ${{ matrix.java_version }}
+      PYTHON_VERSION: ${{ matrix.python_version }}
+      RUST_VERSION: ${{ matrix.rust_version }}
 
     runs-on: ${{ matrix.os }}
 
@@ -29,23 +37,23 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.pyversion }}
+        python-version: ${{ matrix.python_version }}
     - name: Setup Rust
       uses: actions-rs/toolchain@v1
       with:
         profile: minimal
-        toolchain: stable
+        toolchain: ${{ matrix.rust_version }}
         override: true
         components: rustfmt
     - name: Setup Java
       uses: actions/setup-java@v2
       with:
         distribution: adopt
-        java-version: '15'
+        java-version: ${{ matrix.java_version }}
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.16.4
+        go-version: ${{ matrix.golang_version }}
     - name: Install Python dependencies
       run: pip install codecov tox tox-gh-actions
     - name: Run Tox
@@ -54,7 +62,7 @@ jobs:
       if: ${{ success() }}
       uses: codecov/codecov-action@v1
       with:
-        env_vars: OS,PYTHON
+        env_vars: OS,GOLANG_VERSION,JAVA_VERSION,OS,PYTHON_VERSION,RUST_VERSION
 
   precommit:
     runs-on: ubuntu-latest
