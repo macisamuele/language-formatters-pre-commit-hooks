@@ -16,7 +16,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.pyversion }}
+        python-version: 3.9
     - name: Install Python dependencies
       run: pip install wheel
     - name: Create a Wheel file and source distribution
