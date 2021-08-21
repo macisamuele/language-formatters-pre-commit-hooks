@@ -9,9 +9,12 @@ from language_formatters_pre_commit_hooks.utils import run_command
 F = typing.TypeVar("F", bound=typing.Callable[..., int])
 
 
-def _is_command_success(*command_args: str) -> bool:
-    exit_status, _ = run_command(*command_args)
-    return exit_status == 0
+def _is_command_success(
+    *command_args: str,
+    output_should_match: typing.Optional[typing.Callable[[str], bool]] = None,
+) -> bool:
+    exit_status, output = run_command(*command_args)
+    return exit_status == 0 and (output_should_match is None or output_should_match(output))
 
 
 class ToolNotInstalled(RuntimeError):
@@ -30,14 +33,21 @@ class ToolNotInstalled(RuntimeError):
         )
 
 
-class _ToolRequired(object):
-    def __init__(self, tool_name: str, check_command: typing.Callable[[], bool], download_install_url: str) -> None:
+class _ToolRequired:
+    def __init__(
+        self,
+        tool_name: str,
+        check_command: typing.Callable[[typing.Optional[typing.Mapping[str, str]]], bool],
+        download_install_url: str,
+        extras: typing.Optional[typing.Mapping[str, str]] = None,
+    ) -> None:
         self.tool_name = tool_name
         self.check_command = check_command
         self.download_install_url = download_install_url
+        self.extras = extras
 
     def is_tool_installed(self) -> bool:
-        return self.check_command()
+        return self.check_command(self.extras)
 
     def __call__(self, f: F) -> F:
         @wraps(f)
@@ -55,19 +65,19 @@ class _ToolRequired(object):
 
 java_required = _ToolRequired(
     tool_name="JRE",
-    check_command=lambda: _is_command_success("java", "-version"),
+    check_command=lambda _: _is_command_success("java", "-version"),
     download_install_url="https://www.java.com/en/download/",
 )
 
 golang_required = _ToolRequired(
     tool_name="golang/gofmt",
-    check_command=lambda: _is_command_success("go", "version"),
+    check_command=lambda _: _is_command_success("go", "version"),
     download_install_url="https://golang.org/doc/install#download",
 )
 
 
 rust_required = _ToolRequired(
     tool_name="rustfmt",
-    check_command=(lambda: _is_command_success("cargo", "+{}".format(getenv("RUST_TOOLCHAIN", "stable")), "fmt", "--", "--version")),
+    check_command=(lambda _: _is_command_success("cargo", "+{}".format(getenv("RUST_TOOLCHAIN", "stable")), "fmt", "--", "--version")),
     download_install_url="https://github.com/rust-lang-nursery/rustfmt#quick-start",
 )

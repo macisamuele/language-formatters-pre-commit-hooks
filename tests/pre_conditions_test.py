@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+import typing
 from unittest.mock import patch
 
 import pytest
 
+from language_formatters_pre_commit_hooks.pre_conditions import _is_command_success
 from language_formatters_pre_commit_hooks.pre_conditions import _ToolRequired
 from language_formatters_pre_commit_hooks.pre_conditions import golang_required
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
@@ -20,8 +22,30 @@ def success(request):
         yield request.param
 
 
+@pytest.mark.parametrize(
+    "matcher, expected_matcher_result",
+    (
+        (None, True),
+        (lambda output: output == "", True),
+        (lambda output: output != "", False),
+    ),
+)
+def test__is_command_success(
+    success: bool,
+    matcher: typing.Optional[typing.Callable[[str], bool]],
+    expected_matcher_result: bool,
+) -> None:
+
+    assert (success and expected_matcher_result) == _is_command_success(
+        "cmd",
+        "with",
+        "args",
+        output_should_match=matcher,
+    )
+
+
 def test__ToolRequired(success: bool) -> None:
-    decorator = _ToolRequired(tool_name="test", check_command=lambda: success, download_install_url="url")
+    decorator = _ToolRequired(tool_name="test", check_command=lambda _: success, download_install_url="url")
     assert decorator.is_tool_installed() == success
 
     def throw_exception():
