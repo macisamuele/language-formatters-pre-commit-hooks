@@ -4,8 +4,10 @@ import sys
 import typing
 
 import requests
+from packaging.version import Version
 
 from language_formatters_pre_commit_hooks import _get_default_version
+from language_formatters_pre_commit_hooks.pre_conditions import assert_max_jdk_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
 from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
@@ -71,6 +73,12 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
 
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
+
+    # Google Java Formatter 1.10+ does support Java 16+, before that version
+    # the tool can only be executed on Java up to version 15.
+    # Context: https://github.com/google/google-java-format/releases/tag/v1.10.0
+    if Version(args.google_java_formatter_version) <= Version("1.9"):
+        assert_max_jdk_version(Version("16.0"), inclusive=False)  # pragma: no cover
 
     google_java_formatter_jar = _download_google_java_formatter_jar(
         args.google_java_formatter_version,
