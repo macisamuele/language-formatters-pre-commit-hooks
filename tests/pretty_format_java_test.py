@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import shutil
-
 import pytest
 
+from language_formatters_pre_commit_hooks import _get_default_version
+from language_formatters_pre_commit_hooks.pretty_format_java import _download_google_java_formatter_jar
 from language_formatters_pre_commit_hooks.pretty_format_java import pretty_format_java
 from tests import change_dir_context
 from tests import run_autofix_test
@@ -20,6 +20,22 @@ def undecorate_method():
     # Method undecoration is needed to ensure that tests could be executed even if the tool is not installed
     with undecorate_function(pretty_format_java) as undecorated:
         yield undecorated
+
+
+@pytest.mark.parametrize(
+    "version",
+    (
+        _get_default_version("google_java_formatter"),
+        # The following explicit versions are needed because the format
+        # of the binary URL has changed on release 1.10.0
+        "1.9",
+        "1.10.0",
+    ),
+)
+@pytest.mark.integration
+def test__download_google_java_formatter_jar(ensure_download_possible, version):  # noqa: F811
+    # Test that we can download different version of the Google Java Formatter
+    _download_google_java_formatter_jar(version)
 
 
 @pytest.mark.parametrize(

@@ -11,7 +11,7 @@ from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-def __download_google_java_formatter_jar(version: str) -> str:  # pragma: no cover
+def _download_google_java_formatter_jar(version: str) -> str:  # pragma: no cover
     def get_urls(_version: str) -> typing.List[str]:
         # Links extracted from https://github.com/google/google-java-format/
         return [
@@ -72,7 +72,7 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
 
-    google_java_formatter_jar = __download_google_java_formatter_jar(
+    google_java_formatter_jar = _download_google_java_formatter_jar(
         args.google_java_formatter_version,
     )
 
