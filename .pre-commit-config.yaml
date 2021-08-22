@@ -31,11 +31,11 @@ repos:
   hooks:
   - id: reorder-python-imports
     args:
-    - --add-import
+    - --remove-import
     - from __future__ import absolute_import
-    - --add-import
+    - --remove-import
     - from __future__ import print_function
-    - --add-import
+    - --remove-import
     - from __future__ import unicode_literals
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   rev: v2.1.0
