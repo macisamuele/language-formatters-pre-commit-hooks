@@ -7,7 +7,6 @@ from shutil import copyfile
 
 import py
 
-
 F = typing.TypeVar("F", bound=typing.Callable)
 
 
