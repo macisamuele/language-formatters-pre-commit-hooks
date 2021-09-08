@@ -68,7 +68,7 @@ def download_url(url: str, file_name: typing.Optional[str] = None) -> str:
         tmp_file.flush()
         os.fsync(tmp_file.fileno())
 
-    os.rename(tmp_file_name, final_file)
+    shutil.move(tmp_file_name, final_file)
 
     return final_file
 
