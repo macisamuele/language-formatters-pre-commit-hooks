@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import shutil
-
 import pytest
 
 from language_formatters_pre_commit_hooks import _get_default_version

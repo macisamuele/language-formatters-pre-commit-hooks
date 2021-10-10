@@ -5,7 +5,6 @@ import pytest
 
 from language_formatters_pre_commit_hooks.pretty_format_yaml import pretty_format_yaml
 from tests import run_autofix_test
-from tests.pretty_format_rust_test import undecorate_method
 
 
 @pytest.fixture(autouse=True)
