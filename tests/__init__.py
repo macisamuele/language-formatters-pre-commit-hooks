@@ -23,9 +23,22 @@ def change_dir_context(directory: str) -> typing.Generator[None, None, None]:
 @contextmanager
 def undecorate_function(func: F) -> typing.Generator[F, None, None]:
     passed_function = func
-    func = getattr(passed_function, "__wrapped__", passed_function)
-    yield func
-    func = passed_function
+    yield getattr(passed_function, "__wrapped__", passed_function)
+
+
+class UnexpectedStatusCode(Exception):
+    def __init__(self, parameters: typing.List[str], expected_status_code: int, actual_status_code: int) -> None:
+        super().__init__()
+        self.parameters = parameters
+        self.expected_status_code = expected_status_code
+        self.actual_status_code = actual_status_code
+
+    def __str__(self) -> str:
+        return (
+            f"Execution of {self.parameters} is expected to terminate"
+            f" with status code={self.expected_status_code}."
+            f" Actual status code={self.actual_status_code}"
+        )
 
 
 def run_autofix_test(
@@ -42,10 +55,16 @@ def run_autofix_test(
 
     copyfile(not_pretty_formatted_path, not_pretty_formatted_tmp_path)
     with change_dir_context(tmpdir.strpath):
-        assert method(["--autofix", not_pretty_formatted_tmp_strpath]) == 1
+        parameters = ["--autofix", not_pretty_formatted_tmp_strpath]
+        status_code = method(parameters)
+        if status_code != 1:
+            raise UnexpectedStatusCode(parameters=parameters, expected_status_code=1, actual_status_code=status_code)
 
     # file was formatted (shouldn't trigger linter again)
     with change_dir_context(tmpdir.strpath):
-        assert method(["--autofix", not_pretty_formatted_tmp_strpath]) == 0
+        parameters = ["--autofix", not_pretty_formatted_tmp_strpath]
+        status_code = method(parameters)
+        if status_code != 0:
+            raise UnexpectedStatusCode(parameters=parameters, expected_status_code=0, actual_status_code=status_code)
 
     assert not_pretty_formatted_tmp_path.read_text("utf-8") == py.path.local(formatted_path).read_text("utf-8")
