@@ -1,6 +1,19 @@
 Changelog
 =========
 
+2.2.0 (2021-08-08)
+------------------
+
+- Make download of external artifacts resilient to systems with temporary directory on different disk partitions - [@psmit](https://github.com/psmit) and [@kbalston](https://github.com/kbalston) thanks for your contribution
+- Make usage of Google Java Formatter compatible with JDK16+ - [@ostrya](https://github.com/ostrya) thanks for your contribution
+- Update GoogleJavaFormatter to 1.11.0
+- Bump KTlint to 0.42.1
+- Misc github workflow updates (testing on Python 3.9, better tracking of tool versions tested, etc.)
+- Improved error message in case of Google Java Formatter and KTLint not supported Java Version
+
+ℹ: `pretty-format-java` now supports Java 16+
+⚠: `pretty-format-kotlin` supports Java up to Java 15
+
 2.1.0 (2021-05-28)
 ------------------
 
