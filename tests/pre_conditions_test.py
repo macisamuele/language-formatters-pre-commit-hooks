@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 import typing
 from textwrap import dedent
 from unittest.mock import Mock

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import sys
 from os.path import basename
 from unittest.mock import patch
 from urllib.parse import urljoin

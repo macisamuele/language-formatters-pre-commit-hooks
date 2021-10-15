@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import shutil
 from unittest.mock import patch
 
 import pytest

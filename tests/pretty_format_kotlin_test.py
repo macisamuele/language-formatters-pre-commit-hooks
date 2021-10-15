@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
-import shutil
+from unittest.mock import patch
 
 import pytest
+from packaging.version import Version
 
 from language_formatters_pre_commit_hooks import _get_default_version
+from language_formatters_pre_commit_hooks.pre_conditions import get_jdk_version
 from language_formatters_pre_commit_hooks.pretty_format_kotlin import _download_kotlin_formatter_jar
 from language_formatters_pre_commit_hooks.pretty_format_kotlin import pretty_format_kotlin
 from tests import change_dir_context
 from tests import run_autofix_test
 from tests import undecorate_function
+from tests import UnexpectedStatusCode
 
 
 @pytest.fixture(autouse=True)
@@ -42,9 +45,26 @@ def test__download_kotlin_formatter_jar(ensure_download_possible, version):  # n
         ("not-pretty-formatted_fixed.kt", 0),
     ),
 )
+@pytest.mark.skipif(condition=get_jdk_version() >= Version("16"), reason="Skipping test because it requires Java JDK lower than 16")
 def test_pretty_format_kotlin(undecorate_method, filename, expected_retval):
     assert undecorate_method([filename]) == expected_retval
 
 
+@pytest.mark.skipif(condition=get_jdk_version() >= Version("16"), reason="Skipping test because it requires Java JDK lower than 16")
 def test_pretty_format_kotlin_autofix(tmpdir, undecorate_method):
     run_autofix_test(tmpdir, undecorate_method, "not-pretty-formatted.kt", "not-pretty-formatted_fixed.kt")
+
+
+@pytest.mark.skipif(condition=get_jdk_version() < Version("16"), reason="Skipping test because it requires Java JDK 16+")
+def test_ktlint_does_not_yet_support_java_16_or_more(tmpdir, undecorate_method):
+    """
+    Test that running pretty-format-kotlin with Java 16+ is still not supported.
+    The test is meant to be an early indicator that Java 16+ is now supported and as such
+    `assert_max_jdk_version(...)` invocation can be removed from `pretty_format_kotlin.py` file
+    """
+    with patch(
+        "language_formatters_pre_commit_hooks.pretty_format_kotlin.assert_max_jdk_version",
+        autospec=True,
+        return_value=None,
+    ), pytest.raises(UnexpectedStatusCode):
+        run_autofix_test(tmpdir, undecorate_method, "not-pretty-formatted.kt", "not-pretty-formatted_fixed.kt")

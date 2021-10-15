@@ -3,7 +3,10 @@ import argparse
 import sys
 import typing
 
+from packaging.version import Version
+
 from language_formatters_pre_commit_hooks import _get_default_version
+from language_formatters_pre_commit_hooks.pre_conditions import assert_max_jdk_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
 from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
@@ -54,6 +57,13 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
 
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
+
+    # KTLint does not yet support Java 16+, before that version.
+    # Let's make sure that we report a nice error message instead of a complex
+    # Java Stacktrace
+    # the tool can only be executed on Java up to version 15.
+    # Context: https://github.com/JLLeitschuh/ktlint-gradle/issues/461
+    assert_max_jdk_version(Version("16.0"), inclusive=False)  # pragma: no cover
 
     ktlint_jar = _download_kotlin_formatter_jar(
         args.ktlint_version,
