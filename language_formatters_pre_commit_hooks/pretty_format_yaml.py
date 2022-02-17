@@ -67,7 +67,7 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
     separator = "---\n"
 
     for yaml_file in set(args.filenames):
-        with open(yaml_file) as input_file:
+        with open(yaml_file, encoding="utf8") as input_file:
             string_content = "".join(input_file.readlines())
 
         # Split multi-document file into individual documents
