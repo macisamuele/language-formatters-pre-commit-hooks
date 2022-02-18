@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.3.0 (2022-02-17)
+------------------
+- Update GoogleJavaFormatter to 1.14.0
+- Update KTlint to 0.44.0
+
+
 2.2.0 (2021-08-08)
 ------------------
 
