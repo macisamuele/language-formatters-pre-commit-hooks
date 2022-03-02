@@ -26,7 +26,7 @@ def pretty_format_ini(argv: typing.Optional[typing.List[str]] = None) -> int:
     status = 0
 
     for ini_file in set(args.filenames):
-        with open(ini_file) as input_file:
+        with open(ini_file, encoding="utf8") as input_file:
             string_content = "".join(input_file.readlines())
 
         try:
