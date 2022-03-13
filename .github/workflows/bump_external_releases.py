@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-import subprocess  # nosec: disable=B603
+import subprocess  # nosec: disable=B404
 import sys
 import traceback
 from pathlib import Path
