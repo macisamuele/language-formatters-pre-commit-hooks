@@ -20,8 +20,10 @@ def change_dir():
 @pytest.mark.parametrize(
     ("filename", "expected_retval"),
     (
+        ("issue_99.ini", 1),
         ("not-pretty-formatted.ini", 1),
         ("not-valid-file.ini", 1),
+        ("pretty-formatted.ini", 0),
     ),
 )
 def test_pretty_format_ini(filename, expected_retval):
