@@ -7,7 +7,7 @@
   minimum_pre_commit_version: '1'
 - id: pretty-format-ini
   name: Pretty format INI
-  description: This hook sets a standard for formatting INI  files.
+  description: This hook sets a standard for formatting INI files.
   entry: pretty-format-ini
   language: python
   types: [ini]
