@@ -18,7 +18,7 @@ jobs:
 
         golang_version: [1.16.4]
         java_version: ['15', '16']
-        python_version: [3.6, 3.7, 3.8, 3.9]
+        python_version: ['3.6', '3.7', '3.8', '3.9', '3.10']
         rust_version: [stable]
 
     env:
@@ -72,7 +72,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: '3.10'
     - name: Install Python dependencies
       run: pip install tox
     - name: Run Tox
