@@ -5,7 +5,6 @@ import sys
 import typing
 
 from toml_sort import TomlSort
-from tomlkit.exceptions import ParseError
 
 from language_formatters_pre_commit_hooks.utils import remove_trailing_whitespaces_and_set_new_line_ending
 
@@ -40,8 +39,8 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
                         output_file.write(prettified_content)
 
                 status = 1
-        except ParseError:
-            print("Input File {} is not a valid TOML file".format(toml_file))
+        except BaseException as e:
+            print("Input File {} is not a valid TOML file: {}".format(toml_file, e))
             return 1
 
     return status

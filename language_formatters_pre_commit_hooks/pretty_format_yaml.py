@@ -7,7 +7,6 @@ import typing
 from sys import maxsize
 
 from ruamel.yaml import YAML
-from ruamel.yaml.error import YAMLError
 
 
 def _process_single_document(document: str, yaml: YAML) -> str:
@@ -113,11 +112,9 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
                         output_file.write(str(pretty_content))
 
                 status = 1
-        except YAMLError:  # pragma: no cover
+        except BaseException as e:  # pragma: no cover
             print(
-                "Input File {} is not a valid YAML file, consider using check-yaml".format(
-                    yaml_file,
-                ),
+                "Input File {} is not a valid YAML file, consider using check-yaml: {}".format(yaml_file, e),
             )
             return 1
 
