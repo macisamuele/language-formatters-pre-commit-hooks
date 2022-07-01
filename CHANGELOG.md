@@ -6,17 +6,16 @@ Changelog
 - Update GoogleJavaFormatter to 1.15.0
 - Update KTlint to 0.45.1
 - Ensure Python 3.10 support and drop Python3.6 guaranteed support - [PR #114](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/114) / [PR #115](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/115)
-- Updated prettifier library for INI files (from `configobj` to `config_formatter`) [PR #113](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/113) - [@Delgan](https://github.com/Delgan)
-  The new library allows to have more deterministic output and proper comments preservation.
+- Updated prettifier library for INI files (from `configobj` to `config_formatter`) to provide more deterministic output and proper comments handling - [PR #113](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/113) - [@Delgan](https://github.com/Delgan) thanks for your contribution
 - `pretty-format-yaml` allows customization of max line length - [PR #104](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/104)
 - More explicit error messages in case of prettifier failires - [PR #116](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/116)
-- Use explicit encoding within INI prettifier - [PR #102](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/102) - [@hbre](https://github.com/hbre)
+- Use explicit encoding within INI prettifier - [PR #102](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/102) - [@hbre](https://github.com/hbre) thanks for your contribution
 
 2.3.0 (2022-02-17)
 ------------------
 - Update GoogleJavaFormatter to 1.14.0
 - Update KTlint to 0.44.0
-- Use explicit encoding within YAML prettifier - [PR #92](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/92) - [@passionsfrucht](https://github.com/passionsfrucht)
+- Use explicit encoding within YAML prettifier - [PR #92](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/92) - [@passionsfrucht](https://github.com/passionsfrucht) thanks for your contribution
 
 
 2.2.0 (2021-08-08)
