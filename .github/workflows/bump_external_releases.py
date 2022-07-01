@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-import subprocess  # nosec: disable=B603
+import subprocess  # nosec B404 B603
 import sys
 import traceback
 from pathlib import Path
@@ -14,7 +14,7 @@ if sys.version_info < (3, 6):
 def bump_release(github_project, tool_name):
     try:
         with urlopen(f"https://api.github.com/repos/{github_project}/releases/latest") as request:  # nosec: disable=B310
-            latest_version = json.load(request)["name"]
+            latest_version = json.load(request)["name"].lstrip("v")
     except:  # noqa: E722 (allow usage of bare 'except')
         traceback.print_exc()
         return False

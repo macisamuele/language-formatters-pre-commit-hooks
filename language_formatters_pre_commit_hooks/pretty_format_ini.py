@@ -3,12 +3,8 @@ import argparse
 import io
 import sys
 import typing
-from configparser import ConfigParser
-from configparser import Error
 
-from iniparse import INIConfig
-
-from language_formatters_pre_commit_hooks.utils import remove_trailing_whitespaces_and_set_new_line_ending
+from config_formatter import ConfigFormatter
 
 
 def pretty_format_ini(argv: typing.Optional[typing.List[str]] = None) -> int:
@@ -27,18 +23,12 @@ def pretty_format_ini(argv: typing.Optional[typing.List[str]] = None) -> int:
 
     for ini_file in set(args.filenames):
         with open(ini_file, encoding="utf8") as input_file:
-            string_content = "".join(input_file.readlines())
+            string_content = input_file.read()
 
         try:
-            # INIConfig only supports strict mode for throwing errors
-            config_parser = ConfigParser()
-            config_parser.read_string(string_content)
+            formatter = ConfigFormatter()
 
-            ini_config = INIConfig(io.StringIO(str(string_content)), parse_exc=False)
-
-            pretty_content_str = remove_trailing_whitespaces_and_set_new_line_ending(
-                str(ini_config),
-            )
+            pretty_content_str = formatter.prettify(string_content)
 
             if string_content != pretty_content_str:
                 print("File {} is not pretty-formatted".format(ini_file))
@@ -46,11 +36,11 @@ def pretty_format_ini(argv: typing.Optional[typing.List[str]] = None) -> int:
                 if args.autofix:
                     print("Fixing file {}".format(ini_file))
                     with io.open(ini_file, "w", encoding="UTF-8") as output_file:
-                        output_file.write(str(pretty_content_str))
+                        output_file.write(pretty_content_str)
 
                 status = 1
-        except Error:
-            print("Input File {} is not a valid INI file".format(ini_file))
+        except Exception as e:
+            print("Input File {} is not a valid INI file: {}".format(ini_file, e))
             return 1
 
     return status
