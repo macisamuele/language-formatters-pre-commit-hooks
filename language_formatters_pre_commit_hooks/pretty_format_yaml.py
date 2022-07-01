@@ -44,13 +44,23 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
         "--indent",
         type=int,
         default="2",
-        help=("The number of indent spaces or a string to be used as delimiter" ' for indentation level e.g. 4 or "\t" (Default: 2)'),
+        help="The number of indent spaces or a string to be used as delimiter for indentation level e.g. 4 or '\t' (Default: 2)",
     )
     parser.add_argument(
         "--preserve-quotes",
         action="store_true",
         dest="preserve_quotes",
         help="Keep existing string quoting",
+    )
+    parser.add_argument(
+        "--line-width",
+        type=int,
+        default=maxsize,
+        dest="line_width",
+        help=(
+            "Max line length on the generated file. NOTE: As far as we attempt to"
+            " enforce the limit we cannot guarantee that it is always possible"
+        ),
     )
 
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
@@ -62,7 +72,7 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
     yaml.indent = args.indent
     yaml.preserve_quotes = args.preserve_quotes
     # Prevent ruamel.yaml to wrap yaml lines
-    yaml.width = maxsize  # type: ignore  # mypy recognise yaml.width as None
+    yaml.width = args.line_width  # type: ignore  # mypy recognise yaml.width as None
 
     separator = "---\n"
 
