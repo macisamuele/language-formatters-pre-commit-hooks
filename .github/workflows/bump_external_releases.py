@@ -34,7 +34,11 @@ def bump_release(github_project, tool_name):
 
     def call(*args):
         print(f"Executing: {args}")
-        subprocess.check_call(args=args, stdout=subprocess.PIPE)  # nosec: disable=B603
+        try:
+            subprocess.check_call(args=args, stdout=subprocess.PIPE)  # nosec: disable=B603
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to run {args}\nstdout: {e.stdout}\nstderr: {e.stderr}", file=sys.stderr)
+            raise
 
     call("pre-commit", "run", "--file", str(tool_name_version_path.absolute()))
     call("git", "add", str(tool_name_version_path.absolute()))
