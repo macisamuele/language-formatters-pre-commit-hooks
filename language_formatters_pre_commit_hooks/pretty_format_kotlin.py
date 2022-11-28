@@ -3,10 +3,7 @@ import argparse
 import sys
 import typing
 
-from packaging.version import Version
-
 from language_formatters_pre_commit_hooks import _get_default_version
-from language_formatters_pre_commit_hooks.pre_conditions import assert_max_jdk_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
 from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
@@ -58,22 +55,19 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
 
-    # KTLint does not yet support Java 16+, before that version.
-    # Let's make sure that we report a nice error message instead of a complex
-    # Java Stacktrace
-    # the tool can only be executed on Java up to version 15.
-    # Context: https://github.com/JLLeitschuh/ktlint-gradle/issues/461
-    assert_max_jdk_version(Version("16.0"), inclusive=False)  # pragma: no cover
-
     ktlint_jar = _download_kotlin_formatter_jar(
         args.ktlint_version,
     )
+
+    jvm_args = ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
 
     # ktlint does not return exit-code!=0 if we're formatting them.
     # To workaround this limitation we do run ktlint in check mode only,
     # which provides the expected exit status and we run it again in format
     # mode if autofix flag is enabled
-    check_status, check_output = run_command("java", "-jar", ktlint_jar, "--verbose", "--relative", "--", *_fix_paths(args.filenames))
+    check_status, check_output = run_command(
+        "java", *jvm_args, "-jar", ktlint_jar, "--verbose", "--relative", "--", *_fix_paths(args.filenames)
+    )
 
     not_pretty_formatted_files: typing.Set[str] = set()
     if check_status != 0:
@@ -81,7 +75,17 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
 
         if args.autofix:
             print("Running ktlint format on {}".format(not_pretty_formatted_files))
-            run_command("java", "-jar", ktlint_jar, "--verbose", "--relative", "--format", "--", *_fix_paths(not_pretty_formatted_files))
+            run_command(
+                "java",
+                *jvm_args,
+                "-jar",
+                ktlint_jar,
+                "--verbose",
+                "--relative",
+                "--format",
+                "--",
+                *_fix_paths(not_pretty_formatted_files),
+            )
 
     status = 0
     if not_pretty_formatted_files:
