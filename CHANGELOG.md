@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.5.0 (2022-12-0?)
+------------------
+- Lift JDK 16+ restriction - [PR #123](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/123) - [@harti2006](https://github.com/harti2006) thanks for your contribution
+- Update KTlint to 0.47.1 - [PR #125](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/125)
+- pretty_format_rust does no longer use explicit rust versions - [PR #126](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/126)
+
 2.4.0 (2022-07-01)
 ------------------
 - Update GoogleJavaFormatter to 1.15.0
