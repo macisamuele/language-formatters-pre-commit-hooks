@@ -83,7 +83,7 @@ golang_required = _ToolRequired(
 
 rust_required = _ToolRequired(
     tool_name="rustfmt",
-    check_command=(lambda _: _is_command_success("cargo", "+{}".format(getenv("RUST_TOOLCHAIN", "stable")), "fmt", "--", "--version")),
+    check_command=(lambda _: _is_command_success("cargo", "fmt", "--", "--version")),
     download_install_url="https://github.com/rust-lang-nursery/rustfmt#quick-start",
 )
 
