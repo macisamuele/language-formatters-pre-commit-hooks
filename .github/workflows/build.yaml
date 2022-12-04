@@ -33,9 +33,9 @@ jobs:
 
     steps:
     - name: Checkout Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Setup Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python_version }}
     - name: Setup Rust
@@ -46,12 +46,12 @@ jobs:
         override: true
         components: rustfmt
     - name: Setup Java
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         distribution: adopt
         java-version: ${{ matrix.java_version }}
     - name: Set up Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
         go-version: ${{ matrix.golang_version }}
     - name: Install Python dependencies
@@ -60,7 +60,7 @@ jobs:
       run: tox
     - name: Upload coverage to Codecov
       if: ${{ success() }}
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v3
       with:
         env_vars: OS,GOLANG_VERSION,JAVA_VERSION,OS,PYTHON_VERSION,RUST_VERSION
 
@@ -68,9 +68,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Setup Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.10'
     - name: Install Python dependencies
