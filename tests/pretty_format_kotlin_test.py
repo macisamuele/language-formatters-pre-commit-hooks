@@ -29,7 +29,24 @@ def undecorate_method():
 
 @pytest.mark.parametrize(
     "version",
-    (_get_default_version("ktlint"),),
+    sorted(
+        {
+            _get_default_version("ktlint"),
+            "0.41.0",
+            "0.42.0",
+            "0.42.1",
+            "0.43.0",
+            "0.43.2",
+            "0.44.0",
+            "0.45.0",
+            "0.45.1",
+            "0.45.2",
+            "0.46.0",
+            "0.46.1",
+            "0.47.0",
+            "0.47.1",
+        }
+    ),
 )
 @pytest.mark.integration
 def test__download_kotlin_formatter_jar(ensure_download_possible, version):  # noqa: F811
