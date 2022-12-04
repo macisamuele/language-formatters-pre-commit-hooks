@@ -2,7 +2,6 @@
 import re
 import typing
 from functools import wraps
-from os import getenv
 
 from packaging.version import Version
 
