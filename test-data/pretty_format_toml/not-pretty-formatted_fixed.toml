@@ -5,4 +5,4 @@ inner_key = "inner_key"
 inner_key = "inner_key"
 
 [root]
-root_key = "root_key" #root
+root_key = "root_key"  # root
