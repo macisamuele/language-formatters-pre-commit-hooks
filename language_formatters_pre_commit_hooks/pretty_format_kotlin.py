@@ -66,7 +66,7 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
     # which provides the expected exit status and we run it again in format
     # mode if autofix flag is enabled
     check_status, check_output = run_command(
-        "java", *jvm_args, "-jar", ktlint_jar, "--verbose", "--relative", "--", *_fix_paths(args.filenames)
+        "java", *jvm_args, "-jar", ktlint_jar, "--log-level", "debug", "--relative", "--", *_fix_paths(args.filenames)
     )
 
     not_pretty_formatted_files: typing.Set[str] = set()
@@ -80,7 +80,8 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
                 *jvm_args,
                 "-jar",
                 ktlint_jar,
-                "--verbose",
+                "--log-level",
+                "debug",
                 "--relative",
                 "--format",
                 "--",
