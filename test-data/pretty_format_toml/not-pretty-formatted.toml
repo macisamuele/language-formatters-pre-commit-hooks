@@ -1,5 +1,5 @@
 [root]
-root_key = "root_key" #root
+root_key = "root_key"      #       root
 
       [[inner]]
       inner_key = "inner_key"
