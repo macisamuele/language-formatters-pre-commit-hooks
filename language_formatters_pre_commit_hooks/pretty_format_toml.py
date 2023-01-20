@@ -5,6 +5,8 @@ import sys
 import typing
 
 from toml_sort import TomlSort
+from toml_sort.tomlsort import CommentConfiguration
+from toml_sort.tomlsort import FormattingConfiguration
 from toml_sort.tomlsort import SortConfiguration
 
 from language_formatters_pre_commit_hooks.utils import remove_trailing_whitespaces_and_set_new_line_ending
@@ -29,7 +31,22 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
             string_content = "".join(input_file.readlines())
 
         try:
-            prettified_content = TomlSort(string_content, sort_config=SortConfiguration(tables=True)).sorted()
+            prettified_content = TomlSort(
+                input_toml=string_content,
+                comment_config=CommentConfiguration(
+                    header=True,
+                    footer=True,
+                    inline=True,
+                    block=True,
+                ),
+                sort_config=SortConfiguration(tables=True),
+                format_config=FormattingConfiguration(
+                    spaces_before_inline_comment=2,
+                    spaces_indent_inline_array=2,
+                    trailing_comma_inline_array=False,
+                ),
+            ).sorted()
+
             prettified_content = remove_trailing_whitespaces_and_set_new_line_ending(prettified_content)
             if string_content != prettified_content:
                 print("File {} is not pretty-formatted".format(toml_file))
