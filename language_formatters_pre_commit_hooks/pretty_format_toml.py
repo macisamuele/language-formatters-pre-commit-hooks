@@ -28,7 +28,7 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
             string_content = "".join(input_file.readlines())
 
         try:
-            prettified_content = TomlSort(string_content, only_sort_tables=True).sorted()
+            prettified_content = TomlSort(string_content).sorted()
             prettified_content = remove_trailing_whitespaces_and_set_new_line_ending(prettified_content)
             if string_content != prettified_content:
                 print("File {} is not pretty-formatted".format(toml_file))
