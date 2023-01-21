@@ -37,6 +37,18 @@ def test_pretty_format_yaml(filename, expected_retval):
 
 
 @pytest.mark.parametrize(
+    ("filename", "args", "expected_retval"),
+    (
+        ("offset2_indent4_pretty-formatted.yaml", ["--indent=1", "--offset=3"], 1),
+        ("offset2_indent4_pretty-formatted.yaml", ["--indent=4", "--offset=2"], 0),
+        ("offset2_indent4_not-pretty-formatted.yaml", ["--indent=4", "--offset=2"], 1),
+    ),
+)
+def test_pretty_format_yaml_custom_cli_arguments(filename, args, expected_retval):
+    assert pretty_format_yaml([filename] + args) == expected_retval
+
+
+@pytest.mark.parametrize(
     ("no_pretty_file_name, fixed_file_name"),
     (
         ("not-pretty-formatted.yaml", "not-pretty-formatted_fixed.yaml"),
