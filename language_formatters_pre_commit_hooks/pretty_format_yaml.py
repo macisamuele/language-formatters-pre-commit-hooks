@@ -43,7 +43,13 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
         "--indent",
         type=int,
         default="2",
-        help="The number of indent spaces or a string to be used as delimiter for indentation level e.g. 4 or '\t' (Default: 2)",
+        help="The number of spaces to be used as delimiter for indentation level (Default: %(default)s)",
+    )
+    parser.add_argument(
+        "--offset",
+        type=int,
+        default="0",
+        help="The number of spaces to be used as offset for nested structures (Default: %(default)s)",
     )
     parser.add_argument(
         "--preserve-quotes",
@@ -67,8 +73,16 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
 
     status = 0
 
+    if args.indent < args.offset + 2:
+        print(
+            "Indent should be at least 2 more than offset. \n"
+            "Invalid output could be resulting otherwise. \n"
+            "indent={}, offset={}".format(args.indent, args.offset)
+        )
+        return 1
+
     yaml = YAML()
-    yaml.indent = args.indent
+    yaml.indent(mapping=args.indent, sequence=args.indent, offset=args.offset)
     yaml.preserve_quotes = args.preserve_quotes
     # Prevent ruamel.yaml to wrap yaml lines
     yaml.width = args.line_width  # type: ignore  # mypy recognise yaml.width as None
