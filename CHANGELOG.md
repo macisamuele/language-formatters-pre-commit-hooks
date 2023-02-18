@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.7.0 (2023-02-18)
+------------------
+- Add support for customisable offset in `pretty-format-yaml` - [PR #143](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/143)
+- Update KTLint to 0.48.2
+
 2.6.0 (2023-01-20)
 ------------------
 - Fix `pertty-format-toml` to be compatible with latest `toml-sort` libraries - Thanks [@liblaf](https://github.com/liblaf) and [@stewartHutchins](https://github.com/stewartHutchins) for the support on having toml prettification working again
