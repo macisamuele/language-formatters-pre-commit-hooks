@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.8.0 (2023-03-17)
+------------------
+- Update GoogleJavaFormatter to 1.16.0
+
+
 2.7.0 (2023-02-18)
 ------------------
 - Add support for customisable offset in `pretty-format-yaml` - [PR #143](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/143)
