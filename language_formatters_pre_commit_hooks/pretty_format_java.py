@@ -70,6 +70,12 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
         dest="aosp",
         help="Formats Java code into AOSP format",
     )
+    parser.add_argument(
+        "--google-java-formatter-jar",
+        dest="google_java_formatter_jar",
+        default=None,
+        help="Path to Google Java Formatter jar file. Will be downloaded in case of None (default: %(default)).",
+    )
 
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
@@ -80,9 +86,12 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
     if Version(args.google_java_formatter_version) <= Version("1.9"):
         assert_max_jdk_version(Version("16.0"), inclusive=False)  # pragma: no cover
 
-    google_java_formatter_jar = _download_google_java_formatter_jar(
-        args.google_java_formatter_version,
-    )
+    if args.google_java_formatter_jar is None:
+        google_java_formatter_jar = _download_google_java_formatter_jar(
+            args.google_java_formatter_version,
+        )
+    else:
+        google_java_formatter_jar = args.google_java_formatter_jar
 
     cmd_args = [
         "java",
