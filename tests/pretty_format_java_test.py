@@ -67,3 +67,14 @@ def test_pretty_format_java_up_to_1_9_is_allowed_on_jdk_before_16(undecorate_met
 
 def test_pretty_format_java_autofix(tmpdir, undecorate_method):
     run_autofix_test(tmpdir, undecorate_method, "not-pretty-formatted.java", "not-pretty-formatted_fixed.java")
+
+
+@pytest.mark.parametrize(
+    ("cli_arg", "expected_retval"),
+    (
+        ("--google-java-formatter-jar=google-java-format-1.16.0-all-deps.jar", 0),
+        ("", 0),
+    ),
+)
+def test_pretty_format_java_jar(undecorate_method, cli_arg, expected_retval):
+    assert undecorate_method([cli_arg, "pretty-formatted.java"]) == expected_retval

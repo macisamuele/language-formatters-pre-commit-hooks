@@ -48,7 +48,7 @@ jobs:
     - name: Setup Java
       uses: actions/setup-java@v3
       with:
-        distribution: adopt
+        distribution: temurin
         java-version: ${{ matrix.java_version }}
     - name: Set up Go
       uses: actions/setup-go@v3
@@ -56,6 +56,8 @@ jobs:
         go-version: ${{ matrix.golang_version }}
     - name: Install Python dependencies
       run: pip install codecov tox tox-gh-actions
+    - name: Download google-java-format.jar
+      run: wget -O test-data/pretty_format_java/google-java-format-1.16.0-all-deps.jar -q https://github.com/google/google-java-format/releases/download/v1.16.0/google-java-format-1.16.0-all-deps.jar
     - name: Run Tox
       run: tox
     - name: Upload coverage to Codecov

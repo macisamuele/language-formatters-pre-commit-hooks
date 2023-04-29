@@ -52,6 +52,19 @@ def _download_google_java_formatter_jar(version: str) -> str:  # pragma: no cove
 @java_required
 def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--google-java-formatter-version",
+        dest="google_java_formatter_version",
+        default=_get_default_version("google_java_formatter"),
+        help="Google Java Formatter version to use (default %(default)s)",
+    )
+    group.add_argument(
+        "--google-java-formatter-jar",
+        dest="google_java_formatter_jar",
+        default=None,
+        help="Path to Google Java Formatter jar file. Will be downloaded if not defined. Note that --google-java-formatter-version will be ignored if this parameter is defined (default: %(default)).",
+    )
     parser.add_argument(
         "--autofix",
         action="store_true",
@@ -59,22 +72,10 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
         help="Automatically fixes encountered not-pretty-formatted files",
     )
     parser.add_argument(
-        "--google-java-formatter-version",
-        dest="google_java_formatter_version",
-        default=_get_default_version("google_java_formatter"),
-        help="Google Java Formatter version to use (default %(default)s)",
-    )
-    parser.add_argument(
         "--aosp",
         action="store_true",
         dest="aosp",
         help="Formats Java code into AOSP format",
-    )
-    parser.add_argument(
-        "--google-java-formatter-jar",
-        dest="google_java_formatter_jar",
-        default=None,
-        help="Path to Google Java Formatter jar file. Will be downloaded in case of None (default: %(default)).",
     )
 
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
