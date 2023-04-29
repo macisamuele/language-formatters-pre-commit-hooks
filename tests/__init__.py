@@ -14,7 +14,7 @@ F = typing.TypeVar("F", bound=typing.Callable)
 def change_dir_context(directory: str) -> typing.Generator[None, None, None]:
     working_directory = os.getcwd()
     try:
-        os.chdir(os.path.join(os.path.dirname(working_directory), directory))
+        os.chdir(directory)
         yield
     finally:
         os.chdir(working_directory)
