@@ -60,6 +60,16 @@ Contributions are _always_ welcome.
 
 ## FAQ
 
+### How to deal with different Google Java Formatter versions?
+
+```yaml
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: ...
+    hooks:
+      - id: pretty-format-java
+        args: [--autofix, --aosp, --google-java-formatter-version=1.16.0]
+```
+
 ### How to deal with multiple Java versions?
 
 This might be relevant for `pretty-format-java` and `pretty-format-kotlin` hooks.
