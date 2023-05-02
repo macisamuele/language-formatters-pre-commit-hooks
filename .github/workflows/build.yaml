@@ -57,7 +57,7 @@ jobs:
     - name: Install Python dependencies
       run: pip install codecov tox tox-gh-actions
     - name: Download google-java-format.jar
-      run: curl https://github.com/google/google-java-format/releases/download/v1.16.0/google-java-format-1.16.0-all-deps.jar --output test-data/pretty_format_java/google-java-format-1.16.0-all-deps.jar --silent
+      run: curl --location https://github.com/google/google-java-format/releases/download/v1.17.0/google-java-format-1.17.0-all-deps.jar --output test-data/pretty_format_java/google-java-format-1.16.0-all-deps.jar --silent
       shell: sh
 #    - name: Download google-java-format.jar (Windows)
 #      if: ${{ runner.os == 'Windows' }}
