@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM debian:buster-slim
 
 # Make sure dependencies are installed
 RUN apt-get update && apt-get install -y python3 python3-pip
