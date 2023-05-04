@@ -4,7 +4,7 @@ FROM debian:buster-slim
 RUN apt-get update && apt-get install -y python3 python3-pip
 RUN apt-get install -y python3-setuptools
 RUN apt install -y default-jre
-RUN pip3 install setuptools --upgrade
+RUN pip3 install setuptools importlib-metadata --upgrade
 
 # Put the source files in the build container
 COPY . /src/
