@@ -33,6 +33,12 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
         dest="trailing_commas",
         help="Add trailing commas to inline arrays",
     )
+    parser.add_argument(
+        "--no-sort",
+        action="store_true",
+        dest="no_sort",
+        help="Don't sort keys",
+    )
     args = parser.parse_args(argv)
 
     status = 0
@@ -50,7 +56,7 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
                     inline=True,
                     block=True,
                 ),
-                sort_config=SortConfiguration(tables=True),
+                sort_config=SortConfiguration(tables=not args.no_sort, table_keys=not args.no_sort),
                 format_config=FormattingConfiguration(
                     spaces_before_inline_comment=2,
                     spaces_indent_inline_array=args.indent,
