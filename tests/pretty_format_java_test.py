@@ -84,6 +84,6 @@ def test_pretty_format_java_jar(mock_run_command, undecorate_method, cli_arg, ex
     assert undecorate_method([cli_arg, "pretty-formatted.java"]) == expected_retval
     in_args = cli_arg in mock_run_command.call_args.args
     if cli_arg == "":
-        assert not in_args
-    else:
         assert in_args
+    else:
+        assert not in_args
