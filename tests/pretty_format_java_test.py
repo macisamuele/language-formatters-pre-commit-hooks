@@ -82,5 +82,8 @@ def test_pretty_format_java_autofix(tmpdir, undecorate_method):
 def test_pretty_format_java_jar(mock_run_command, undecorate_method, cli_arg, expected_retval):
     mock_run_command.return_value = (0, "")
     assert undecorate_method([cli_arg, "pretty-formatted.java"]) == expected_retval
-    args = mock_run_command.call_args.args
-    assert cli_arg in args
+    in_args = cli_arg in mock_run_command.call_args.args
+    if cli_arg == "":
+        assert not in_args
+    else:
+        assert in_args
