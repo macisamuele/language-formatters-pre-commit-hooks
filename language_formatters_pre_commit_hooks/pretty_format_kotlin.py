@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import argparse
+import json
+import subprocess  # nosec B404
 import sys
 import typing
 
@@ -65,13 +67,28 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
     # To workaround this limitation we do run ktlint in check mode only,
     # which provides the expected exit status and we run it again in format
     # mode if autofix flag is enabled
-    check_status, check_output = run_command(
-        "java", *jvm_args, "-jar", ktlint_jar, "--log-level", "debug", "--relative", "--", *_fix_paths(args.filenames)
+    #
+    # Logging must be suppressed here as it goes to stdout. This would
+    # interfere with parsing the output JSON.
+    check_result = subprocess.run(  # nosec: B603 B607
+        [
+            "java",
+            *jvm_args,
+            "-jar",
+            ktlint_jar,
+            "--log-level",
+            "none",
+            "--reporter=json",
+            "--relative",
+            "--",
+            *_fix_paths(args.filenames),
+        ],
+        capture_output=True,
     )
 
     not_pretty_formatted_files: typing.Set[str] = set()
-    if check_status != 0:
-        not_pretty_formatted_files.update(line.split(":", 1)[0] for line in check_output.splitlines())
+    if check_result.returncode != 0:
+        not_pretty_formatted_files.update(item["file"] for item in json.loads(check_result.stdout))
 
         if args.autofix:
             print("Running ktlint format on {}".format(not_pretty_formatted_files))
