@@ -73,16 +73,15 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
 
     status = 0
 
-    if args.indent < args.offset + 2:
-        print(
-            "Indent should be at least 2 more than offset. \n"
-            "Invalid output could be resulting otherwise. \n"
-            "indent={}, offset={}".format(args.indent, args.offset)
-        )
-        return 1
+    if args.indent < 0:  # pragma: no cover
+        print("indent argument ({}) cannot be negative. Defaulting it to 2".format(args.indent), file=sys.stderr)
+        args.indent = 2
+    if args.offset < 0:  # pragma: no cover
+        print("offset argument ({}) cannot be negative. Defaulting it to 0".format(args.offset), file=sys.stderr)
+        args.offset = 0
 
     yaml = YAML()
-    yaml.indent(mapping=args.indent, sequence=args.indent, offset=args.offset)
+    yaml.indent(mapping=args.indent, sequence=args.indent + args.offset, offset=args.offset)
     yaml.preserve_quotes = args.preserve_quotes
     # Prevent ruamel.yaml to wrap yaml lines
     yaml.width = args.line_width  # type: ignore  # mypy recognise yaml.width as None
