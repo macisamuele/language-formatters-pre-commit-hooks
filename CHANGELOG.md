@@ -1,32 +1,44 @@
 Changelog
 =========
 
+2.9.0 (2023-05-13)
+------------------
+
+- Update GoogleJavaFormatter to 1.17.0
+- Update KTLint to 0.49.1
+- Bug fix pretty-format-yaml
+  Sequecence item indentation should condider offset as part of the indentation, [#154 (comment)](https://github.com/macisamuele/language-formatters-pre-commit-hooks/issues/154#issuecomment-1546778156) has more details.
+  Thanks [@datalogics-kam](https://github.com/datalogics-kam) and [@fmigneault](https://github.com/fmigneault) for reporting the issue and helping me identify the underlying root cause.
+
 2.8.0 (2023-03-17)
 ------------------
-- Update GoogleJavaFormatter to 1.16.0
 
+- Update GoogleJavaFormatter to 1.16.0
 
 2.7.0 (2023-02-18)
 ------------------
+
 - Add support for customisable offset in `pretty-format-yaml` - [PR #143](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/143)
 - Update KTLint to 0.48.2
 
 2.6.0 (2023-01-20)
 ------------------
+
 - Fix `pertty-format-toml` to be compatible with latest `toml-sort` libraries - Thanks [@liblaf](https://github.com/liblaf) and [@stewartHutchins](https://github.com/stewartHutchins) for the support on having toml prettification working again
   The fix has been carried over multiple PRs ([PR #134](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/134), [PR #136](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/136) and [PR #137](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/137)).
 - Internal build fix (failures caused by `tox` major release) - [PR #141](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/141), inspired from [PR #135](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/135) - Thanks [@malmans2](https://github.com/malmans2) for the support
 - Update KTlint to 0.48.1 - [PR #140](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/140) - Thanks [@detouched](https://github.com/detouched) for the upgrade
 
-
 2.5.0 (2022-12-05)
 ------------------
+
 - Lift JDK 16+ restriction - [PR #123](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/123) - [@harti2006](https://github.com/harti2006) thanks for your contribution
 - Update KTlint to 0.47.1 - [PR #125](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/125)
 - pretty_format_rust does no longer use explicit rust versions - [PR #126](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/126)
 
 2.4.0 (2022-07-01)
 ------------------
+
 - Update GoogleJavaFormatter to 1.15.0
 - Update KTlint to 0.45.1
 - Ensure Python 3.10 support and drop Python3.6 guaranteed support - [PR #114](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/114) / [PR #115](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/115)
@@ -37,10 +49,10 @@ Changelog
 
 2.3.0 (2022-02-17)
 ------------------
+
 - Update GoogleJavaFormatter to 1.14.0
 - Update KTlint to 0.44.0
 - Use explicit encoding within YAML prettifier - [PR #92](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/92) - [@passionsfrucht](https://github.com/passionsfrucht) thanks for your contribution
-
 
 2.2.0 (2021-08-08)
 ------------------
