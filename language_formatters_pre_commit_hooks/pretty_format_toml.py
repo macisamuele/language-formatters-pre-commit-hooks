@@ -20,8 +20,25 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
         dest="autofix",
         help="Automatically fixes encountered not-pretty-formatted files",
     )
-
+    parser.add_argument(
+        "--indent",
+        type=int,
+        default="2",
+        help="The number of spaces to be used as delimiter for indentation level (Default: %(default)s)",
+    )
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
+    parser.add_argument(
+        "--trailing-commas",
+        action="store_true",
+        dest="trailing_commas",
+        help="Add trailing commas to inline arrays",
+    )
+    parser.add_argument(
+        "--no-sort",
+        action="store_true",
+        dest="no_sort",
+        help="Don't sort keys",
+    )
     args = parser.parse_args(argv)
 
     status = 0
@@ -39,11 +56,11 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
                     inline=True,
                     block=True,
                 ),
-                sort_config=SortConfiguration(tables=True),
+                sort_config=SortConfiguration(tables=not args.no_sort, table_keys=not args.no_sort),
                 format_config=FormattingConfiguration(
                     spaces_before_inline_comment=2,
-                    spaces_indent_inline_array=2,
-                    trailing_comma_inline_array=False,
+                    spaces_indent_inline_array=args.indent,
+                    trailing_comma_inline_array=args.trailing_commas,
                 ),
             ).sorted()
 
