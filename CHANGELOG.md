@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.10.0 (2023-05-29)
+------------------
+
+- Add `--indent` and `--trailing-commas` arguments for `pretty-format-toml` - [PR #160](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/143) - [@maresb](https://github.com/maresb) thanks for your contribution
+
 2.9.0 (2023-05-13)
 ------------------
 
@@ -24,7 +29,7 @@ Changelog
 2.6.0 (2023-01-20)
 ------------------
 
-- Fix `pertty-format-toml` to be compatible with latest `toml-sort` libraries - Thanks [@liblaf](https://github.com/liblaf) and [@stewartHutchins](https://github.com/stewartHutchins) for the support on having toml prettification working again
+- Fix `pretty-format-toml` to be compatible with latest `toml-sort` libraries - Thanks [@liblaf](https://github.com/liblaf) and [@stewartHutchins](https://github.com/stewartHutchins) for the support on having toml prettification working again
   The fix has been carried over multiple PRs ([PR #134](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/134), [PR #136](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/136) and [PR #137](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/137)).
 - Internal build fix (failures caused by `tox` major release) - [PR #141](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/141), inspired from [PR #135](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/135) - Thanks [@malmans2](https://github.com/malmans2) for the support
 - Update KTlint to 0.48.1 - [PR #140](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/140) - Thanks [@detouched](https://github.com/detouched) for the upgrade
