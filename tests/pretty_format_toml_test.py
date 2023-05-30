@@ -30,6 +30,21 @@ def test_pretty_format_toml(filename, expected_retval):
     assert pretty_format_toml([filename]) == expected_retval
 
 
+@pytest.mark.parametrize(
+    ("filename", "args", "expected_retval"),
+    (
+        ("indent2-pretty-formatted.toml", [], 0),
+        ("indent2-pretty-formatted.toml", ["--indent=4"], 1),
+        ("indent4-pretty-formatted.toml", [], 1),
+        ("indent4-pretty-formatted.toml", ["--indent=4"], 0),
+        ("no-sort-pretty-formatted.toml", ["--no-sort"], 0),
+        ("no-sort-pretty-formatted.toml", [], 1),
+    ),
+)
+def test_pretty_format_toml_custom_cli_arguments(filename, args, expected_retval):
+    assert pretty_format_toml([filename] + args) == expected_retval
+
+
 def test_pretty_format_toml_autofix(tmpdir):
     run_autofix_test(
         tmpdir,
