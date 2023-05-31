@@ -1,6 +1,16 @@
 Changelog
 =========
 
+2.10.0 (2023-07-13)
+------------------
+
+- Add `--indent` and `--trailing-commas` arguments for `pretty-format-toml` - [PR #160](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/143) - [@maresb](https://github.com/maresb) thanks for your contribution
+- Improve `pretty-format-kotlin` interaction with `ktlint` to prevent attempts to format not kotlin files, [(Issue #162)](https://github.com/macisamuele/language-formatters-pre-commit-hooks/issues/162) - [PR #163](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/163) - [@languitar](https://github.com/languitar) thanks for your contribution
+- Improve `pretty-format-kotlin` to reduce log verbosity - [PR #177](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/177) - [@Velfi](https://github.com/Velfi) thanks for your contribution
+- Allow `pretty-format-java` and `pretty-format-kotlin` to leverage pre downloaded JAR instead of fetching it - [PR #156](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/156) / [PR #???](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/156) - [@fabasoad](https://github.com/fabasoad) thanks for your contribution
+- Update KTLint to 0.50.0
+
+
 2.9.0 (2023-05-13)
 ------------------
 
@@ -24,7 +34,7 @@ Changelog
 2.6.0 (2023-01-20)
 ------------------
 
-- Fix `pertty-format-toml` to be compatible with latest `toml-sort` libraries - Thanks [@liblaf](https://github.com/liblaf) and [@stewartHutchins](https://github.com/stewartHutchins) for the support on having toml prettification working again
+- Fix `pretty-format-toml` to be compatible with latest `toml-sort` libraries - Thanks [@liblaf](https://github.com/liblaf) and [@stewartHutchins](https://github.com/stewartHutchins) for the support on having toml prettification working again
   The fix has been carried over multiple PRs ([PR #134](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/134), [PR #136](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/136) and [PR #137](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/137)).
 - Internal build fix (failures caused by `tox` major release) - [PR #141](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/141), inspired from [PR #135](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/135) - Thanks [@malmans2](https://github.com/malmans2) for the support
 - Update KTlint to 0.48.1 - [PR #140](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/140) - Thanks [@detouched](https://github.com/detouched) for the upgrade
