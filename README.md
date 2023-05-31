@@ -127,6 +127,18 @@ To work-around such scenario you have 2 approaches available:
 
     Side note: We're not embedding the Dockerfile in the repository as this is more a workaround to support whom cannot of installing a more recent Java version on the library-user system and as such we are not planning to fully support this other than giving possible solutions (Java 11+ was released in September, 2018).
 
+### How to use pre-downloaded [google-java-format jar](https://github.com/google/google-java-format) file?
+
+You can pass the jar file path to `--google-java-formatter-jar` argument:
+
+```yaml
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: ...
+    hooks:
+      - id: pretty-format-java
+        args: [--google-java-formatter-jar=/usr/bin/google-java-format-1.17.0-all-deps.jar]
+```
+
 ## License
 
 `language-formatters-pre-commit-hooks` is licensed with [`Apache License version 2.0`](http://www.apache.org/licenses/LICENSE-2.0.html).

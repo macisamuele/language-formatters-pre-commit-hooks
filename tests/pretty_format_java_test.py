@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from unittest.mock import patch
+
 import pytest
 from packaging.version import Version
 
@@ -67,3 +69,21 @@ def test_pretty_format_java_up_to_1_9_is_allowed_on_jdk_before_16(undecorate_met
 
 def test_pretty_format_java_autofix(tmpdir, undecorate_method):
     run_autofix_test(tmpdir, undecorate_method, "not-pretty-formatted.java", "not-pretty-formatted_fixed.java")
+
+
+@pytest.mark.parametrize(
+    ("cli_arg", "expected_retval"),
+    (
+        ("--google-java-formatter-jar=google-java-format-1.16.0-all-deps.jar", 0),
+        ("", 0),
+    ),
+)
+@patch("language_formatters_pre_commit_hooks.pretty_format_java.run_command", autospec=True)
+def test_pretty_format_java_jar(mock_run_command, undecorate_method, cli_arg, expected_retval):
+    mock_run_command.return_value = (0, "")
+    assert undecorate_method([cli_arg, "pretty-formatted.java"]) == expected_retval
+    in_args = cli_arg in mock_run_command.call_args.args
+    if cli_arg == "":
+        assert in_args
+    else:
+        assert not in_args
