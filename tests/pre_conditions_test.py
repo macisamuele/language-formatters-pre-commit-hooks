@@ -24,30 +24,17 @@ def success(request):
     with patch(
         "language_formatters_pre_commit_hooks.pre_conditions.run_command",
         autospec=True,
-        return_value=(0 if request.param else 1, ""),
+        return_value=(0 if request.param else 1, "", ""),
     ):
         yield request.param
 
 
-@pytest.mark.parametrize(
-    "matcher, expected_matcher_result",
-    (
-        (None, True),
-        (lambda output: output == "", True),
-        (lambda output: output != "", False),
-    ),
-)
-def test__is_command_success(
-    success: bool,
-    matcher: typing.Optional[typing.Callable[[str], bool]],
-    expected_matcher_result: bool,
-) -> None:
+def test__is_command_success(success: bool) -> None:
 
-    assert (success and expected_matcher_result) == _is_command_success(
+    assert success == _is_command_success(
         "cmd",
         "with",
         "args",
-        output_should_match=matcher,
     )
 
 
@@ -99,7 +86,7 @@ def test_tool_required(success, decorator, assert_content):
 @patch(
     "language_formatters_pre_commit_hooks.pre_conditions.run_command",
     autospec=True,
-    return_value=(1, ""),
+    return_value=(1, "", ""),
 )
 def test_get_jdk_version_with_java_not_installed(_) -> None:
     with pytest.raises(RuntimeError):
@@ -147,7 +134,7 @@ def test_get_jdk_version_with_java_not_installed(_) -> None:
     autospec=True,
 )
 def test_get_jdk_version(mock_run_comand: Mock, command_output: str, expected_result: typing.Union[Exception, Version]) -> None:
-    mock_run_comand.return_value = (0, command_output)
+    mock_run_comand.return_value = (0, "", command_output)
 
     if isinstance(expected_result, Exception):
         with pytest.raises(type(expected_result)):

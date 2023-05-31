@@ -12,15 +12,15 @@ from language_formatters_pre_commit_hooks.utils import run_command
 
 
 @pytest.mark.parametrize(
-    "command, expected_status, expected_output",
+    "command, expected_status, expected_output, expected_stderr",
     [
-        (["echo", "1"], 0, "1{}".format(os.linesep)),
-        (["true"], 0, ""),
-        (["false"], 1, ""),
+        (["echo", "1"], 0, "1{}".format(os.linesep), ""),
+        (["true"], 0, "", ""),
+        (["false"], 1, "", ""),
     ],
 )
-def test_run_command(command, expected_status, expected_output):
-    assert run_command(*command) == (expected_status, expected_output)
+def test_run_command(command, expected_status, expected_output, expected_stderr):
+    assert run_command(*command) == (expected_status, expected_output, expected_stderr)
 
 
 @pytest.mark.parametrize(

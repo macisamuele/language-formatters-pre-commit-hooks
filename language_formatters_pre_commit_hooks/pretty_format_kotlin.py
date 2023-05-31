@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
 import json
-import subprocess  # nosec B404
 import sys
 import typing
 
@@ -70,25 +69,22 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
     #
     # Logging must be suppressed here as it goes to stdout. This would
     # interfere with parsing the output JSON.
-    check_result = subprocess.run(  # nosec: B603 B607
-        [
-            "java",
-            *jvm_args,
-            "-jar",
-            ktlint_jar,
-            "--log-level",
-            "none",
-            "--reporter=json",
-            "--relative",
-            "--",
-            *_fix_paths(args.filenames),
-        ],
-        capture_output=True,
+    return_code, stdout, _ = run_command(
+        "java",
+        *jvm_args,
+        "-jar",
+        ktlint_jar,
+        "--log-level",
+        "none",
+        "--reporter=json",
+        "--relative",
+        "--",
+        *_fix_paths(args.filenames),
     )
 
     not_pretty_formatted_files: typing.Set[str] = set()
-    if check_result.returncode != 0:
-        not_pretty_formatted_files.update(item["file"] for item in json.loads(check_result.stdout))
+    if return_code != 0:
+        not_pretty_formatted_files.update(item["file"] for item in json.loads(stdout))
 
         if args.autofix:
             print("Running ktlint format on {}".format(not_pretty_formatted_files))

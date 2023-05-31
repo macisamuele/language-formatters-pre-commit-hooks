@@ -33,7 +33,7 @@ def undecorate_method():
 )
 @patch("language_formatters_pre_commit_hooks.pretty_format_golang.run_command", autospec=True)
 def test__get_eol_attribute(mock_run_command, exit_status, output, expected_eol):
-    mock_run_command.return_value = (exit_status, output)
+    mock_run_command.return_value = (exit_status, output, "")
     assert _get_eol_attribute() == expected_eol
 
 
