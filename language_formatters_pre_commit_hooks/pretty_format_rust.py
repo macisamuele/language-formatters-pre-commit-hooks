@@ -21,7 +21,7 @@ def pretty_format_rust(argv: typing.Optional[typing.List[str]] = None) -> int:
     args = parser.parse_args(argv)
 
     # Check
-    status_code, output = run_command("cargo", "fmt", "--", "--check", *args.filenames)
+    status_code, output, _ = run_command("cargo", "fmt", "--", "--check", *args.filenames)
     not_well_formatted_files = sorted(line.split()[2] for line in output.splitlines() if line.startswith("Diff in "))
     if not_well_formatted_files:
         print(

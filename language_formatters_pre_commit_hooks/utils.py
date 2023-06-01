@@ -10,21 +10,25 @@ from urllib.parse import urlparse
 import requests
 
 
-def run_command(*command: str) -> typing.Tuple[int, str]:
-    print("[cwd={cwd}] Run command: {command}".format(command=command, cwd=os.getcwd()), file=sys.stderr)
-    return_code, output = 1, ""
-    try:
-        return_code, output = (
-            0,
-            subprocess.check_output(  # nosec: disable=B603
-                command,
-                stderr=subprocess.STDOUT,
-            ).decode("utf-8"),
-        )
-    except subprocess.CalledProcessError as e:
-        return_code, output = e.returncode, e.output.decode("utf-8")
-    print("[return_code={return_code}] | {output}".format(return_code=return_code, output=output), file=sys.stderr)
-    return return_code, output
+def run_command(*command: str) -> typing.Tuple[int, str, str]:
+    print(
+        "[cwd={cwd}] Run command: {command}".format(
+            command=command,
+            cwd=os.getcwd(),
+        ),
+        file=sys.stderr,
+    )
+
+    result = subprocess.run(command, capture_output=True)  # nosec: disable=B603
+    return_code = result.returncode
+    stdout = result.stdout.decode("utf-8")
+    stderr = result.stderr.decode("utf-8")
+
+    print(
+        "[return_code={return_code}] | {output}\n\tstderr: {err}".format(return_code=return_code, output=stdout, err=stderr),
+        file=sys.stderr,
+    )
+    return return_code, stdout, stderr
 
 
 def _base_directory() -> str:
@@ -56,7 +60,10 @@ def download_url(url: str, file_name: typing.Optional[str] = None) -> str:
         # command line, but it should never be possible if invoked
         # via `pre-commit` as it would ensure that the directories
         # are present
-        print("Unexisting base directory ({base_directory}). Creating it".format(base_directory=base_directory), file=sys.stderr)
+        print(
+            "Unexisting base directory ({base_directory}). Creating it".format(base_directory=base_directory),
+            file=sys.stderr,
+        )
         os.makedirs(base_directory)
 
     print("Downloading {url}".format(url=url), file=sys.stderr)

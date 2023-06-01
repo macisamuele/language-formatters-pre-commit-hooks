@@ -80,7 +80,7 @@ def test_pretty_format_java_autofix(tmpdir, undecorate_method):
 )
 @patch("language_formatters_pre_commit_hooks.pretty_format_java.run_command", autospec=True)
 def test_pretty_format_java_jar(mock_run_command, undecorate_method, cli_arg, expected_retval):
-    mock_run_command.return_value = (0, "")
+    mock_run_command.return_value = (0, "", "")
     assert undecorate_method([cli_arg, "pretty-formatted.java"]) == expected_retval
     in_args = cli_arg in mock_run_command.call_args.args
     if cli_arg == "":

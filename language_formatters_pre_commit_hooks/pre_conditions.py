@@ -13,10 +13,9 @@ F = typing.TypeVar("F", bound=typing.Callable[..., int])
 
 def _is_command_success(
     *command_args: str,
-    output_should_match: typing.Optional[typing.Callable[[str], bool]] = None,
 ) -> bool:
-    exit_status, output = run_command(*command_args)
-    return exit_status == 0 and (output_should_match is None or output_should_match(output))
+    exit_status, _, _ = run_command(*command_args)
+    return exit_status == 0
 
 
 class ToolNotInstalled(RuntimeError):
@@ -99,9 +98,9 @@ def get_jdk_version() -> Version:
     :raises UnableToVerifyJDKVersion: if it was not possible to gather the JDK version
         This includes the case of `java` binary is not found in the path.
     """
-    _, output = run_command("java", "-XshowSettings:properties", "-version")
+    _, _, stderr = run_command("java", "-XshowSettings:properties", "-version")
     try:
-        java_property_line = next(line for line in output.splitlines() if re.match(r"^\s+java.version\s+=\s+[^s]+$", line))
+        java_property_line = next(line for line in stderr.splitlines() if re.match(r"^\s+java.version\s+=\s+[^s]+$", line))
         return Version(java_property_line.split()[-1])
     except Exception as e:
         raise UnableToVerifyJDKVersion() from e

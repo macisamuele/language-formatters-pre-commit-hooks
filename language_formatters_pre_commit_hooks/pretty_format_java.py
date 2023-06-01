@@ -117,7 +117,7 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
         cmd_args.append("--replace")
     else:
         cmd_args.append("--dry-run")
-    status, output = run_command(*(cmd_args + args.filenames))
+    status, output, _ = run_command(*(cmd_args + args.filenames))
 
     if output:
         print(
