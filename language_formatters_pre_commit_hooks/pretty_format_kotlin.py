@@ -94,7 +94,7 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
                 "-jar",
                 ktlint_jar,
                 "--log-level",
-                "debug",
+                "none",
                 "--relative",
                 "--format",
                 "--",
