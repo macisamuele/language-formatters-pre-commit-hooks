@@ -67,7 +67,7 @@ def download_url(url: str, file_name: typing.Optional[str] = None) -> str:
         os.makedirs(base_directory)
 
     print("Downloading {url}".format(url=url), file=sys.stderr)
-    r = requests.get(url, stream=True)
+    r = requests.get(url, stream=True)  # nosec B113/request_without_timeout: intentional to avoid issues on slow connections
     r.raise_for_status()
     with tempfile.NamedTemporaryFile(dir=base_directory, delete=False) as tmp_file:  # Not delete because we're renaming it
         tmp_file_name = tmp_file.name
