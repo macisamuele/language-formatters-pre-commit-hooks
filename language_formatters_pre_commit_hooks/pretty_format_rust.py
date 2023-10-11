@@ -31,7 +31,8 @@ def pretty_format_rust(argv: typing.Optional[typing.List[str]] = None) -> int:
             ),
         )
         if args.autofix:
-            run_command("cargo", "fmt", "--", *not_well_formatted_files)
+            status_code, output, _ = run_command("cargo", "fmt", "--", *not_well_formatted_files)
+            not_well_formatted_files = sorted(line.split()[2] for line in output.splitlines() if line.startswith("Diff in "))
     elif status_code != 0:
         print("Detected not valid rust source files among {}".format("\n".join(sorted(args.filenames))))
 

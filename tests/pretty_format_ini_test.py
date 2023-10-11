@@ -36,7 +36,7 @@ def test_pretty_format_ini_autofix(tmpdir):
         "not-pretty-formatted.ini",
         srcfile.strpath,
     )
-    assert pretty_format_ini(["--autofix", srcfile.strpath]) == 1
+    assert pretty_format_ini(["--autofix", srcfile.strpath]) == 0
 
     # file was formatted (shouldn't trigger linter again)
     ret = pretty_format_ini([srcfile.strpath])

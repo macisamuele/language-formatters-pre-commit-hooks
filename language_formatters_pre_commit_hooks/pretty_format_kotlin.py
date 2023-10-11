@@ -88,7 +88,7 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
 
         if args.autofix:
             print("Running ktlint format on {}".format(not_pretty_formatted_files))
-            run_command(
+            return_code, stdout, _ = run_command(
                 "java",
                 *jvm_args,
                 "-jar",
@@ -100,13 +100,16 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
                 "--",
                 *_fix_paths(not_pretty_formatted_files),
             )
+            not_pretty_formatted_files = set()
+            if return_code != 0:  # pragma: no cover
+                not_pretty_formatted_files.update(item["file"] for item in json.loads(stdout))
 
     status = 0
     if not_pretty_formatted_files:
         status = 1
         print(
             "{}: {}".format(
-                "The following files have been fixed by ktlint" if args.autofix else "The following files are not properly formatted",
+                "The following files are not properly formatted",
                 ", ".join(sorted(not_pretty_formatted_files)),
             ),
         )

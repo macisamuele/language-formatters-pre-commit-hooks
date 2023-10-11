@@ -109,8 +109,9 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
         "jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED",
         "-jar",
         google_java_formatter_jar,
-        "--set-exit-if-changed",
     ]
+    if not args.autofix:
+        cmd_args.append("--set-exit-if-changed")
     if args.aosp:  # pragma: no cover
         cmd_args.append("--aosp")
     if args.autofix:

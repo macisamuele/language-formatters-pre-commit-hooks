@@ -73,7 +73,8 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
                     with io.open(toml_file, "w", encoding="UTF-8") as output_file:
                         output_file.write(prettified_content)
 
-                status = 1
+                else:
+                    status = 1
         except BaseException as e:
             print("Input File {} is not a valid TOML file: {}".format(toml_file, e))
             return 1

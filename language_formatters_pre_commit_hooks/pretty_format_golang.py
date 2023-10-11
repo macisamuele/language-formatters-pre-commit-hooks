@@ -54,7 +54,8 @@ def pretty_format_golang(argv: typing.Optional[typing.List[str]] = None) -> int:
 
     status = 0
     if output:
-        status = 1
+        if not args.autofix:
+            status = 1
         print(
             "{}: {}".format(
                 "The following files have been fixed by gofmt" if args.autofix else "The following files are not properly formatted",

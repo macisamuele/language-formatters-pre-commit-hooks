@@ -38,7 +38,8 @@ def pretty_format_ini(argv: typing.Optional[typing.List[str]] = None) -> int:
                     with io.open(ini_file, "w", encoding="UTF-8") as output_file:
                         output_file.write(pretty_content_str)
 
-                status = 1
+                else:
+                    status = 1
         except BaseException as e:
             print("Input File {} is not a valid INI file: {}".format(ini_file, e))
             return 1
