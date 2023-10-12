@@ -30,7 +30,6 @@ def success(request):
 
 
 def test__is_command_success(success: bool) -> None:
-
     assert success == _is_command_success(
         "cmd",
         "with",
