@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.11.0 (2023-10-11)
+-------------------
+
+- Update KTLint to version 1.0.0
+- Update GoogleJavaFormatter to 1.18.1
+- Make library compatible with Python 3.12 - [PR #182](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/182) - [@Delgan](https://github.com/Delgan) thanks for your contribution
+
 2.10.0 (2023-07-13)
 ------------------
 
