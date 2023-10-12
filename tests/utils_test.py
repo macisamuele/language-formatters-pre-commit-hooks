@@ -14,7 +14,7 @@ from language_formatters_pre_commit_hooks.utils import run_command
 @pytest.mark.parametrize(
     "command, expected_status, expected_output, expected_stderr",
     [
-        (["echo", "1"], 0, "1{}".format(os.linesep), ""),
+        (["echo", "1"], 0, "1\n", ""),
         (["true"], 0, "", ""),
         (["false"], 1, "", ""),
     ],
