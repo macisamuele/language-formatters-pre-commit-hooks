@@ -86,18 +86,18 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
     args = parser.parse_args(argv)
     print(args)
     if args.ktfmt:
-        if not args.autofix:
-            raise ValueError("ktfmt only support --autofix")
-        return run_ktfmt(args.kftmt_version, args.filenames, args.ktfmt_style)
+        return run_ktfmt(args.kftmt_version, args.filenames, args.ktfmt_style, args.autofix)
     else:
         return run_ktlint(args.ktlint_version,args.filenames,  args.autofix)
 
 
-def run_ktfmt(ktfmt_version: str, filenames: typing.Iterable[str], ktfmt_style: typing.Optional[str]) -> int:
+def run_ktfmt(ktfmt_version: str, filenames: typing.Iterable[str], ktfmt_style: typing.Optional[str], autofix: bool) -> int:
     jar = _download_ktfmt_formatter_jar(ktfmt_version)
     ktfmt_args = ["--set-exit-if-changed"]
     if ktfmt_style is not None:
         ktfmt_args.append(f"--{ktfmt_style}-style")
+    if not autofix:
+        ktfmt_args.append("--dry-run")
     filenames = filenames if filenames else ["./"]
     return_code, _, _ = run_command(
         "java",

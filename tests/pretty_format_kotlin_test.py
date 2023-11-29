@@ -76,21 +76,35 @@ def test_pretty_format_kotlin_ktlint(undecorate_method, filename, expected_retva
 
 
 @pytest.mark.parametrize(
-    ("filename", "expected_retval"),
+    ("filename", "expected_retval", "extra_parameters"),
     (
-        ("Invalid.kt", 1),
-        ("PrettyFormatted.kt", 0),
-        ("NotPrettyFormatted.kt", 1),
-        ("NotPrettyFormattedFixed.kt", 0),
-    ),
+        ("Invalid.kt", 1, []),
+        ("PrettyFormatted.kt", 0, []),
+        ("NotPrettyFormatted.kt", 1, []),
+        ("NotPrettyFormattedFixedKtlint.kt", 0, []),
+        # ktfmt dropbox style (same as kotlinlang in this example)
+        ("NotPrettyFormattedFixedKtfmtDropbox.kt", 1, ["--ktfmt"]),
+        ("NotPrettyFormattedFixedKtfmtDropbox.kt", 0, ["--ktfmt", "--ktfmt-style=dropbox"]),
+        ("NotPrettyFormattedFixedKtfmtDropbox.kt", 1, ["--ktfmt", "--ktfmt-style=google"]),
+        ("NotPrettyFormattedFixedKtfmtDropbox.kt", 0, ["--ktfmt", "--ktfmt-style=kotlinlang"]),
+        # ktfmt google style
+        ("NotPrettyFormattedFixedKtfmtGoogle.kt", 0, ["--ktfmt"]),
+        ("NotPrettyFormattedFixedKtfmtGoogle.kt", 1, ["--ktfmt", "--ktfmt-style=dropbox"]),
+        ("NotPrettyFormattedFixedKtfmtGoogle.kt", 0, ["--ktfmt", "--ktfmt-style=google"]),
+        ("NotPrettyFormattedFixedKtfmtGoogle.kt", 1, ["--ktfmt", "--ktfmt-style=kotlinlang"]),
+        # ktfmt kotlinlang style (same as dropbox in this example)
+        ("NotPrettyFormattedFixedKtfmtKotlinlang.kt", 1, ["--ktfmt"]),
+        ("NotPrettyFormattedFixedKtfmtKotlinlang.kt", 0, ["--ktfmt", "--ktfmt-style=dropbox"]),
+        ("NotPrettyFormattedFixedKtfmtKotlinlang.kt", 1, ["--ktfmt", "--ktfmt-style=google"]),
+        ("NotPrettyFormattedFixedKtfmtKotlinlang.kt", 0, ["--ktfmt", "--ktfmt-style=kotlinlang"]),
+        # ktfmt other files
+        ("NotPrettyFormatted.kt", 1, ["--ktfmt"]),
+        ("Invalid.kt", 1, ["--ktfmt"]),
+    )
 )
-def test_pretty_format_kotlin(undecorate_method, filename, expected_retval):
-    assert undecorate_method([filename]) == expected_retval
+def test_pretty_format_kotlin(undecorate_method, filename, expected_retval, extra_parameters):
+    assert undecorate_method(extra_parameters + [filename]) == expected_retval
 
-
-def test_no_ktfmt_without_auto_format(undecorate_method):
-    with pytest.raises(ValueError, match=r"ktfmt only support --autofix"):
-        undecorate_method(["--ktfmt", "Invalid.kt"])
 
 @pytest.mark.parametrize(
     ("filename", "fixed_filename", "extra_parameters"),
@@ -99,7 +113,7 @@ def test_no_ktfmt_without_auto_format(undecorate_method):
         ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtGoogle.kt", ["--autofix", "--ktfmt"]),
         ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtGoogle.kt", ["--autofix", "--ktfmt", "--ktfmt-style=google"]),
         ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtDropbox.kt", ["--autofix", "--ktfmt", "--ktfmt-style=dropbox"]),
-        ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtDropbox.kt", ["--autofix", "--ktfmt", "--ktfmt-style=kotlinlang"]),
+        ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtKotlinlang.kt", ["--autofix", "--ktfmt", "--ktfmt-style=kotlinlang"]),
     ),
 )
 def test_pretty_format_kotlin_autofix(tmpdir, undecorate_method, filename, fixed_filename, extra_parameters):

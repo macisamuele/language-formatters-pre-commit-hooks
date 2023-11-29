@@ -141,14 +141,14 @@ You can pass the jar file path to `--google-java-formatter-jar` argument:
 
 ### How to use ktfmt instead of ktlint
 
-⚠: [ktfmt](https://github.com/facebook/ktfmt) is a more opinionated linter than [ktlin](https://github.com/pinterest/ktlint), and only support `--autofix`. It will change a lot of files
+⚠: [ktfmt](https://github.com/facebook/ktfmt) is a more opinionated linter than [ktlin](https://github.com/pinterest/ktlint). It will change a lot of files
 
 ```yaml
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
     rev: ...
     hooks:
       - id: pretty-format-kotlin
-        args: [--ktfmt --ktfmt-style=google --autofix]
+        args: [--ktfmt --ktfmt-style=google]
 ```
 
 ## License
