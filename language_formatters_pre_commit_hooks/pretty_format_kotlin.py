@@ -56,7 +56,7 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
         "--autofix",
         action="store_true",
         dest="autofix",
-        help="Automatically fixes encountered not-pretty-formatted files (ktlint only)",
+        help="Automatically fixes encountered not-pretty-formatted files",
     )
     parser.add_argument(
         "--ktlint-version",
