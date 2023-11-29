@@ -139,6 +139,18 @@ You can pass the jar file path to `--google-java-formatter-jar` argument:
         args: [--google-java-formatter-jar=/usr/bin/google-java-format-1.17.0-all-deps.jar]
 ```
 
+### How to use ktfmt instead of ktlint
+
+⚠: [ktfmt](https://github.com/facebook/ktfmt) is a more opinionated linter than [ktlin](https://github.com/pinterest/ktlint), it may change a lot of files
+
+```yaml
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: ...
+    hooks:
+      - id: pretty-format-kotlin
+        args: [--ktfmt]
+```
+
 ## License
 
 `language-formatters-pre-commit-hooks` is licensed with [`Apache License version 2.0`](http://www.apache.org/licenses/LICENSE-2.0.html).

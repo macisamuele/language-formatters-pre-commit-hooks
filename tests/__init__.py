@@ -46,6 +46,7 @@ def run_autofix_test(
     method: typing.Callable[[typing.List[str]], int],
     not_pretty_formatted_path: str,
     formatted_path: str,
+    extra_parameters: list[str],
 ) -> None:
     tmpdir.mkdir("src")
     not_pretty_formatted_tmp_path = tmpdir.join("src").join(basename(not_pretty_formatted_path))
@@ -55,14 +56,14 @@ def run_autofix_test(
 
     copyfile(not_pretty_formatted_path, not_pretty_formatted_tmp_path)
     with change_dir_context(tmpdir.strpath):
-        parameters = ["--autofix", not_pretty_formatted_tmp_strpath]
+        parameters = extra_parameters + [not_pretty_formatted_tmp_strpath]
         status_code = method(parameters)
         if status_code != 1:
             raise UnexpectedStatusCode(parameters=parameters, expected_status_code=1, actual_status_code=status_code)
 
     # file was formatted (shouldn't trigger linter again)
     with change_dir_context(tmpdir.strpath):
-        parameters = ["--autofix", not_pretty_formatted_tmp_strpath]
+        parameters = extra_parameters + [not_pretty_formatted_tmp_strpath]
         status_code = method(parameters)
         if status_code != 0:
             raise UnexpectedStatusCode(parameters=parameters, expected_status_code=0, actual_status_code=status_code)

@@ -2,7 +2,8 @@
 import pytest
 
 from language_formatters_pre_commit_hooks import _get_default_version
-from language_formatters_pre_commit_hooks.pretty_format_kotlin import _download_kotlin_formatter_jar
+from language_formatters_pre_commit_hooks.pretty_format_kotlin import \
+    _download_ktlint_formatter_jar, _download_ktfmt_formatter_jar
 from language_formatters_pre_commit_hooks.pretty_format_kotlin import pretty_format_kotlin
 from tests import change_dir_context
 from tests import run_autofix_test
@@ -45,8 +46,21 @@ def undecorate_method():
 )
 @pytest.mark.integration
 def test__download_kotlin_formatter_jar(ensure_download_possible, version):  # noqa: F811
-    _download_kotlin_formatter_jar(version)
+    _download_ktlint_formatter_jar(version)
 
+@pytest.mark.parametrize(
+    "version",
+    sorted(
+        {
+            _get_default_version("ktfmt"),
+            "0.45",
+            "0.46",
+        }
+    ),
+)
+@pytest.mark.integration
+def test__download_kotlin_formatter_jar(ensure_download_possible, version):  # noqa: F811
+    _download_ktfmt_formatter_jar(version)
 
 @pytest.mark.parametrize(
     ("filename", "expected_retval"),
@@ -62,4 +76,10 @@ def test_pretty_format_kotlin(undecorate_method, filename, expected_retval):
 
 
 def test_pretty_format_kotlin_autofix(tmpdir, undecorate_method):
-    run_autofix_test(tmpdir, undecorate_method, "NotPrettyFormatted.kt", "NotPrettyFormattedFixed.kt")
+    run_autofix_test(tmpdir, undecorate_method, "NotPrettyFormatted.kt", "NotPrettyFormattedFixed.kt",
+                     ["--autofix"])
+
+
+def test_ktfmt_autofix(tmpdir, undecorate_method):
+    run_autofix_test(tmpdir, undecorate_method, "NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmt.kt",
+                     ["--ktfmt"])
