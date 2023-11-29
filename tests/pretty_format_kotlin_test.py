@@ -71,15 +71,42 @@ def test__download_kotlin_formatter_jar(ensure_download_possible, version):  # n
         ("NotPrettyFormattedFixed.kt", 0),
     ),
 )
+def test_pretty_format_kotlin_ktlint(undecorate_method, filename, expected_retval):
+    assert undecorate_method([filename]) == expected_retval
+
+
+@pytest.mark.parametrize(
+    ("filename", "expected_retval"),
+    (
+        ("Invalid.kt", 1),
+        ("PrettyFormatted.kt", 0),
+        ("NotPrettyFormatted.kt", 1),
+        ("NotPrettyFormattedFixed.kt", 0),
+    ),
+)
 def test_pretty_format_kotlin(undecorate_method, filename, expected_retval):
     assert undecorate_method([filename]) == expected_retval
 
 
-def test_pretty_format_kotlin_autofix(tmpdir, undecorate_method):
-    run_autofix_test(tmpdir, undecorate_method, "NotPrettyFormatted.kt", "NotPrettyFormattedFixed.kt",
-                     ["--autofix"])
+def test_no_ktfmt_without_auto_format(undecorate_method):
+    with pytest.raises(ValueError, match=r"ktfmt only support --autofix"):
+        undecorate_method(["--ktfmt", "Invalid.kt"])
 
-
-def test_ktfmt_autofix(tmpdir, undecorate_method):
-    run_autofix_test(tmpdir, undecorate_method, "NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmt.kt",
-                     ["--ktfmt"])
+@pytest.mark.parametrize(
+    ("filename", "fixed_filename", "extra_parameters"),
+    (
+        ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtlint.kt", ["--autofix"]),
+        ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtGoogle.kt", ["--autofix", "--ktfmt"]),
+        ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtGoogle.kt", ["--autofix", "--ktfmt", "--ktfmt-style=google"]),
+        ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtDropbox.kt", ["--autofix", "--ktfmt", "--ktfmt-style=dropbox"]),
+        ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtDropbox.kt", ["--autofix", "--ktfmt", "--ktfmt-style=kotlinlang"]),
+    ),
+)
+def test_pretty_format_kotlin_autofix(tmpdir, undecorate_method, filename, fixed_filename, extra_parameters):
+    run_autofix_test(
+        tmpdir,
+        undecorate_method,
+        filename,
+        fixed_filename,
+        extra_parameters
+    )

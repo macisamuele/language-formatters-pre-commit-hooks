@@ -77,30 +77,33 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
         help="Use ktfmt",
     )
     parser.add_argument(
-        "--dropbox-style",
-        action="store_true",
-        dest="dropbox_style",
-        help="Use dropbox style for ktfmt",
+        "--ktfmt-style",
+        choices=['dropbox', 'google', 'kotlinlang'],
+        dest="ktfmt_style",
+        help="Which style to use",
     )
-
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
+    print(args)
     if args.ktfmt:
-        return run_ktfmt(args.kftmt_version, args.filenames, args.dropbox_style)
+        if not args.autofix:
+            raise ValueError("ktfmt only support --autofix")
+        return run_ktfmt(args.kftmt_version, args.filenames, args.ktfmt_style)
     else:
         return run_ktlint(args.ktlint_version,args.filenames,  args.autofix)
 
 
-def run_ktfmt(ktfmt_version: str, filenames: typing.Iterable[str], dropbox_style: bool) -> int:
+def run_ktfmt(ktfmt_version: str, filenames: typing.Iterable[str], ktfmt_style: typing.Optional[str]) -> int:
     jar = _download_ktfmt_formatter_jar(ktfmt_version)
-    ktfmt_args = (["--dropbox-style"] if dropbox_style else [])
+    ktfmt_args = ["--set-exit-if-changed"]
+    if ktfmt_style is not None:
+        ktfmt_args.append(f"--{ktfmt_style}-style")
     filenames = filenames if filenames else ["./"]
     return_code, _, _ = run_command(
         "java",
         "-jar",
         jar,
         "ktfmt",
-        "--set-exit-if-changed",
         *ktfmt_args,
         *filenames,
     )
