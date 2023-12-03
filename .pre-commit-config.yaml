@@ -3,7 +3,7 @@ default_language_version:
 
 repos:
 - repo: https://github.com/pre-commit/pre-commit
-  rev: v3.4.0
+  rev: v3.5.0
   hooks:
   - id: validate_manifest
 - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -38,14 +38,14 @@ repos:
     - --remove-import
     - from __future__ import unicode_literals
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.10.0
+  rev: v2.11.0
   hooks:
   - id: pretty-format-yaml
     exclude: ^test-data/.*$
     args:
     - --autofix
 - repo: https://github.com/ambv/black
-  rev: 23.9.1
+  rev: 23.11.0
   hooks:
   - id: black
     args: [--config, .black.toml]
@@ -54,7 +54,7 @@ repos:
   hooks:
   - id: flake8
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.5.1
+  rev: v1.7.1
   hooks:
   - id: mypy
     exclude: ^(\.github/workflows/bump_external_releases\.py)$
