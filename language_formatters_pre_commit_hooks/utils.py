@@ -13,7 +13,7 @@ import requests
 def run_command(*command: str) -> typing.Tuple[int, str, str]:
     print(
         "[cwd={cwd}] Run command: {command}".format(
-            command=' '.join(command),
+            command=command,
             cwd=os.getcwd(),
         ),
         file=sys.stderr,

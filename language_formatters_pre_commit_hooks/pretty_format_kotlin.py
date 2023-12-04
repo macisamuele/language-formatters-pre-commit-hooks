@@ -31,16 +31,16 @@ def _download_ktlint_formatter_jar(version: str) -> str:  # pragma: no cover
 
 
 def _download_ktfmt_formatter_jar(version: str) -> str:  # pragma: no cover
-    url ="https://repo1.maven.org/maven2/com/facebook/ktfmt/{version}/ktfmt-{version}-jar-with-dependencies.jar".format(
-            version=version,
-        )
+    url = "https://repo1.maven.org/maven2/com/facebook/ktfmt/{version}/ktfmt-{version}-jar-with-dependencies.jar".format(
+        version=version,
+    )
     try:
         return download_url(url)
     except:  # noqa: E722 (allow usage of bare 'except')
         raise RuntimeError(
-            f"Failed to download {url}. Probably the requested version, {version}"
-            ", is not valid or you have some network issue."
+            f"Failed to download {url}. Probably the requested version, {version}" ", is not valid or you have some network issue."
         )
+
 
 def _fix_paths(paths: typing.Iterable[str]) -> typing.Iterable[str]:
     # Starting from KTLint 0.41.0 paths cannot contain backward slashes as path separator
@@ -78,17 +78,16 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
     )
     parser.add_argument(
         "--ktfmt-style",
-        choices=['dropbox', 'google', 'kotlinlang'],
+        choices=["dropbox", "google", "kotlinlang"],
         dest="ktfmt_style",
         help="Which style to use",
     )
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
-    print(args)
     if args.ktfmt:
         return run_ktfmt(args.kftmt_version, args.filenames, args.ktfmt_style, args.autofix)
     else:
-        return run_ktlint(args.ktlint_version,args.filenames,  args.autofix)
+        return run_ktlint(args.ktlint_version, args.filenames, args.autofix)
 
 
 def run_ktfmt(ktfmt_version: str, filenames: typing.Iterable[str], ktfmt_style: typing.Optional[str], autofix: bool) -> int:
@@ -98,7 +97,6 @@ def run_ktfmt(ktfmt_version: str, filenames: typing.Iterable[str], ktfmt_style: 
         ktfmt_args.append(f"--{ktfmt_style}-style")
     if not autofix:
         ktfmt_args.append("--dry-run")
-    filenames = filenames if filenames else ["./"]
     return_code, _, _ = run_command(
         "java",
         "-jar",
@@ -110,8 +108,7 @@ def run_ktfmt(ktfmt_version: str, filenames: typing.Iterable[str], ktfmt_style: 
     return return_code
 
 
-def run_ktlint(ktlint_version: str, filenames:typing.Iterable[str], autofix: bool):
-
+def run_ktlint(ktlint_version: str, filenames: typing.Iterable[str], autofix: bool):
     ktlint_jar = _download_ktlint_formatter_jar(ktlint_version)
     jvm_args = ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
 
