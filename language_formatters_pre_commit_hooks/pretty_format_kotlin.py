@@ -10,7 +10,7 @@ from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
 
 
-def _download_kotlin_formatter_jar(version: str) -> str:  # pragma: no cover
+def _download_ktlint_formatter_jar(version: str) -> str:  # pragma: no cover
     def get_url(_version: str) -> str:
         # Links extracted from https://github.com/pinterest/ktlint/
         return "https://github.com/pinterest/ktlint/releases/download/{version}/ktlint".format(
@@ -27,6 +27,18 @@ def _download_kotlin_formatter_jar(version: str) -> str:  # pragma: no cover
                 url=url_to_download,
                 version=version,
             ),
+        )
+
+
+def _download_ktfmt_formatter_jar(version: str) -> str:  # pragma: no cover
+    url = "https://repo1.maven.org/maven2/com/facebook/ktfmt/{version}/ktfmt-{version}-jar-with-dependencies.jar".format(
+        version=version,
+    )
+    try:
+        return download_url(url)
+    except:  # noqa: E722 (allow usage of bare 'except')
+        raise RuntimeError(
+            f"Failed to download {url}. Probably the requested version, {version}" ", is not valid or you have some network issue."
         )
 
 
@@ -52,14 +64,52 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
         default=_get_default_version("ktlint"),
         help="KTLint version to use (default %(default)s)",
     )
-
+    parser.add_argument(
+        "--ktfmt-version",
+        dest="kftmt_version",
+        default=_get_default_version("ktfmt"),
+        help="ktfmt version to use (default %(default)s)",
+    )
+    parser.add_argument(
+        "--ktfmt",
+        action="store_true",
+        dest="ktfmt",
+        help="Use ktfmt",
+    )
+    parser.add_argument(
+        "--ktfmt-style",
+        choices=["dropbox", "google", "kotlinlang"],
+        dest="ktfmt_style",
+        help="Which style to use",
+    )
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
+    if args.ktfmt:
+        return run_ktfmt(args.kftmt_version, args.filenames, args.ktfmt_style, args.autofix)
+    else:
+        return run_ktlint(args.ktlint_version, args.filenames, args.autofix)
 
-    ktlint_jar = _download_kotlin_formatter_jar(
-        args.ktlint_version,
+
+def run_ktfmt(ktfmt_version: str, filenames: typing.Iterable[str], ktfmt_style: typing.Optional[str], autofix: bool) -> int:
+    jar = _download_ktfmt_formatter_jar(ktfmt_version)
+    ktfmt_args = ["--set-exit-if-changed"]
+    if ktfmt_style is not None:
+        ktfmt_args.append(f"--{ktfmt_style}-style")
+    if not autofix:
+        ktfmt_args.append("--dry-run")
+    return_code, _, _ = run_command(
+        "java",
+        "-jar",
+        jar,
+        "ktfmt",
+        *ktfmt_args,
+        *filenames,
     )
+    return return_code
 
+
+def run_ktlint(ktlint_version: str, filenames: typing.Iterable[str], autofix: bool):
+    ktlint_jar = _download_ktlint_formatter_jar(ktlint_version)
     jvm_args = ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
 
     # ktlint does not return exit-code!=0 if we're formatting them.
@@ -79,14 +129,14 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
         "--reporter=json",
         "--relative",
         "--",
-        *_fix_paths(args.filenames),
+        *_fix_paths(filenames),
     )
 
     not_pretty_formatted_files: typing.Set[str] = set()
     if return_code != 0:
         not_pretty_formatted_files.update(item["file"] for item in json.loads(stdout))
 
-        if args.autofix:
+        if autofix:
             print("Running ktlint format on {}".format(not_pretty_formatted_files))
             run_command(
                 "java",
@@ -106,7 +156,7 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
         status = 1
         print(
             "{}: {}".format(
-                "The following files have been fixed by ktlint" if args.autofix else "The following files are not properly formatted",
+                "The following files have been fixed by ktlint" if autofix else "The following files are not properly formatted",
                 ", ".join(sorted(not_pretty_formatted_files)),
             ),
         )

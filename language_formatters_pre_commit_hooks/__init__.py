@@ -18,5 +18,5 @@ def _get_default_version(tool_name: str) -> str:  # pragma: no cover
             )
         ) as f:
             return f.readline().split()[0]
-    except:  # noqa: E722 (allow usage of bare 'except')
+    except:  # noqa: E722 (allow usage of bare 'except')  # pragma: no cover
         raise RuntimeError("No default version found for {tool_name}".format(tool_name=tool_name))

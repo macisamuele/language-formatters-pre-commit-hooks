@@ -24,7 +24,7 @@
   minimum_pre_commit_version: '1'
 - id: pretty-format-kotlin
   name: KTLint
-  description: Runs KTLint over Kotlin source files
+  description: Runs KTLint (or ktfmt) over Kotlin source files
   entry: pretty-format-kotlin
   language: python
   types: [kotlin]
