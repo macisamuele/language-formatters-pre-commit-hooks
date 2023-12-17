@@ -146,7 +146,7 @@ You can pass the jar file path to `--google-java-formatter-jar` argument:
     rev: ...
     hooks:
       - id: pretty-format-kotlin
-        args: [--ktfmt --ktfmt-style=google]
+        args: [--ktfmt, --ktfmt-style=google]
 ```
 
 Supported styles are google (default), dropbox and kotlinlang
