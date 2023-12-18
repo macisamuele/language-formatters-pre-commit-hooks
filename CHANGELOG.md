@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.12.0 (2023-12-19)
+-------------------
+
+- Add support for [ktfmt](https://github.com/facebook/ktfmt) Kotlin code formatter - [PR #196](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/196) - [@aandres](https://github.com/aandres) thanks for your contribution
+- Update KTLint to version 1.0.1
+
 2.11.0 (2023-10-11)
 -------------------
 
