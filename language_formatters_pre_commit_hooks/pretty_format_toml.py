@@ -44,7 +44,7 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
     status = 0
 
     for toml_file in set(args.filenames):
-        with open(toml_file) as input_file:
+        with open(toml_file, encoding="UTF-8") as input_file:
             string_content = "".join(input_file.readlines())
 
         try:
