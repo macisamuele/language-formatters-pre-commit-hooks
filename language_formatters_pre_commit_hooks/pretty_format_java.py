@@ -8,6 +8,7 @@ from packaging.version import Version
 
 from language_formatters_pre_commit_hooks import _get_default_version
 from language_formatters_pre_commit_hooks.pre_conditions import assert_max_jdk_version
+from language_formatters_pre_commit_hooks.pre_conditions import assert_min_jdk_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
 from language_formatters_pre_commit_hooks.utils import does_checksum_match
 from language_formatters_pre_commit_hooks.utils import download_url
@@ -50,21 +51,70 @@ def _download_google_java_formatter_jar(version: str) -> str:  # pragma: no cove
         )
 
 
+def _download_palantir_java_formatter_jar(version: str) -> str:  # pragma: no cover
+    def get_urls(_version: str) -> typing.List[str]:
+        # Links extracted from https://github.com/jsonschema2dataclass/palantir-cli
+        return [
+            "https://github.com/jsonschema2dataclass/palantir-cli/releases/download/"
+            "{version}/palantir-cli-{version}-standalone.jar".format(
+                version=_version,
+            ),
+        ]
+
+    possible_urls = get_urls(version)
+    try:
+        for url_to_download in possible_urls:
+            try:
+                return download_url(url_to_download, "palantir-java-formatter{version}.jar".format(version=version))
+            except requests.HTTPError as e:
+                if e.response is None or e.response.status_code != 404:
+                    # If the url was not found then move forward with the next links
+                    raise
+
+        raise RuntimeError("Failed to load any of the provided links")
+    except:  # noqa: E722 (allow usage of bare 'except')
+        raise RuntimeError(
+            "Failed to download any of: {urls}. Probably the requested version, "
+            "{version}, is not valid or you have some network issue.".format(
+                urls=", ".join(possible_urls),
+                version=version,
+            ),
+        )
+
 @java_required
 def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser = argparse.ArgumentParser()
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument(
+    google_formatter = parser.add_mutually_exclusive_group()
+    google_formatter.add_argument(
         "--google-java-formatter-version",
         dest="google_java_formatter_version",
         default=_get_default_version("google_java_formatter"),
         help="Google Java Formatter version to use (default %(default)s)",
     )
-    group.add_argument(
+    google_formatter.add_argument(
         "--google-java-formatter-jar",
         dest="google_java_formatter_jar",
         default=None,
         help="Path to Google Java Formatter jar file. Will be downloaded if not defined. Note that --google-java-formatter-version will be ignored if this parameter is defined (default: %(default)).",
+    )
+    palantir_formatter = parser.add_mutually_exclusive_group()
+    palantir_formatter.add_argument(
+        "--palantir-java-formatter-version",
+        dest="palantir_java_formatter_version",
+        default=_get_default_version("palantir_java_formatter"),
+        help="Palantir Java Formatter version to use (default %(default)s)",
+    )
+    palantir_formatter.add_argument(
+        "--palantir-java-formatter-jar",
+        dest="palantir_java_formatter_jar",
+        default=None,
+        help="Path to Palantir Java Formatter jar file. Will be downloaded if not defined. Note that --palantir-java-formatter-version will be ignored if this parameter is defined (default: %(default)).",
+    )
+    parser.add_argument(
+        "--palantir",
+        action="store_true",
+        dest="use_palantir",
+        help="Automatically fixes encountered not-pretty-formatted files",
     )
     parser.add_argument(
         "--formatter-jar-checksum",
@@ -88,6 +138,13 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
 
+    if args.use_palantir:
+        return format_palantir(args)
+    else:
+        return format_google(args)
+
+
+def format_google(args):
     # Google Java Formatter 1.10+ does support Java 16+, before that version
     # the tool can only be executed on Java up to version 15.
     # Context: https://github.com/google/google-java-format/releases/tag/v1.10.0
@@ -140,7 +197,52 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
                 ", ".join(output.splitlines()),
             ),
         )
+    return 0 if status == 0 else 1
 
+
+def format_palantir(args):
+    # Palantir Java Formatter starting from 2.0.0 does not support Java 1.8,
+    # before that version the tool can only be executed on Java up to version 20.
+    # Context: https://github.com/palantir/palantir-java-format/releases/tag/v2.0.0
+    if Version(args.palantir_java_formatter_version) >= Version("2.0.0"):
+        assert_min_jdk_version(Version("11.0"))  # pragma: no cover
+
+    # Palantir Java formatter is not compatible with Java 21 and above yet.
+    # https://github.com/palantir/palantir-java-format/issues/977 contains
+    # more links for Java compatibility
+    assert_max_jdk_version(Version("21.0"))  # pragma: no cover
+
+    if args.palantir_java_formatter_jar is None:
+        palantir_java_formatter_jar = _download_palantir_java_formatter_jar(
+            args.palantir_java_formatter_version,
+        )
+    else:
+        palantir_java_formatter_jar = args.palantir_java_formatter_jar
+
+    cmd_args = [
+        "java",
+        "-jar",
+        palantir_java_formatter_jar,
+        "--set-exit-if-changed",
+        "--palantir",
+    ]
+    if args.aosp:  # pragma: no cover
+        cmd_args.append("--aosp")
+    if args.autofix:
+        cmd_args.append("--replace")
+    else:
+        cmd_args.append("--dry-run")
+    status, output, _ = run_command(*(cmd_args + args.filenames))
+
+    if output:
+        print(
+            "{}: {}".format(
+                "The following files have been fixed by google-java-formatter"
+                if args.autofix
+                else "The following files are not properly formatted",  # noqa
+                ", ".join(output.splitlines()),
+            ),
+        )
     return 0 if status == 0 else 1
 
 

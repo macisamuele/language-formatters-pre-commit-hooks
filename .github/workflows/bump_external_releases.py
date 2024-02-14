@@ -68,6 +68,13 @@ def bump_google_java_formatter():
     )
 
 
+def bump_palantir_java_formatter():
+    return bump_release(
+        github_project="jsonschema2dataclass/palantir-cli",
+        tool_name="palantir-cli",
+    )
+
+
 if __name__ == "__main__":
     something_is_bumped = False
     for bumper in (bump_ktfmt, bump_ktlint, bump_google_java_formatter):
