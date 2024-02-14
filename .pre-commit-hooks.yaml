@@ -13,8 +13,8 @@
   types: [ini]
   minimum_pre_commit_version: '1'
 - id: pretty-format-java
-  name: Google Java Formatter
-  description: Runs Google Java Formatter over Java source files
+  name: Google (or Palantir) Java Formatter
+  description: Runs Google (or Palantir) Java Formatter over Java source files
   entry: pretty-format-java
   language: python
   types: [java]
