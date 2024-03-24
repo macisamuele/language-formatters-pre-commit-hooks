@@ -26,6 +26,12 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
         default="2",
         help="The number of spaces to be used as delimiter for indentation level (Default: %(default)s)",
     )
+    parser.add_argument(
+        "--inline-comment-spaces",
+        type=int,
+        default="2",
+        help="The number of spaces to be used as delimiter before inline comments (Default: %(default)s)",
+    )
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     parser.add_argument(
         "--trailing-commas",
@@ -58,7 +64,7 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
                 ),
                 sort_config=SortConfiguration(tables=not args.no_sort, table_keys=not args.no_sort),
                 format_config=FormattingConfiguration(
-                    spaces_before_inline_comment=2,
+                    spaces_before_inline_comment=args.inline_comment_spaces,
                     spaces_indent_inline_array=args.indent,
                     trailing_comma_inline_array=args.trailing_commas,
                 ),
