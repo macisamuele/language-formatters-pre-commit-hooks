@@ -1,6 +1,15 @@
 Changelog
 =========
 
+2.13.0 (2024-03-31)
+-------------------
+
+- Update KTLint to version 1.2.1
+- Update GoogleJavaFormatter to version 1.21.0
+- Ensure that TOML processing assumes that the files have UTF-8 encoding - [PR #208](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/208) - [@Jayman2000](https://github.com/Jayman2000) thanks for your contribution
+- Pretty TOML allows for customisation of inline-comment-space - [PR #205](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/205) - [@alkatar21](https://github.com/alkatar21) thanks for your contribution
+- [internal] Update pre-commit hooks, github actions
+
 2.12.0 (2023-12-19)
 -------------------
 
