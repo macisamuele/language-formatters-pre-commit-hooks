@@ -16,9 +16,9 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
-        golang_version: [1.19.3]
-        java_version: ['15', '16', '17', '18', '19']
-        python_version: ['3.10', '3.11', '3.12']
+        golang_version: [1.22.1]
+        java_version: ['15', '21']
+        python_version: ['3.8', '3.10', '3.12']
         rust_version: [stable]
 
     env:
