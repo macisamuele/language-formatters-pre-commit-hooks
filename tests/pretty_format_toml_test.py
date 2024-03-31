@@ -39,6 +39,10 @@ def test_pretty_format_toml(filename, expected_retval):
         ("indent4-pretty-formatted.toml", ["--indent=4"], 0),
         ("no-sort-pretty-formatted.toml", ["--no-sort"], 0),
         ("no-sort-pretty-formatted.toml", [], 1),
+        ("inline-comment-2spaces-pretty-formatted.toml", [], 0),
+        ("inline-comment-2spaces-pretty-formatted.toml", ["--inline-comment-spaces=2"], 0),
+        ("inline-comment-1spaces-pretty-formatted.toml", [], 1),
+        ("inline-comment-1spaces-pretty-formatted.toml", ["--inline-comment-spaces=1"], 0),
     ),
 )
 def test_pretty_format_toml_custom_cli_arguments(filename, args, expected_retval):
