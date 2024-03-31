@@ -122,9 +122,11 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
     if output:
         print(
             "{}: {}".format(
-                "The following files have been fixed by google-java-formatter"
-                if args.autofix
-                else "The following files are not properly formatted",  # noqa
+                (
+                    "The following files have been fixed by google-java-formatter"
+                    if args.autofix
+                    else "The following files are not properly formatted"
+                ),  # noqa
                 ", ".join(output.splitlines()),
             ),
         )
