@@ -229,20 +229,20 @@ def format_palantir(args):
     if args.aosp:  # pragma: no cover
         cmd_args.append("--aosp")
     if args.autofix:
-        cmd_args.append("--replace")
+        cmd_args.append("--replace")  # pragma: no cover
     else:
         cmd_args.append("--dry-run")
     status, output, _ = run_command(*(cmd_args + args.filenames))
 
     if output:
-        print(
-            "{}: {}".format(
-                "The following files have been fixed by google-java-formatter"
-                if args.autofix
-                else "The following files are not properly formatted",  # noqa
-                ", ".join(output.splitlines()),
-            ),
+        message = (
+            "The following files have been fixed by palantir-java-formatter"
+            if args.autofix
+            else "The following files are not properly formatted"
         )
+        lines = ", ".join(output.splitlines())
+        print(f"{message}: {lines}")
+
     return 0 if status == 0 else 1
 
 

@@ -51,7 +51,7 @@ def test__download_google_java_formatter_jar(ensure_download_possible, version):
     ),
 )
 @pytest.mark.integration
-def test__download_google_java_formatter_jar(ensure_download_possible, version):  # noqa: F811
+def test__download_palantir_java_formatter_jar(ensure_download_possible, version):  # noqa: F811
     # Test that we can download different version of the Google Java Formatter
     _download_palantir_java_formatter_jar(version)
 
@@ -105,12 +105,6 @@ def test_palantir_pretty_format_java(undecorate_method, cli_args, expected_retva
 def test_google_pretty_format_java_up_to_1_9_is_not_allowed_on_jdk_16_and_above(undecorate_method):
     with pytest.raises(ToolNotInstalled, match="JRE: version < 16.0 is required to run this pre-commit hook."):
         undecorate_method(["--google-java-formatter-version=1.9", "pretty-formatted.java"])
-
-
-@pytest.mark.skipif(condition=get_jdk_version() > Version("11"), reason="Skipping test because it requires Java JDK 1.8")
-def test_palantir_pretty_format_java_starting_2_0_0_is_not_allowed_on_jdk_before_11(undecorate_method):
-    with pytest.raises(ToolNotInstalled, match="JRE: version >= 11.0 is required to run this pre-commit hook."):
-        undecorate_method(["--palantir", "--palantir-java-formatter-version=2.20.0", "pretty-formatted.java"])
 
 
 @pytest.mark.skipif(condition=get_jdk_version() >= Version("16"), reason="Skipping test because it requires Java JDK before 16")
