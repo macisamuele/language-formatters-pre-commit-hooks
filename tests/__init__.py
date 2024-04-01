@@ -57,7 +57,7 @@ def run_autofix_test(
 
     copyfile(not_pretty_formatted_path, not_pretty_formatted_tmp_path)
     with change_dir_context(tmpdir.strpath):
-        parameters = extra_parameters + ["--autofix"] + [not_pretty_formatted_tmp_strpath]
+        parameters = extra_parameters + ["--autofix", not_pretty_formatted_tmp_strpath]
         status_code = method(parameters)
         if status_code != 1:
             raise UnexpectedStatusCode(parameters=parameters, expected_status_code=1, actual_status_code=status_code)
