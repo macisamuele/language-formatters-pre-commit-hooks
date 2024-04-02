@@ -139,6 +139,30 @@ You can pass the jar file path to `--google-java-formatter-jar` argument:
         args: [--google-java-formatter-jar=/usr/bin/google-java-format-1.17.0-all-deps.jar]
 ```
 
+### How to use a pre-downloaded [ktlint jar](https://github.com/pinterest/ktlint) file?
+
+You can pass the jar file path to the `--ktlint-jar` argument:
+
+```yaml
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: ...
+    hooks:
+      - id: pretty-format-kotlin
+        args: [--ktlint-jar=/usr/bin/ktlint.jar]
+```
+
+### How to use a pre-downloaded [ktfmt jar](https://github.com/facebook/ktfmt) file?
+
+You can pass the jar file path to the `--ktfmt-jar` argument:
+
+```yaml
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: ...
+    hooks:
+      - id: pretty-format-kotlin
+        args: [--ktfmt, --ktfmt-jar=/usr/bin/ktfmt-0.47.jar]
+```
+
 ### How to use ktfmt instead of ktlint
 
 ```yaml
