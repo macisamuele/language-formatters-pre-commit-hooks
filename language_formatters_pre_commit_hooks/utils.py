@@ -23,10 +23,7 @@ def run_command(*command: str) -> typing.Tuple[int, str, str]:
     stdout = result.stdout.decode("utf-8")
     stderr = result.stderr.decode("utf-8")
 
-    print(
-        f"[return_code={return_code}] | {stdout}\n\tstderr: {stderr}",
-        file=sys.stderr,
-    )
+    print(f"[return_code={return_code}] | {stdout}\n\tstderr: {stderr}", file=sys.stderr)
     return return_code, stdout, stderr
 
 
@@ -34,11 +31,7 @@ def _base_directory() -> str:
     # Extracted from pre-commit code:
     # https://github.com/pre-commit/pre-commit/blob/master/pre_commit/store.py
     return os.path.realpath(
-        os.environ.get("PRE_COMMIT_HOME")
-        or os.path.join(
-            os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache"),
-            "pre-commit",
-        ),
+        os.environ.get("PRE_COMMIT_HOME") or os.path.join(os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache"), "pre-commit")
     )
 
 
@@ -59,10 +52,7 @@ def download_url(url: str, file_name: typing.Optional[str] = None) -> str:
         # command line, but it should never be possible if invoked
         # via `pre-commit` as it would ensure that the directories
         # are present
-        print(
-            f"Unexisting base directory ({base_directory}). Creating it",
-            file=sys.stderr,
-        )
+        print(f"Unexisting base directory ({base_directory}). Creating it", file=sys.stderr)
         os.makedirs(base_directory)
 
     print(f"Downloading {url}", file=sys.stderr)

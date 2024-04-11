@@ -125,9 +125,7 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
 
                 status = 1
         except BaseException as e:  # pragma: no cover
-            print(
-                f"Input File {yaml_file} is not a valid YAML file, consider using check-yaml: {e}",
-            )
+            print(f"Input File {yaml_file} is not a valid YAML file, consider using check-yaml: {e}")
             return 1
 
     return status
