@@ -1,11 +1,7 @@
-# -*- coding: utf-8 -*-
 from setuptools import setup
 
 
 setup(
-    extras_require={
-        ":python_version<'3.5'": ["typing"],
-    },
     entry_points={
         "console_scripts": [
             "pretty-format-golang = language_formatters_pre_commit_hooks.pretty_format_golang:pretty_format_golang",

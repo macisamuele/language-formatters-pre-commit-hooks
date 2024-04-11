@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import shutil
 import subprocess  # nosec B404 B603
@@ -25,7 +24,7 @@ def run_command(*command: str) -> typing.Tuple[int, str, str]:
     stderr = result.stderr.decode("utf-8")
 
     print(
-        "[return_code={return_code}] | {output}\n\tstderr: {err}".format(return_code=return_code, output=stdout, err=stderr),
+        f"[return_code={return_code}] | {stdout}\n\tstderr: {stderr}",
         file=sys.stderr,
     )
     return return_code, stdout, stderr
@@ -35,9 +34,9 @@ def _base_directory() -> str:
     # Extracted from pre-commit code:
     # https://github.com/pre-commit/pre-commit/blob/master/pre_commit/store.py
     return os.path.realpath(
-        os.environ.get(str("PRE_COMMIT_HOME"))
+        os.environ.get("PRE_COMMIT_HOME")
         or os.path.join(
-            os.environ.get(str("XDG_CACHE_HOME")) or os.path.expanduser("~/.cache"),
+            os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache"),
             "pre-commit",
         ),
     )
@@ -61,12 +60,12 @@ def download_url(url: str, file_name: typing.Optional[str] = None) -> str:
         # via `pre-commit` as it would ensure that the directories
         # are present
         print(
-            "Unexisting base directory ({base_directory}). Creating it".format(base_directory=base_directory),
+            f"Unexisting base directory ({base_directory}). Creating it",
             file=sys.stderr,
         )
         os.makedirs(base_directory)
 
-    print("Downloading {url}".format(url=url), file=sys.stderr)
+    print(f"Downloading {url}", file=sys.stderr)
     r = requests.get(url, stream=True)  # nosec B113/request_without_timeout: intentional to avoid issues on slow connections
     r.raise_for_status()
     with tempfile.NamedTemporaryFile(dir=base_directory, delete=False) as tmp_file:  # Not delete because we're renaming it

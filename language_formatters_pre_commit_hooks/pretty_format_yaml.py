@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import argparse
 import io
 import re
@@ -74,10 +73,10 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
     status = 0
 
     if args.indent < 0:  # pragma: no cover
-        print("indent argument ({}) cannot be negative. Defaulting it to 2".format(args.indent), file=sys.stderr)
+        print(f"indent argument ({args.indent}) cannot be negative. Defaulting it to 2", file=sys.stderr)
         args.indent = 2
     if args.offset < 0:  # pragma: no cover
-        print("offset argument ({}) cannot be negative. Defaulting it to 0".format(args.offset), file=sys.stderr)
+        print(f"offset argument ({args.offset}) cannot be negative. Defaulting it to 0", file=sys.stderr)
         args.offset = 0
 
     yaml = YAML()
@@ -117,17 +116,17 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
             pretty_content += separator.join(pretty_docs)
 
             if string_content != pretty_content:
-                print("File {} is not pretty-formatted".format(yaml_file))
+                print(f"File {yaml_file} is not pretty-formatted")
 
                 if args.autofix:
-                    print("Fixing file {}".format(yaml_file))
-                    with io.open(yaml_file, "w", encoding="UTF-8") as output_file:
+                    print(f"Fixing file {yaml_file}")
+                    with open(yaml_file, "w", encoding="UTF-8") as output_file:
                         output_file.write(str(pretty_content))
 
                 status = 1
         except BaseException as e:  # pragma: no cover
             print(
-                "Input File {} is not a valid YAML file, consider using check-yaml: {}".format(yaml_file, e),
+                f"Input File {yaml_file} is not a valid YAML file, consider using check-yaml: {e}",
             )
             return 1
 

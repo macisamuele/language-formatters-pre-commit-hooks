@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import argparse
 import json
 import sys
@@ -19,7 +18,7 @@ def _download_ktlint_formatter_jar(version: str) -> str:  # pragma: no cover
 
     url_to_download = get_url(version)
     try:
-        return download_url(get_url(version), "ktlint{version}.jar".format(version=version))
+        return download_url(get_url(version), f"ktlint{version}.jar")
     except:  # noqa: E722 (allow usage of bare 'except')
         raise RuntimeError(
             "Failed to download {url}. Probably the requested version, {version}, is "
@@ -149,7 +148,7 @@ def run_ktlint(jar: str, filenames: typing.Iterable[str], autofix: bool):
         not_pretty_formatted_files.update(item["file"] for item in json.loads(stdout))
 
         if autofix:
-            print("Running ktlint format on {}".format(not_pretty_formatted_files))
+            print(f"Running ktlint format on {not_pretty_formatted_files}")
             run_command(
                 "java",
                 *jvm_args,

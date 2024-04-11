@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 import argparse
-import io
 import sys
 import typing
 
@@ -72,16 +70,16 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
 
             prettified_content = remove_trailing_whitespaces_and_set_new_line_ending(prettified_content)
             if string_content != prettified_content:
-                print("File {} is not pretty-formatted".format(toml_file))
+                print(f"File {toml_file} is not pretty-formatted")
 
                 if args.autofix:
-                    print("Fixing file {}".format(toml_file))
-                    with io.open(toml_file, "w", encoding="UTF-8") as output_file:
+                    print(f"Fixing file {toml_file}")
+                    with open(toml_file, "w", encoding="UTF-8") as output_file:
                         output_file.write(prettified_content)
 
                 status = 1
         except BaseException as e:
-            print("Input File {} is not a valid TOML file: {}".format(toml_file, e))
+            print(f"Input File {toml_file} is not a valid TOML file: {e}")
             return 1
 
     return status

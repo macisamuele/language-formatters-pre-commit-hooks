@@ -25,7 +25,6 @@ repos:
     files: ^requirements-dev\.txt$
   - id: trailing-whitespace
     exclude: ^test-data/.*$
-  - id: fix-encoding-pragma
 - repo: https://github.com/asottile/reorder_python_imports
   rev: v3.12.0
   hooks:
@@ -37,6 +36,11 @@ repos:
     - from __future__ import print_function
     - --remove-import
     - from __future__ import unicode_literals
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.12.0
+  hooks:
+  - id: pyupgrade
+    args: [--py37-plus]  # based on setup.cfg classifiers
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   rev: v2.12.0
   hooks:

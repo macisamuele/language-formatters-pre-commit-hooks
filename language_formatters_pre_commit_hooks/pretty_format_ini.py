@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 import argparse
-import io
 import sys
 import typing
 
@@ -31,16 +29,16 @@ def pretty_format_ini(argv: typing.Optional[typing.List[str]] = None) -> int:
             pretty_content_str = formatter.prettify(string_content)
 
             if string_content != pretty_content_str:
-                print("File {} is not pretty-formatted".format(ini_file))
+                print(f"File {ini_file} is not pretty-formatted")
 
                 if args.autofix:
-                    print("Fixing file {}".format(ini_file))
-                    with io.open(ini_file, "w", encoding="UTF-8") as output_file:
+                    print(f"Fixing file {ini_file}")
+                    with open(ini_file, "w", encoding="UTF-8") as output_file:
                         output_file.write(pretty_content_str)
 
                 status = 1
         except BaseException as e:
-            print("Input File {} is not a valid INI file: {}".format(ini_file, e))
+            print(f"Input File {ini_file} is not a valid INI file: {e}")
             return 1
 
     return status

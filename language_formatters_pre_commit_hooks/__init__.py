@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import pkg_resources
 
 
@@ -14,9 +13,9 @@ def _get_default_version(tool_name: str) -> str:  # pragma: no cover
         with open(
             pkg_resources.resource_filename(
                 "language_formatters_pre_commit_hooks",
-                "{tool_name}.version".format(tool_name=tool_name),
+                f"{tool_name}.version",
             )
         ) as f:
             return f.readline().split()[0]
     except:  # noqa: E722 (allow usage of bare 'except')  # pragma: no cover
-        raise RuntimeError("No default version found for {tool_name}".format(tool_name=tool_name))
+        raise RuntimeError(f"No default version found for {tool_name}")

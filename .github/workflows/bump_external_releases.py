@@ -1,14 +1,9 @@
-# -*- coding: utf-8 -*-
 import json
 import subprocess  # nosec B404 B603
 import sys
 import traceback
 from pathlib import Path
 from urllib.request import urlopen
-
-
-if sys.version_info < (3, 6):
-    raise RuntimeError("Script build to support Python3.6+ only. Sorry ;(")
 
 
 def bump_release(github_project, tool_name):
