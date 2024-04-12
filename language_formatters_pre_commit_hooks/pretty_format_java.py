@@ -101,7 +101,7 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
     palantir_formatter.add_argument(
         "--palantir-java-formatter-version",
         dest="palantir_java_formatter_version",
-        default=_get_default_version("palantir_java_formatter"),
+        default=_get_default_version("palantir"),
         help="Palantir Java Formatter version to use (default %(default)s)",
     )
     palantir_formatter.add_argument(
@@ -210,7 +210,7 @@ def format_palantir(args):
     # Palantir Java formatter is not compatible with Java 21 and above yet.
     # https://github.com/palantir/palantir-java-format/issues/977 contains
     # more links for Java compatibility
-    assert_max_jdk_version(Version("21.0"))  # pragma: no cover
+    assert_max_jdk_version(Version("21.0"))
 
     if args.palantir_java_formatter_jar is None:
         palantir_java_formatter_jar = _download_palantir_java_formatter_jar(
