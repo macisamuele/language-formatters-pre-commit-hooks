@@ -127,7 +127,7 @@ To work-around such scenario you have 2 approaches available:
 
     Side note: We're not embedding the Dockerfile in the repository as this is more a workaround to support whom cannot of installing a more recent Java version on the library-user system and as such we are not planning to fully support this other than giving possible solutions (Java 11+ was released in September, 2018).
 
-### How to use pre-downloaded [google-java-format jar](https://github.com/google/google-java-format) file?
+### How to use a pre-downloaded [google-java-format jar](https://github.com/google/google-java-format) file?
 
 You can pass the jar file path to `--google-java-formatter-jar` argument:
 
@@ -163,7 +163,7 @@ You can pass the jar file path to the `--ktfmt-jar` argument:
         args: [--ktfmt, --ktfmt-jar=/usr/bin/ktfmt-0.47.jar]
 ```
 
-### How to use ktfmt instead of ktlint
+### How to use ktfmt instead of ktlint?
 
 ```yaml
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
