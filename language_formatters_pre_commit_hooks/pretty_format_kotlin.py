@@ -6,6 +6,7 @@ import typing
 
 from language_formatters_pre_commit_hooks import _get_default_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
+from language_formatters_pre_commit_hooks.utils import does_checksum_match
 from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
 
@@ -89,6 +90,12 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
         help="Use ktfmt",
     )
     parser.add_argument(
+        "--formatter-jar-checksum",
+        dest="formatter_jar_checksum",
+        default=None,
+        help="The SHA256 checksum of the jar",
+    )
+    parser.add_argument(
         "--ktfmt-style",
         choices=["dropbox", "google", "kotlinlang"],
         dest="ktfmt_style",
@@ -98,13 +105,18 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
     args = parser.parse_args(argv)
     if args.ktfmt:
         jar = args.ktfmt_jar or _download_ktfmt_formatter_jar(args.kftmt_version)
-        return run_ktfmt(jar, args.filenames, args.ktfmt_style, args.autofix)
+        return run_ktfmt(jar, args.formatter_jar_checksum, args.filenames, args.ktfmt_style, args.autofix)
     else:
         jar = args.ktlint_jar or _download_ktlint_formatter_jar(args.ktlint_version)
-        return run_ktlint(jar, args.filenames, args.autofix)
+        return run_ktlint(jar, args.formatter_jar_checksum, args.filenames, args.autofix)
 
 
-def run_ktfmt(jar: str, filenames: typing.Iterable[str], ktfmt_style: typing.Optional[str], autofix: bool) -> int:
+def run_ktfmt(
+    jar: str, checksum: typing.Optional[str], filenames: typing.Iterable[str], ktfmt_style: typing.Optional[str], autofix: bool
+) -> int:
+    if checksum and not does_checksum_match(jar, checksum):
+        return 1
+
     ktfmt_args = ["--set-exit-if-changed"]
     if ktfmt_style is not None:
         ktfmt_args.append(f"--{ktfmt_style}-style")
@@ -121,7 +133,10 @@ def run_ktfmt(jar: str, filenames: typing.Iterable[str], ktfmt_style: typing.Opt
     return return_code
 
 
-def run_ktlint(jar: str, filenames: typing.Iterable[str], autofix: bool):
+def run_ktlint(jar: str, checksum: typing.Optional[str], filenames: typing.Iterable[str], autofix: bool):
+    if checksum and not does_checksum_match(jar, checksum):
+        return 1
+
     jvm_args = ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
 
     # ktlint does not return exit-code!=0 if we're formatting them.

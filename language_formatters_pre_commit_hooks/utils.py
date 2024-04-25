@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import hashlib
 import os
 import shutil
 import subprocess  # nosec B404 B603
@@ -84,3 +85,14 @@ def remove_trailing_whitespaces_and_set_new_line_ending(string: str) -> str:
     return "{content}\n".format(
         content="\n".join(line.rstrip() for line in string.splitlines()).rstrip(),
     )
+
+
+def does_checksum_match(path: str, expected: str) -> bool:
+    with open(path, "rb") as f:
+        actual = hashlib.sha256(f.read()).hexdigest()
+
+    if actual != expected:
+        print(f"Expected {path!r} to have checksum {expected!r} but got {actual!r}", file=sys.stderr)
+        return False
+
+    return True

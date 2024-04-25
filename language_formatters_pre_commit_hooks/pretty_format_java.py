@@ -9,6 +9,7 @@ from packaging.version import Version
 from language_formatters_pre_commit_hooks import _get_default_version
 from language_formatters_pre_commit_hooks.pre_conditions import assert_max_jdk_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
+from language_formatters_pre_commit_hooks.utils import does_checksum_match
 from language_formatters_pre_commit_hooks.utils import download_url
 from language_formatters_pre_commit_hooks.utils import run_command
 
@@ -66,6 +67,12 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
         help="Path to Google Java Formatter jar file. Will be downloaded if not defined. Note that --google-java-formatter-version will be ignored if this parameter is defined (default: %(default)).",
     )
     parser.add_argument(
+        "--formatter-jar-checksum",
+        dest="checksum",
+        default=None,
+        help="The SHA256 checksum of the jar",
+    )
+    parser.add_argument(
         "--autofix",
         action="store_true",
         dest="autofix",
@@ -93,6 +100,9 @@ def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
         )
     else:
         google_java_formatter_jar = args.google_java_formatter_jar
+
+    if args.checksum and not does_checksum_match(google_java_formatter_jar, args.checksum):
+        return 1
 
     cmd_args = [
         "java",
