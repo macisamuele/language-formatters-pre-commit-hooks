@@ -48,6 +48,24 @@ def test__download_google_java_formatter_jar(ensure_download_possible, version):
     (
         (["invalid.java"], 1),
         (["pretty-formatted.java"], 0),
+        pytest.param(
+            [
+                "pretty-formatted.java",
+                "--google-java-formatter-version=1.21.0",
+                "--formatter-jar-checksum=1e69f8b63c39a5124a8efb7bad213eb9ac03944339eb9580ae210b0c60565d9b",
+            ],
+            0,
+            id="valid checksum",
+        ),
+        pytest.param(
+            [
+                "pretty-formatted.java",
+                "--google-java-formatter-version=1.21.0",
+                "--formatter-jar-checksum=2d32af8ef04ffbf0ae77fc7953e86871b85143b29d51f9794466842f68f5fb48",
+            ],
+            1,
+            id="invalid checksum",
+        ),
         (["not-pretty-formatted.java"], 1),
         (["not-pretty-formatted_fixed.java"], 0),
     ),
