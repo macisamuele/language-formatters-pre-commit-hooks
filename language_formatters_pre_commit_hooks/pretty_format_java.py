@@ -200,7 +200,7 @@ def format_google(args):
     return 0 if status == 0 else 1
 
 
-def format_palantir(args):
+def format_palantir(args): # pragma: no cover
     # Palantir Java Formatter starting from 2.0.0 does not support Java 1.8,
     # before that version the tool can only be executed on Java up to version 20.
     # Context: https://github.com/palantir/palantir-java-format/releases/tag/v2.0.0
