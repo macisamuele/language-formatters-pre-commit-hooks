@@ -118,17 +118,10 @@ def test_palantir_pretty_format_java_up_to_1_9_is_allowed_on_jdk_11_and_above(un
     undecorate_method(["--palantir", "--palantir-java-formatter-version=1.9", "pretty-formatted.java"])
 
 
-@pytest.mark.skipif(condition=get_jdk_version() <= Version("21"), reason="Skipping test because it requires Java JDK before 21")
-def test_palantir_pretty_format_is_not_allowed_on_jdk_above_21(undecorate_method):
-    with pytest.raises(ToolNotInstalled, match="JRE: version < 21.0 is required to run this pre-commit hook."):
-        undecorate_method(["--palantir", "pretty-formatted.java"])
-
-
 def test_google_pretty_format_java_autofix(tmpdir, undecorate_method):
     run_autofix_test(tmpdir, undecorate_method, "not-pretty-formatted.java", "not-pretty-formatted_fixed.java")
 
 
-@pytest.mark.skipif(condition=get_jdk_version() >= Version("21"), reason="Skipping test because it requires Java JDK before 21")
 def test_palantir_pretty_format_java_autofix(tmpdir, undecorate_method):
     run_autofix_test(tmpdir, undecorate_method, "not-pretty-formatted.java", "not-pretty-formatted_fixed.java")
 
@@ -151,7 +144,6 @@ def test_google_pretty_format_java_jar(mock_run_command, undecorate_method, cli_
         assert not in_args
 
 
-@pytest.mark.skipif(condition=get_jdk_version() >= Version("21"), reason="Skipping test because it requires Java JDK before 21")
 @pytest.mark.parametrize(
     ("cli_arg", "expected_retval"),
     (

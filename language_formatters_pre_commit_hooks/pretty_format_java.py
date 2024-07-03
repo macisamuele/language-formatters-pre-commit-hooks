@@ -200,19 +200,14 @@ def format_google(args):
     return 0 if status == 0 else 1
 
 
-def format_palantir(args): # pragma: no cover
+def format_palantir(args):
     # Palantir Java Formatter starting from 2.0.0 does not support Java 1.8,
     # before that version the tool can only be executed on Java up to version 20.
     # Context: https://github.com/palantir/palantir-java-format/releases/tag/v2.0.0
     if Version(args.palantir_java_formatter_version) >= Version("2.0.0"):
         assert_min_jdk_version(Version("11.0"))  # pragma: no cover
 
-    # Palantir Java formatter is not compatible with Java 21 and above yet.
-    # https://github.com/palantir/palantir-java-format/issues/977 contains
-    # more links for Java compatibility
-    assert_max_jdk_version(Version("21.0"))
-
-    if args.palantir_java_formatter_jar is None:
+    if args.palantir_java_formatter_jar is None:  # pragma: no cover
         palantir_java_formatter_jar = _download_palantir_java_formatter_jar(
             args.palantir_java_formatter_version,
         )
@@ -228,13 +223,13 @@ def format_palantir(args): # pragma: no cover
     ]
     if args.aosp:  # pragma: no cover
         cmd_args.append("--aosp")
-    if args.autofix:
-        cmd_args.append("--replace")  # pragma: no cover
+    if args.autofix: # pragma: no cover
+        cmd_args.append("--replace")
     else:
         cmd_args.append("--dry-run")
     status, output, _ = run_command(*(cmd_args + args.filenames))
 
-    if output:
+    if output:  # pragma: no cover|'
         message = (
             "The following files have been fixed by palantir-java-formatter"
             if args.autofix

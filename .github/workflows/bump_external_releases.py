@@ -75,9 +75,16 @@ def bump_palantir_java_formatter():
     )
 
 
+bump_functions = (
+    bump_ktfmt,
+    bump_ktlint,
+    bump_google_java_formatter,
+    bump_palantir_java_formatter
+)
+
 if __name__ == "__main__":
     something_is_bumped = False
-    for bumper in (bump_ktfmt, bump_ktlint, bump_google_java_formatter):
+    for bumper in bump_functions:
         something_is_bumped |= bumper()
 
     if not something_is_bumped:

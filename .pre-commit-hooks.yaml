@@ -29,7 +29,7 @@
   language: python
   types: [kotlin]
   minimum_pre_commit_version: '1'
-  # this is needed because the hook downloads ktlint and we don't have yet a
+  # this is needed because the hook downloads ktfmt/ktlint and we don't have yet a
   # nice way of ensuring a single download over multiple runs
   require_serial: true
 - id: pretty-format-rust
