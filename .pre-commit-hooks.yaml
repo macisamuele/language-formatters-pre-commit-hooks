@@ -13,12 +13,12 @@
   types: [ini]
   minimum_pre_commit_version: '1'
 - id: pretty-format-java
-  name: Google Java Formatter
-  description: Runs Google Java Formatter over Java source files
+  name: Google (or Palantir) Java Formatter
+  description: Runs Google (or Palantir) Java Formatter over Java source files
   entry: pretty-format-java
   language: python
   types: [java]
-  # this is needed because the hook downloads google-java-formatter and
+  # this is needed because the hook downloads palanrir/google-java-formatter and
   # we don't have yet a nice way of ensuring a single download over multiple runs
   require_serial: true
   minimum_pre_commit_version: '1'
@@ -29,7 +29,7 @@
   language: python
   types: [kotlin]
   minimum_pre_commit_version: '1'
-  # this is needed because the hook downloads ktlint and we don't have yet a
+  # this is needed because the hook downloads ktfmt/ktlint and we don't have yet a
   # nice way of ensuring a single download over multiple runs
   require_serial: true
 - id: pretty-format-rust
