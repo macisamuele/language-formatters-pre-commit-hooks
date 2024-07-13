@@ -12,9 +12,10 @@ if sys.version_info < (3, 6):
 
 
 def bump_release(github_project, tool_name):
+    print(f"Checking for {tool_name} updates")
     try:
         with urlopen(f"https://api.github.com/repos/{github_project}/releases/latest") as request:  # nosec: disable=B310
-            latest_version = json.load(request)["name"].lstrip("v")
+            latest_version = json.load(request)["tag_name"].lstrip("v")
     except:  # noqa: E722 (allow usage of bare 'except')
         traceback.print_exc()
         return False
@@ -23,6 +24,7 @@ def bump_release(github_project, tool_name):
     with tool_name_version_path.open(mode="r") as f:
         default_version = f.readline().split()[0]
 
+    print(f"Latest version: {latest_version}, repository version: {default_version}")
     if default_version == latest_version:
         return False
 
@@ -30,7 +32,6 @@ def bump_release(github_project, tool_name):
         f.write(f"{latest_version}\n")
 
     message = f"Bump {tool_name}: {default_version} => {latest_version}"
-    print(message)
 
     def call(*args):
         print(f"Executing: {args}")
@@ -71,7 +72,7 @@ def bump_google_java_formatter():
 def bump_palantir_java_formatter():
     return bump_release(
         github_project="jsonschema2dataclass/palantir-cli",
-        tool_name="palantir-cli",
+        tool_name="palantir",
     )
 
 
