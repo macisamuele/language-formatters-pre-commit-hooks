@@ -29,7 +29,7 @@ jobs:
     - name: Create Pull Request
       id: cpr
       if: ${{ env.GIT_SHA != github.sha }}
-      uses: peter-evans/create-pull-request@v3
+      uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.REPO_TOKEN }}
         title: '[Automated PR] Bump KTLint and/or Google Java Formatter'
