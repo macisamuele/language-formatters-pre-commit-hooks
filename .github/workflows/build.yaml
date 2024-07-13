@@ -41,9 +41,7 @@ jobs:
     - name: Setup Rust
       uses: actions-rust-lang/setup-rust-toolchain@v1
       with:
-        profile: minimal
         toolchain: ${{ matrix.rust_version }}
-        override: true
         components: rustfmt
     - name: Setup Java
       uses: actions/setup-java@v4
