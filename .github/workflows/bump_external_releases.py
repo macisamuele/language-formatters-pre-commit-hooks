@@ -29,7 +29,7 @@ def bump_release(github_project, tool_name):
     with tool_name_version_path.open(mode="w") as f:
         f.write(f"{latest_version}\n")
 
-    message = f"Bump {tool_name} to version {latest_version}"
+    message = f"Bump {tool_name}: {default_version} => {latest_version}"
     print(message)
 
     def call(*args):
