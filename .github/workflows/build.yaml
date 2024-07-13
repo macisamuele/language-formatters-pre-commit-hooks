@@ -16,8 +16,8 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
-        golang_version: [1.22.1]
-        java_version: ['15', '21']
+        golang_version: [1.22.5]
+        java_version: ['21']
         python_version: ['3.8', '3.10', '3.12']
         rust_version: [stable]
 
@@ -41,9 +41,7 @@ jobs:
     - name: Setup Rust
       uses: actions-rust-lang/setup-rust-toolchain@v1
       with:
-        profile: minimal
         toolchain: ${{ matrix.rust_version }}
-        override: true
         components: rustfmt
     - name: Setup Java
       uses: actions/setup-java@v4

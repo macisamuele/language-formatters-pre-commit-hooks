@@ -29,15 +29,13 @@ jobs:
     - name: Create Pull Request
       id: cpr
       if: ${{ env.GIT_SHA != github.sha }}
-      uses: peter-evans/create-pull-request@v3
+      uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.REPO_TOKEN }}
-        title: '[Automated PR] Bump KTLint and/or Google Java Formatter'
+        title: '[Automated PR] Bump external tools (KTLint, Google Java Formatter, ktfmt, Pantlir)'
         body: |
-          Bump KTLint and/or Google Java Formatter
-
           *Auto-generated* by [bump-releases](https://github.com/macisamuele/language-formatters-pre-commit-hooks/actions/workflows/bump-releases.yaml)
-        reviewers: cortinico,macisamuele
+        reviewers: macisamuele
         branch: create-pull-request/bump-releases
         delete-branch: true
         draft: false
