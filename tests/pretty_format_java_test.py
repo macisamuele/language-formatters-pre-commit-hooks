@@ -46,9 +46,7 @@ def test__download_google_java_formatter_jar(ensure_download_possible, version):
 
 @pytest.mark.parametrize(
     "version",
-    (
-        _get_default_version("palantir"),
-    ),
+    (_get_default_version("palantir"),),
 )
 @pytest.mark.integration
 def test__download_palantir_java_formatter_jar(ensure_download_possible, version):  # noqa: F811

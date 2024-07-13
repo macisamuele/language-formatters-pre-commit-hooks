@@ -1,13 +1,13 @@
 default_language_version:
-  python: python3.10
+  python: python3.12
 
 repos:
 - repo: https://github.com/pre-commit/pre-commit
-  rev: v3.7.0
+  rev: v3.7.1
   hooks:
   - id: validate_manifest
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.5.0
+  rev: v4.6.0
   hooks:
   - id: check-added-large-files
   - id: check-docstring-first
@@ -27,7 +27,7 @@ repos:
     exclude: ^test-data/.*$
   - id: fix-encoding-pragma
 - repo: https://github.com/asottile/reorder_python_imports
-  rev: v3.12.0
+  rev: v3.13.0
   hooks:
   - id: reorder-python-imports
     args:
@@ -38,23 +38,23 @@ repos:
     - --remove-import
     - from __future__ import unicode_literals
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.12.0
+  rev: v2.13.0
   hooks:
   - id: pretty-format-yaml
     exclude: ^test-data/.*$
     args:
     - --autofix
 - repo: https://github.com/ambv/black
-  rev: 24.3.0
+  rev: 24.4.2
   hooks:
   - id: black
     args: [--config, .black.toml]
 - repo: https://github.com/PyCQA/flake8
-  rev: 7.0.0
+  rev: 7.1.0
   hooks:
   - id: flake8
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.9.0
+  rev: v1.10.1
   hooks:
   - id: mypy
     exclude: ^(\.github/workflows/bump_external_releases\.py)$
@@ -62,7 +62,7 @@ repos:
     - types-requests
     - types-setuptools
 - repo: https://github.com/PyCQA/bandit
-  rev: 1.7.8
+  rev: 1.7.9
   hooks:
   - id: bandit
     exclude: ^tests/.*\.py$
