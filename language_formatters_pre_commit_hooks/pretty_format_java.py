@@ -81,6 +81,7 @@ def _download_palantir_java_formatter_jar(version: str) -> str:  # pragma: no co
             ),
         )
 
+
 @java_required
 def pretty_format_java(argv: typing.Optional[typing.List[str]] = None) -> int:
     parser = argparse.ArgumentParser()
@@ -223,7 +224,7 @@ def format_palantir(args):
     ]
     if args.aosp:  # pragma: no cover
         cmd_args.append("--aosp")
-    if args.autofix: # pragma: no cover
+    if args.autofix:  # pragma: no cover
         cmd_args.append("--replace")
     else:
         cmd_args.append("--dry-run")
