@@ -1,6 +1,18 @@
 Changelog
 =========
 
+2.14.0 (2024-07-14)
+-------------------
+- Update GoogleJavaFormatter to 1.22.0
+- Update ktfmt to version 0.51
+  **NOTE**: This updates removes dropbbox style formatting ([here](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/235/commits/0ba8757d94104c62f2431160f3316e51203bd60d)).
+- Update KTLint to version 1.3.1
+- [Kotlin] Improved support for ktfmt - [PR #224](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/224) - [@mxr](https://github.com/mxr)
+- [Java/Kotlin] Enable checksum verification of download artifacts - [PR #222](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/222) - [@mxr](https://github.com/mxr)
+- [Rust] Add support for non-root cargo projects - [PR #217](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/217) - [@AJIOB](https://github.com/AJIOB)
+- [Java] Add support for palantir-cli - [PR #213](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/213) - [@eirnym](https://github.com/eirnym)
+- [internal] Update pre-commit hooks, github actions and removed deprecated usage of `pkg_resources`
+
 2.13.0 (2024-03-31)
 -------------------
 
