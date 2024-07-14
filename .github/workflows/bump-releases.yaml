@@ -36,10 +36,20 @@ jobs:
         title: '[Automated PR] Bump external tools (KTLint, Google Java Formatter, ktfmt, Pantlir)'
         body: |
           *Auto-generated* by [bump-releases](https://github.com/macisamuele/language-formatters-pre-commit-hooks/actions/workflows/bump-releases.yaml)
-        reviewers: macisamuele
+        assignees: macisamuele
         branch: create-pull-request/bump-releases
         delete-branch: true
         draft: false
+    - name: Auto approve Pull Request
+      if: steps.cpr.outputs.pull-request-operation == 'created'
+      run: gh pr review --approve "${{ steps.cpr.outputs.pull-request-number }}"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Automerge Pull Request
+      if: steps.cpr.outputs.pull-request-operation == 'created'
+      uses: peter-evans/enable-pull-request-automerge@v3
+      with:
+        pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
     - name: Provide PR details
       run: echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
       if: success()
