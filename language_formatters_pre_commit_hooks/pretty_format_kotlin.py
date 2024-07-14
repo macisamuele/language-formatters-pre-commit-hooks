@@ -97,7 +97,7 @@ def pretty_format_kotlin(argv: typing.Optional[typing.List[str]] = None) -> int:
     )
     parser.add_argument(
         "--ktfmt-style",
-        choices=["dropbox", "google", "kotlinlang"],
+        choices=["google", "kotlinlang"],
         dest="ktfmt_style",
         help="Which style to use",
     )
