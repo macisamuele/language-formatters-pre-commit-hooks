@@ -91,7 +91,6 @@ def test_pretty_format_kotlin_checksum(undecorate_method, checksum, expected_ret
 @pytest.mark.parametrize(
     ("filename", "expected_retval"),
     (
-        ("NotPrettyFormattedFixedKtfmtDropbox.kt", 1),
         ("NotPrettyFormattedFixedKtfmtGoogle.kt", 0),
         ("NotPrettyFormattedFixedKtfmtKotlinlang.kt", 1),
         ("NotPrettyFormatted.kt", 1),
@@ -119,21 +118,6 @@ def test_pretty_format_kotlin_ktfmt_checksum(undecorate_method, checksum, expect
 @pytest.mark.parametrize(
     ("filename", "expected_retval"),
     (
-        ("NotPrettyFormattedFixedKtfmtDropbox.kt", 0),
-        ("NotPrettyFormattedFixedKtfmtGoogle.kt", 1),
-        ("NotPrettyFormattedFixedKtfmtKotlinlang.kt", 0),
-        ("NotPrettyFormatted.kt", 1),
-        ("Invalid.kt", 1),
-    ),
-)
-def test_pretty_format_kotlin_ktfmt_dropbox_style(undecorate_method, filename, expected_retval):
-    assert undecorate_method(["--ktfmt", "--ktfmt-style=dropbox", filename]) == expected_retval
-
-
-@pytest.mark.parametrize(
-    ("filename", "expected_retval"),
-    (
-        ("NotPrettyFormattedFixedKtfmtDropbox.kt", 1),
         ("NotPrettyFormattedFixedKtfmtGoogle.kt", 0),
         ("NotPrettyFormattedFixedKtfmtKotlinlang.kt", 1),
         ("NotPrettyFormatted.kt", 1),
@@ -147,7 +131,6 @@ def test_pretty_format_kotlin_ktfmt_google_style(undecorate_method, filename, ex
 @pytest.mark.parametrize(
     ("filename", "expected_retval"),
     (
-        ("NotPrettyFormattedFixedKtfmtDropbox.kt", 0),
         ("NotPrettyFormattedFixedKtfmtGoogle.kt", 1),
         ("NotPrettyFormattedFixedKtfmtKotlinlang.kt", 0),
         ("NotPrettyFormatted.kt", 1),
@@ -164,7 +147,6 @@ def test_pretty_format_kotlin_ktfmt_kotlinglang_style(undecorate_method, filenam
         ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtlint.kt", []),
         ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtGoogle.kt", ["--ktfmt"]),
         ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtGoogle.kt", ["--ktfmt", "--ktfmt-style=google"]),
-        ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtDropbox.kt", ["--ktfmt", "--ktfmt-style=dropbox"]),
         ("NotPrettyFormatted.kt", "NotPrettyFormattedFixedKtfmtKotlinlang.kt", ["--ktfmt", "--ktfmt-style=kotlinlang"]),
     ),
 )
