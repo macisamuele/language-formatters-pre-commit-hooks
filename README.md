@@ -16,7 +16,7 @@ This package provides utilities for ensuring that your code is nicely formatted 
 * `pretty-format-java`
 * `pretty-format-kotlin`
 * `pretty-format-rust`
-* `pretty-format-toml`
+* `pretty-format-toml` ⚠️ unsafe: removes comments
 * `pretty-format-yaml`
 
 ⚠: the list above could be out-of-sync respect the exposed pre-commit hooks.
