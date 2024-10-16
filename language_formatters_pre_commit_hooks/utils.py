@@ -11,24 +11,26 @@ from urllib.parse import urlparse
 import requests
 
 
-def run_command(*command: str) -> typing.Tuple[int, str, str]:
-    print(
-        "[cwd={cwd}] Run command: {command}".format(
-            command=command,
-            cwd=os.getcwd(),
-        ),
-        file=sys.stderr,
-    )
+def run_command(*command: str, print_if_ok=True, print_command_exec=True) -> typing.Tuple[int, str, str]:
+    if print_command_exec:
+        print(
+            "[cwd={cwd}] Run command: {command}".format(
+                command=command,
+                cwd=os.getcwd(),
+            ),
+            file=sys.stderr,
+        )
 
     result = subprocess.run(command, capture_output=True)  # nosec: disable=B603
     return_code = result.returncode
     stdout = result.stdout.decode("utf-8")
     stderr = result.stderr.decode("utf-8")
 
-    print(
-        "[return_code={return_code}] | {output}\n\tstderr: {err}".format(return_code=return_code, output=stdout, err=stderr),
-        file=sys.stderr,
-    )
+    if return_code != 0 or print_if_ok:
+        print(
+            "[return_code={return_code}] | {output}\n\tstderr: {err}".format(return_code=return_code, output=stdout, err=stderr),
+            file=sys.stderr,
+        )
     return return_code, stdout, stderr
 
 

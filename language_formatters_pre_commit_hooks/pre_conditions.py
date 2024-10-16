@@ -13,8 +13,12 @@ F = typing.TypeVar("F", bound=typing.Callable[..., int])
 
 def _is_command_success(
     *command_args: str,
+    print_if_ok:bool=False,
+    print_command_exec=False,
 ) -> bool:
-    exit_status, _, _ = run_command(*command_args)
+    exit_status, _, _ = run_command(
+        *command_args, print_if_ok=print_if_ok, print_command_exec=print_command_exec
+        )
     return exit_status == 0
 
 
@@ -80,8 +84,8 @@ golang_required = _ToolRequired(
 
 
 rust_required = _ToolRequired(
-    tool_name="rustfmt",
-    check_command=(lambda _: _is_command_success("cargo", "fmt", "--", "--version")),
+    tool_name="cargo",
+    check_command=(lambda _: _is_command_success("cargo", "fmt", "--version")),
     download_install_url="https://github.com/rust-lang-nursery/rustfmt#quick-start",
 )
 

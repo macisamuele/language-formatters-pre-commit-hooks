@@ -23,21 +23,29 @@ def pretty_format_rust(argv: typing.Optional[typing.List[str]] = None) -> int:
         dest="manifest_root",
         help="The cargo manifest file location.",
     )
+    parser.add_argument(
+        '--format-verbose',
+        action="store_true",
+        dest='print_command_exec',
+        help="Output tool execution messages",
+    )
 
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
 
     if not args.manifest_root:
-        pretty_format_rust_internal(args.autofix, None, args.filenames)
+        pretty_format_rust_internal(args.autofix, None, args.filenames, print_command_exec=args.print_command_exec)
 
     for manifest_root in args.manifest_root:
         manifest_path = os.path.join(manifest_root, 'Cargo.toml')
 
         # TODO: properly filter filenames
         filenames = list(filter(lambda filename: filename.startswith(manifest_root), args.filenames))
-        pretty_format_rust_internal(args.autofix, manifest_path, filenames)
+        pretty_format_rust_internal(args.autofix, manifest_path, filenames,
+                                    print_command_exec=args.print_command_exec)
 
-def pretty_format_rust_internal(autofix: bool, manifest_path: str|None, filenames: list[str]):
+def pretty_format_rust_internal(autofix: bool, manifest_path: str|None, filenames:
+                                list[str], *,  print_command_exec: bool):
     # Check
     if autofix:
         check_args = []
@@ -50,7 +58,8 @@ def pretty_format_rust_internal(autofix: bool, manifest_path: str|None, filename
         manifest_path_args = []
 
     status_code, output, _ = run_command(
-        "cargo", "fmt", *manifest_path_args,  *check_args, "--", *filenames)
+        "cargo", "fmt", *manifest_path_args,  *check_args, "--", *filenames,
+        print_if_ok=False, print_command_exec=print_command_exec
     )
     not_well_formatted_files = sorted(line.split()[2] for line in output.splitlines() if line.startswith("Diff in "))
     if not_well_formatted_files:
