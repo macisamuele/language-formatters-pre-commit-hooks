@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import argparse
+import os.path
 import sys
 import typing
 
@@ -17,29 +18,50 @@ def pretty_format_rust(argv: typing.Optional[typing.List[str]] = None) -> int:
         help="Automatically fixes encountered not-pretty-formatted files",
     )
     parser.add_argument(
-        "--manifest-path",
-        default="Cargo.toml",
-        dest="manifest_path",
-        help="The cargo manifest file location (Default: %(default)s)",
+        "--manifest-root",
+        action="append",
+        dest="manifest_root",
+        help="The cargo manifest file location.",
     )
 
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
 
+    if not args.manifest_root:
+        pretty_format_rust_internal(args.autofix, None, args.filenames)
+
+    for manifest_root in args.manifest_root:
+        manifest_path = os.path.join(manifest_root, 'Cargo.toml')
+
+        # TODO: properly filter filenames
+        filenames = list(filter(lambda filename: filename.startswith(manifest_root), args.filenames))
+        pretty_format_rust_internal(args.autofix, manifest_path, filenames)
+
+def pretty_format_rust_internal(autofix: bool, manifest_path: str|None, filenames: list[str]):
     # Check
-    status_code, output, _ = run_command("cargo", "fmt", "--manifest-path", args.manifest_path, "--", "--check", *args.filenames)
+    if autofix:
+        check_args = []
+    else:
+        check_args = ['--check']
+
+    if manifest_path:
+        manifest_path_args = ["--manifest-path", manifest_path]
+    else:
+        manifest_path_args = []
+
+    status_code, output, _ = run_command(
+        "cargo", "fmt", *manifest_path_args,  *check_args, "--", *filenames)
+    )
     not_well_formatted_files = sorted(line.split()[2] for line in output.splitlines() if line.startswith("Diff in "))
     if not_well_formatted_files:
         print(
             "{}: {}".format(
-                "The following files have been fixed by cargo format" if args.autofix else "The following files are not properly formatted",
+                "The following files have been fixed by rustfmt" if autofix else "The following files are not properly formatted",
                 ", ".join(not_well_formatted_files),
             ),
         )
-        if args.autofix:
-            run_command("cargo", "fmt", "--manifest-path", args.manifest_path, "--", *not_well_formatted_files)
     elif status_code != 0:
-        print("Detected not valid rust source files among {}".format("\n".join(sorted(args.filenames))))
+        print("Detected not valid rust source files among {}".format("\n".join(sorted(filenames))))
 
     return 1 if status_code != 0 or not_well_formatted_files else 0
 
