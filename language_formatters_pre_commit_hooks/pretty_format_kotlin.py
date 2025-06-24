@@ -32,7 +32,7 @@ def _download_ktlint_formatter_jar(version: str) -> str:  # pragma: no cover
 
 
 def _download_ktfmt_formatter_jar(version: str) -> str:  # pragma: no cover
-    major, minor = map(int, version.split('.'))
+    major, minor = map(int, version.split("."))
     # In version 0.55, ktfmt change the naming of the far jar from `-jar-with-dependencies.jar` to `-with-dependencies.jar`.
     if (major, minor) <= (0, 54):
         url = "https://repo1.maven.org/maven2/com/facebook/ktfmt/{version}/ktfmt-{version}-jar-with-dependencies.jar".format(
