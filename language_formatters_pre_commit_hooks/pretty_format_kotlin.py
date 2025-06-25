@@ -4,6 +4,8 @@ import json
 import sys
 import typing
 
+from packaging.version import Version
+
 from language_formatters_pre_commit_hooks import _get_default_version
 from language_formatters_pre_commit_hooks.pre_conditions import java_required
 from language_formatters_pre_commit_hooks.utils import does_checksum_match
@@ -32,9 +34,17 @@ def _download_ktlint_formatter_jar(version: str) -> str:  # pragma: no cover
 
 
 def _download_ktfmt_formatter_jar(version: str) -> str:  # pragma: no cover
-    url = "https://repo1.maven.org/maven2/com/facebook/ktfmt/{version}/ktfmt-{version}-jar-with-dependencies.jar".format(
-        version=version,
-    )
+    major, minor = map(int, version.split("."))
+    # In version 0.55, ktfmt change the naming of the far jar from `-jar-with-dependencies.jar` to `-with-dependencies.jar`.
+    if Version(version) < Version("0.55"):
+        url = "https://repo1.maven.org/maven2/com/facebook/ktfmt/{version}/ktfmt-{version}-jar-with-dependencies.jar".format(
+            version=version,
+        )
+    else:
+        url = "https://repo1.maven.org/maven2/com/facebook/ktfmt/{version}/ktfmt-{version}-with-dependencies.jar".format(
+            version=version,
+        )
+
     try:
         return download_url(url)
     except:  # noqa: E722 (allow usage of bare 'except')
