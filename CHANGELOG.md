@@ -1,6 +1,15 @@
 Changelog
 =========
 
+2.15.0 (2025-06-25)
+-------------------
+- Update GoogleJavaFormatter to 1.27.0
+- Update ktfmt to version 0.55
+- Update ktlint to version 1.6.0
+- Update palantir to version 2.67.0
+- Enhance documentation to highlight that TOML formatting might be removing comments. [PR #249](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/249) - [@maresb](https://github.com/maresb) - [@corneliusroemer](httos://github.com/corneliusroemer)
+- Improve `pretty-format-rust` to better manage workspaces [PR #263](https://github.com/macisamuele/language-formatters-pre-commit-hooks/pull/263) - [@GUIpsp](https://githib.com/GUIpsp)
+
 2.14.0 (2024-07-14)
 -------------------
 - Update GoogleJavaFormatter to 1.22.0
