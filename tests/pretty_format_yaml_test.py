@@ -65,6 +65,7 @@ def test_pretty_format_yaml_preserve_quotes():
     assert pretty_format_yaml([filename]) == 1
     assert pretty_format_yaml(["--preserve-quotes", filename]) == 0
 
+
 @pytest.mark.parametrize(
     ("filename", "expected_retval"),
     (
