@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json
 import subprocess  # nosec B404 B603
 import sys

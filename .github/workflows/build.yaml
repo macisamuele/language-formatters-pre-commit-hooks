@@ -19,7 +19,7 @@ jobs:
 
         golang_version: [1.22.5]
         java_version: ['21']
-        python_version: ['3.8', '3.10', '3.12']
+        python_version: ['3.10', '3.11', '3.12', '3.13', '3.14']
         rust_version: [stable]
 
     env:
@@ -59,7 +59,7 @@ jobs:
       run: tox
     - name: Upload coverage to Codecov
       if: ${{ success() }}
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       with:
         env_vars: OS,GOLANG_VERSION,JAVA_VERSION,OS,PYTHON_VERSION,RUST_VERSION
 
@@ -71,7 +71,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.14'
     - name: Install Python dependencies
       run: pip install tox
     - name: Run Tox

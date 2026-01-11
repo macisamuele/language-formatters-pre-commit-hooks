@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import typing
 from textwrap import dedent
 from unittest.mock import Mock

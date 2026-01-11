@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import argparse
 import io
 import re
@@ -121,7 +120,7 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
 
                 if args.autofix:
                     print("Fixing file {}".format(yaml_file))
-                    with io.open(yaml_file, "w", encoding="UTF-8") as output_file:
+                    with open(yaml_file, "w", encoding="UTF-8") as output_file:
                         output_file.write(str(pretty_content))
 
                 status = 1
