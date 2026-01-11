@@ -1,6 +1,18 @@
 Changelog
 =========
 
+2.16.0 (2026-01-11)
+-------------------
+- Drop Python 3.8 support, add Python 3.11, 3.13 and 3.14 support
+- Update GoogleJavaFormatter to 1.33.0
+- Update ktfmt to version 0.61
+- Update ktlint to version 1.8.0
+- Update palantir to version 2.83.0
+- [internal] Add Dependabot configuration for automated dependency updates (GitHub Actions and pip)
+- [internal] Add auto-merge workflow for Dependabot PRs
+- [internal] Update pre-commit hooks, github actions, tox and mypy configurations
+- [internal] Apply pyupgrade modernizations (remove encoding pragmas, use modern Python syntax)
+
 2.15.0 (2025-06-25)
 -------------------
 - Update GoogleJavaFormatter to 1.27.0
