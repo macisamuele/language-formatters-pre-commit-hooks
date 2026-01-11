@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from os.path import basename
 from unittest.mock import patch
@@ -36,7 +35,7 @@ def test_run_command(command, expected_status, expected_output, expected_stderr)
 def test_download_url(mock_requests, mock_shutil, tmpdir, url, does_file_already_exist):
     if does_file_already_exist:
         with open(os.path.join(tmpdir.strpath, basename(url)), "w") as f:
-            f.write(str(""))
+            f.write("")
 
     with patch.dict(os.environ, {"PRE_COMMIT_HOME": tmpdir.strpath}):
         assert download_url(url) == os.path.join(tmpdir.strpath, basename(url))

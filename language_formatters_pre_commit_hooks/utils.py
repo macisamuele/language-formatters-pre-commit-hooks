@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import hashlib
 import os
 import shutil
@@ -36,9 +35,9 @@ def _base_directory() -> str:
     # Extracted from pre-commit code:
     # https://github.com/pre-commit/pre-commit/blob/master/pre_commit/store.py
     return os.path.realpath(
-        os.environ.get(str("PRE_COMMIT_HOME"))
+        os.environ.get("PRE_COMMIT_HOME")
         or os.path.join(
-            os.environ.get(str("XDG_CACHE_HOME")) or os.path.expanduser("~/.cache"),
+            os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache"),
             "pre-commit",
         ),
     )

@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 import argparse
-import io
 import sys
 import typing
 
@@ -35,7 +33,7 @@ def pretty_format_ini(argv: typing.Optional[typing.List[str]] = None) -> int:
 
                 if args.autofix:
                     print("Fixing file {}".format(ini_file))
-                    with io.open(ini_file, "w", encoding="UTF-8") as output_file:
+                    with open(ini_file, "w", encoding="UTF-8") as output_file:
                         output_file.write(pretty_content_str)
 
                 status = 1

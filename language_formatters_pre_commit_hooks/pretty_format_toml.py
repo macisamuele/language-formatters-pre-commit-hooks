@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 import argparse
-import io
 import sys
 import typing
 
@@ -76,7 +74,7 @@ def pretty_format_toml(argv: typing.Optional[typing.List[str]] = None) -> int:
 
                 if args.autofix:
                     print("Fixing file {}".format(toml_file))
-                    with io.open(toml_file, "w", encoding="UTF-8") as output_file:
+                    with open(toml_file, "w", encoding="UTF-8") as output_file:
                         output_file.write(prettified_content)
 
                 status = 1
