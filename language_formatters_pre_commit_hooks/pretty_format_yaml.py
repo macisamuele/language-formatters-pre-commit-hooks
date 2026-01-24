@@ -66,6 +66,12 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
             " enforce the limit we cannot guarantee that it is always possible"
         ),
     )
+    parser.add_argument(
+        "--explicit-start",
+        action="store_true",
+        dest="explicit_start",
+        help="Enforce a document-start marker (---)",
+    )
 
     parser.add_argument("filenames", nargs="*", help="Filenames to fix")
     args = parser.parse_args(argv)
@@ -82,6 +88,7 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
     yaml = YAML()
     yaml.indent(mapping=args.indent, sequence=args.indent + args.offset, offset=args.offset)
     yaml.preserve_quotes = args.preserve_quotes
+    yaml.explicit_start = args.explicit_start
     # Prevent ruamel.yaml to wrap yaml lines
     yaml.width = args.line_width  # type: ignore  # mypy recognise yaml.width as None
 
@@ -99,9 +106,13 @@ def pretty_format_yaml(argv: typing.Optional[typing.List[str]] = None) -> int:
         original_docs = re.split(separator_pattern, string_content, flags=re.MULTILINE)
 
         # A valid multi-document YAML file might starts with the separator.
-        # In this case the first document of original docs will be empty and should not be consdered
+        # In this case the first document of original docs will be empty and should not be considered
         if string_content.startswith("---"):
             original_docs = original_docs[1:]
+
+        # if file is a multi-doc, explicit_start must be turned off since separators will be added below
+        if len(original_docs) > 1:
+            yaml.explicit_start = False
 
         pretty_docs = []
 
