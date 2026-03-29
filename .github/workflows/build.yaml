@@ -59,7 +59,7 @@ jobs:
       run: tox
     - name: Upload coverage to Codecov
       if: ${{ success() }}
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@v6
       with:
         env_vars: OS,GOLANG_VERSION,JAVA_VERSION,OS,PYTHON_VERSION,RUST_VERSION
 
