@@ -20,6 +20,7 @@ def change_dir():
     ("filename", "expected_retval"),
     (
         ("pretty-formatted.yaml", 0),
+        ("explicit-start-pretty-formatted.yaml", 1),
         ("not-pretty-formatted.yaml", 1),
         ("multi-doc-pretty-formatted.yaml", 0),
         ("multi-doc-not-pretty-formatted.yaml", 1),
@@ -62,3 +63,23 @@ def test_pretty_format_yaml_preserve_quotes():
     filename = "preserve-quotes-pretty-formatted.yaml"
     assert pretty_format_yaml([filename]) == 1
     assert pretty_format_yaml(["--preserve-quotes", filename]) == 0
+
+
+@pytest.mark.parametrize(
+    ("filename", "expected_retval"),
+    (
+        ("pretty-formatted.yaml", 1),
+        ("explicit-start-pretty-formatted.yaml", 0),
+        ("not-pretty-formatted.yaml", 1),
+        ("multi-doc-pretty-formatted.yaml", 0),
+        ("multi-doc-not-pretty-formatted.yaml", 1),
+        ("not-valid-file.yaml", 1),
+        ("ansible-vault.yaml", 0),
+        ("primitive.yaml", 0),
+        ("empty-doc-with-separator.yaml", 1),
+        ("empty-doc.yaml", 0),
+        ("multi-doc-with-empty-document-inside.yaml", 0),
+    ),
+)
+def test_explicit_document_start(filename, expected_retval):
+    assert pretty_format_yaml(["--explicit-start", filename]) == expected_retval
